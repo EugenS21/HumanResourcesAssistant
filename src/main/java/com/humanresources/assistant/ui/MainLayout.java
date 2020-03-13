@@ -1,6 +1,7 @@
 package com.humanresources.assistant.ui;
 
 import com.humanresources.assistant.ui.cvs.CVs;
+import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -41,8 +42,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
         // Navigation items
 //        addToDrawer(createMenuLink(InventoryView.class, InventoryView.VIEW_NAME, VaadinIcon.EDIT.create()));
 //
-//        addToDrawer(createMenuLink(AboutView.class, AboutView.VIEW_NAME, VaadinIcon.INFO_CIRCLE.create()));
-//
+        addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, VaadinIcon.CLOUD_UPLOAD.create()));
+
         addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, VaadinIcon.DIPLOMA.create()));
 
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
