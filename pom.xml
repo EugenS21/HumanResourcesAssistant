@@ -21,12 +21,6 @@
 
 	<profiles>
 		<profile>
-			<dependencies>
-				<dependency>
-					<groupId>com.vaadin</groupId>
-					<artifactId>flow-server-production-mode</artifactId>
-				</dependency>
-			</dependencies>
 			<id>production</id>
 			<properties>
 				<vaadin.productionMode>true</vaadin.productionMode>
@@ -36,6 +30,10 @@
 
 	<dependencies>
 		<dependency>
+			<artifactId>flow-server-production-mode</artifactId>
+			<groupId>com.vaadin</groupId>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
@@ -43,8 +41,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-security</artifactId>-->
 <!--		</dependency>-->
 		<dependency>
