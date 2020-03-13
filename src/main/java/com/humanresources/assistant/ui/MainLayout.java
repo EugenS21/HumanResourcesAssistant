@@ -21,8 +21,10 @@ import com.vaadin.flow.theme.lumo.Lumo;
 /**
  * The main layout. Contains the navigation menu.
  */
-@Theme(value = Lumo.class, variant = Lumo.DARK)
-@PWA(name = "Human Resources Assistant", shortName = "HR Assistant")
+@Theme(value = Lumo.class,
+       variant = Lumo.DARK)
+@PWA(name = "Human Resource Production",
+     shortName = "HR Assistant")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/menu-buttons.css", themeFor = "vaadin-button")
 @Route("")

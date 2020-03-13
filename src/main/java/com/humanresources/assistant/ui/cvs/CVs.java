@@ -7,8 +7,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "CVs", layout = MainLayout.class)
-@PageTitle("Curriculum Vitae To Analyze")
+@Route(value = "CVs",
+       layout = MainLayout.class)
+@PageTitle("Curriculum Vitae List")
 public class CVs extends HorizontalLayout {
 
     public static final String VIEW_NAME = "CVs list";
