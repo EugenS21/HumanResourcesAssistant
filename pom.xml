@@ -23,8 +23,8 @@
 		<profile>
 			<dependencies>
 				<dependency>
-					<artifactId>flow-server-production-mode</artifactId>
 					<groupId>com.vaadin</groupId>
+					<artifactId>flow-server-production-mode</artifactId>
 				</dependency>
 			</dependencies>
 			<id>production</id>
