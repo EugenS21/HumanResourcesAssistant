@@ -19,20 +19,7 @@
 		<vaadin.version>14.1.19</vaadin.version>
 	</properties>
 
-	<profiles>
-		<profile>
-			<id>production</id>
-			<properties>
-				<vaadin.productionMode>true</vaadin.productionMode>
-			</properties>
-		</profile>
-	</profiles>
-
 	<dependencies>
-		<dependency>
-			<artifactId>flow-server-production-mode</artifactId>
-			<groupId>com.vaadin</groupId>
-		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
