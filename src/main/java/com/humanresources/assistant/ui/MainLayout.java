@@ -25,7 +25,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @PWA(name = "Human Resources Assistant", shortName = "HR Assistant")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/menu-buttons.css", themeFor = "vaadin-button")
-@Route("/")
+@Route("")
 public class MainLayout extends AppLayout implements RouterLayout {
 
     private final Button logoutButton;
