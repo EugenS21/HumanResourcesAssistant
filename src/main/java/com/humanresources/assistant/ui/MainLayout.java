@@ -32,7 +32,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
     public MainLayout() {
 
-        // menu toggle
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
         addToNavbar(drawerToggle);
@@ -44,11 +43,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 //
         addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, VaadinIcon.DIPLOMA.create()));
 
-        // Create logout button but don't add it yet; admin view might be added
-        // in between (see #onAttach())
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-        logoutButton.addThemeVariants(ButtonVariant.LUMO_LARGE);
+        logoutButton.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
     }
 
     private RouterLink createMenuLink(Class<? extends Component> viewClass,
