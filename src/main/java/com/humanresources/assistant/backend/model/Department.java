@@ -1,8 +1,6 @@
 package com.humanresources.assistant.backend.model;
 
-import lombok.Getter;
-
-public enum Grade {
+public enum Department {
 
     J(1, "Junior"),
     T(2, "Technician"),
@@ -12,10 +10,9 @@ public enum Grade {
 
     private Integer id;
 
-    @Getter
     private String name;
 
-    Grade(Integer id, String name) {
+    Department(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -1,66 +1,75 @@
 package com.humanresources.assistant.backend.model;
 
+import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import lombok.Setter;
 
 @Entity
-@Table(name = User.TABLE_NAME)
+@Table(name = Employee.TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Setter
+@Getter
+public class Employee {
+
     protected static final String TABLE_NAME = "t_user";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "firstName")
     @NotNull
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "secondName")
     @NotNull
+    @Column(name = "secondName")
     private String secondName;
 
     @Column(name = "birthDate")
     @NotNull
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "dateOfEmployment")
     @NotNull
-    private Date dateOfEmployment;
+    private LocalDate dateOfEmployment;
 
     @NotNull
     @Column(name = "grade")
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @Column(name = "dateOfLastDegreeChange")
-    private Date dateOfLastDegreeChange;
-
-    @Column(name = "salary")
-    @NotNull
-    private Integer salary;
-
-    @Column(name = "dayOfTheLastIncrease")
-    private Date dayOfTheLastIncrease;
-
+//    @Column(name = "dateOfLastDegreeChange")
+//    private Date dateOfLastDegreeChange;
+//
+//    @Column(name = "salary")
+//    @NotNull
+//    private Integer salary;
+//
+//    @Column(name = "dayOfTheLastIncrease")
+//    private Date dayOfTheLastIncrease;
+//
 //    @Column(name = "department")
 //    @Enumerated(EnumType.STRING)
 //    private Department department;
-//
+
 //    @Column(name = "location")
 //    @OneToOne
 //    @PrimaryKeyJoinColumn(name = "id")
 //    private Location locationId;
-
+//
 //    @Column(name = "currentProject")
 //    @ManyToOne
 //    @JoinColumn(name = "project_id")

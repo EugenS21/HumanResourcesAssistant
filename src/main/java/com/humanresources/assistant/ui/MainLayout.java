@@ -1,6 +1,7 @@
 package com.humanresources.assistant.ui;
 
 import com.humanresources.assistant.ui.cvs.CVs;
+import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
@@ -8,7 +9,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -26,8 +27,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
        variant = Lumo.DARK)
 @PWA(name = "Human Resource Production",
      shortName = "HR Assistant")
-@CssImport("./styles/shared-styles.css")
-@CssImport(value = "./styles/menu-buttons.css", themeFor = "vaadin-button")
+@JsModule("./styles/shared-styles.js")
 @Route("")
 public class MainLayout extends AppLayout implements RouterLayout {
 
@@ -39,16 +39,15 @@ public class MainLayout extends AppLayout implements RouterLayout {
         drawerToggle.addClassName("menu-toggle");
         addToNavbar(drawerToggle);
 
-        // Navigation items
-//        addToDrawer(createMenuLink(InventoryView.class, InventoryView.VIEW_NAME, VaadinIcon.EDIT.create()));
-//
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, VaadinIcon.CLOUD_UPLOAD.create()));
 
         addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, VaadinIcon.DIPLOMA.create()));
 
+        addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, VaadinIcon.USER_CHECK.create()));
+
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-        logoutButton.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
+        logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
 
     private RouterLink createMenuLink(Class<? extends Component> viewClass,
