@@ -1,5 +1,7 @@
 package com.humanresources.assistant.ui;
 
+import com.humanresources.assistant.backend.authentication.AccessControlFactory;
+import com.humanresources.assistant.backend.authentication.AccessData;
 import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
@@ -48,6 +50,10 @@ public class MainLayout extends AppLayout implements RouterLayout {
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        logoutButton.addClickListener(logout -> {
+            AccessData accessData = AccessControlFactory.SINGLETONE.createAccessData();
+            accessData.signOut();
+        });
     }
 
     private RouterLink createMenuLink(Class<? extends Component> viewClass,
@@ -73,7 +79,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
 
-        // Finally, add logout button for all users
         addToDrawer(logoutButton);
     }
 
