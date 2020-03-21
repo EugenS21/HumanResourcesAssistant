@@ -10,7 +10,7 @@ public class AdminLogin implements AccessData {
             return false;
         }
 
-        if (!username.equals(password)) {
+        if (!password.equals("aYJag5%C*xV1Yjk6v&7Hhq8sPi07XnJqy4bRasFTxHV4Eyammb#")) {
             return false;
         }
 
