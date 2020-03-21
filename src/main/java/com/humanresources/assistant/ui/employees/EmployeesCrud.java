@@ -6,7 +6,7 @@ import com.humanresources.assistant.backend.model.Employee;
 import com.humanresources.assistant.backend.model.Grade;
 import com.humanresources.assistant.backend.service.EmployeesService;
 import com.humanresources.assistant.ui.MainLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -22,7 +22,7 @@ import org.vaadin.crudui.form.CrudFormFactory;
 @Route(value = "employees",
        layout = MainLayout.class)
 @PageTitle("Employees List")
-public class EmployeesCrud extends HorizontalLayout {
+public class EmployeesCrud extends VerticalLayout {
 
     public static final String VIEW_NAME = "Employees list";
     private final GridCrud<Employee> employeesGrid;
@@ -30,6 +30,7 @@ public class EmployeesCrud extends HorizontalLayout {
     EmployeesService employeesService;
 
     public EmployeesCrud() {
+        setSizeFull();
         final String[] properties = of(Employee.class.getDeclaredFields())
             .filter(field -> field.getModifiers() == 2)
             .map(Field::getName)
