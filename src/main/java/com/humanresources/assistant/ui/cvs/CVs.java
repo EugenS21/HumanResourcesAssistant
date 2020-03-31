@@ -4,8 +4,8 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import com.humanresources.assistant.backend.model.CurriculumVitae;
 import com.humanresources.assistant.backend.model.Department;
+import com.humanresources.assistant.backend.tools.pdf.EmbeddedPdfDocument;
 import com.humanresources.assistant.ui.MainLayout;
-import com.humanresources.assistant.ui.pdf.EmbeddedPdfDocument;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -22,10 +22,7 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -130,13 +127,8 @@ public class CVs extends Div implements AfterNavigationObserver {
         cvsGrid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
         cvsGrid.addComponentColumn(this::createCard);
         cvsGrid.addSelectionListener(selectionListener());
-        embeddedPdfDocument = new EmbeddedPdfDocument(new StreamResource("Java_8_in_Action.pdf", () -> {
-            try {
-                return new FileInputStream("src/main/resources/Java_8_in_Action.pdf");
-            } catch (FileNotFoundException e) {
-                return new ByteArrayInputStream(new byte[]{});
-            }
-        }));
+        File file = new File("src/main/resources/Java_8_in_Action.pdf");
+        embeddedPdfDocument = EmbeddedPdfDocument.getInstance(file);
         dialog.add(embeddedPdfDocument);
     }
 
