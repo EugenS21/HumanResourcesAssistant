@@ -3,6 +3,7 @@ package com.humanresources.assistant.ui;
 import com.humanresources.assistant.backend.authentication.AccessControlFactory;
 import com.humanresources.assistant.backend.authentication.AccessData;
 import com.humanresources.assistant.ui.cvs.CVs;
+import com.humanresources.assistant.ui.cvs.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.vaadin.flow.component.AttachEvent;
@@ -40,6 +41,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
         addToNavbar(drawerToggle);
+
+        addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, VaadinIcon.TOOLBOX.create()));
 
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, VaadinIcon.CLOUD_UPLOAD.create()));
 

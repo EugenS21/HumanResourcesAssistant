@@ -5,8 +5,10 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import com.humanresources.assistant.backend.model.CurriculumVitae;
 import com.humanresources.assistant.backend.model.Department;
 import com.humanresources.assistant.ui.MainLayout;
+import com.humanresources.assistant.ui.pdf.EmbeddedPdfDocument;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Anchor;
@@ -15,10 +17,15 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.selection.SelectionListener;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,16 +40,23 @@ public class CVs extends Div implements AfterNavigationObserver {
 
     public static final String VIEW_NAME = "CVs list";
 
-    Grid<CurriculumVitae> cvsGrid = new Grid<>();
+    private final Grid<CurriculumVitae> cvsGrid;
+    private final Dialog dialog;
+    private EmbeddedPdfDocument embeddedPdfDocument;
 
     public CVs() {
+        cvsGrid = new Grid<>();
+        dialog = new Dialog();
+
         setId("card-list-view");
         addClassName("card-list-view");
         setSizeFull();
-        cvsGrid.setHeight("100%");
-        cvsGrid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
-        cvsGrid.addComponentColumn(this::createCard);
-        add(cvsGrid);
+
+        initializeDialog();
+        initializeGrid();
+
+        add(cvsGrid, dialog);
+
     }
 
     private HorizontalLayout createCard(CurriculumVitae curriculumVitae) {
@@ -101,11 +115,33 @@ public class CVs extends Div implements AfterNavigationObserver {
         return CurriculumVitae.builder()
             .userDetails(getRandom(10))
             .userPhoneNumber(getRandom(8))
-//            .description(getRandom(100))
             .description("Here should be a nice super, nice description, yeap boy")
             .jobToApply(Department.values()[new Random().nextInt(Department.values().length - 1)])
             .build();
     }
 
+    private void initializeDialog() {
+        dialog.setWidth("800px");
+        dialog.setHeight("900px");
+    }
+
+    private void initializeGrid() {
+        cvsGrid.setHeight("100%");
+        cvsGrid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
+        cvsGrid.addComponentColumn(this::createCard);
+        cvsGrid.addSelectionListener(selectionListener());
+        embeddedPdfDocument = new EmbeddedPdfDocument(new StreamResource("Java_8_in_Action.pdf", () -> {
+            try {
+                return new FileInputStream("src/main/resources/Java_8_in_Action.pdf");
+            } catch (FileNotFoundException e) {
+                return new ByteArrayInputStream(new byte[]{});
+            }
+        }));
+        dialog.add(embeddedPdfDocument);
+    }
+
+    private SelectionListener<Grid<CurriculumVitae>, CurriculumVitae> selectionListener() {
+        return event -> dialog.open();
+    }
 
 }
