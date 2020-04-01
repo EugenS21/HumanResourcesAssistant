@@ -10,32 +10,32 @@ import java.io.FileNotFoundException;
 import lombok.SneakyThrows;
 
 @Tag("object")
-public class EmbeddedPdfDocument extends Component implements HasSize {
+public class PdfPreviewer extends Component implements HasSize {
 
-    public EmbeddedPdfDocument() {
+    public PdfPreviewer() {
         getElement().setAttribute("type", "application/pdf");
         setSizeFull();
         setHeightFull();
         setWidthFull();
     }
 
-    public EmbeddedPdfDocument(String url) {
+    public PdfPreviewer(String url) {
         this();
         getElement().setAttribute("data", url);
     }
 
-    private EmbeddedPdfDocument(String fileToDisplay, FileInputStream fileInputStream) {
+    private PdfPreviewer(String fileToDisplay, FileInputStream fileInputStream) {
         this();
         StreamResource streamResource = new StreamResource(fileToDisplay, () -> fileInputStream);
         getElement().setAttribute("data", streamResource);
     }
 
     @SneakyThrows
-    public static EmbeddedPdfDocument getInstance(File fileToDisplay) {
+    public static PdfPreviewer getInstance(File fileToDisplay) {
         FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(fileToDisplay);
-            return new EmbeddedPdfDocument(fileToDisplay.getName(), fileInputStream);
+            return new PdfPreviewer(fileToDisplay.getName(), fileInputStream);
         } catch (FileNotFoundException e) {
             throw new InstantiationException("Can't instantiate class because " + e.getMessage());
         }

@@ -1,5 +1,6 @@
 package com.humanresources.assistant.backend.model;
 
+import com.humanresources.assistant.backend.enums.Department;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,9 +2,9 @@ package com.humanresources.assistant.ui.cvs;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.model.CurriculumVitae;
-import com.humanresources.assistant.backend.model.Department;
-import com.humanresources.assistant.backend.tools.pdf.EmbeddedPdfDocument;
+import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -39,7 +39,7 @@ public class CVs extends Div implements AfterNavigationObserver {
 
     private final Grid<CurriculumVitae> cvsGrid;
     private final Dialog dialog;
-    private EmbeddedPdfDocument embeddedPdfDocument;
+    private PdfPreviewer pdfPreviewer;
 
     public CVs() {
         cvsGrid = new Grid<>();
@@ -128,8 +128,8 @@ public class CVs extends Div implements AfterNavigationObserver {
         cvsGrid.addComponentColumn(this::createCard);
         cvsGrid.addSelectionListener(selectionListener());
         File file = new File("src/main/resources/Java_8_in_Action.pdf");
-        embeddedPdfDocument = EmbeddedPdfDocument.getInstance(file);
-        dialog.add(embeddedPdfDocument);
+        pdfPreviewer = PdfPreviewer.getInstance(file);
+        dialog.add(pdfPreviewer);
     }
 
     private SelectionListener<Grid<CurriculumVitae>, CurriculumVitae> selectionListener() {

@@ -1,9 +1,9 @@
 package com.humanresources.assistant.ui.cvs;
 
-import com.humanresources.assistant.backend.model.Department;
-import com.humanresources.assistant.backend.model.Grade;
-import com.humanresources.assistant.backend.tools.pdf.EmbeddedPdfDocument;
+import com.humanresources.assistant.backend.enums.Department;
+import com.humanresources.assistant.backend.enums.Grade;
 import com.humanresources.assistant.backend.tools.pdf.PdfFileGenerator;
+import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -35,11 +35,12 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
     private final Select<Department> departmentSelect;
     private final Select<Grade> grade;
     private final Button generate;
+    private final Button changeBody;
     private final Details details;
     private final VerticalLayout optionsLayout;
     private final VerticalLayout previewLayout;
     private List<File> temporaryFiles;
-    private EmbeddedPdfDocument embeddedPdfDocument;
+    private PdfPreviewer pdfPreviewer;
 
     public Generator() {
         setSizeFull();
@@ -50,11 +51,12 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         departmentSelect = new Select<>();
         grade = new Select<>();
         details = new Details();
-        embeddedPdfDocument = new EmbeddedPdfDocument();
+        pdfPreviewer = new PdfPreviewer();
+        changeBody = new Button();
 
         initializeFrontEndComponents();
 
-        previewLayout.add(embeddedPdfDocument);
+        previewLayout.add(pdfPreviewer);
         optionsLayout.add(details, departmentSelect, grade, generate);
         add(optionsLayout, previewLayout);
     }
@@ -84,8 +86,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
                 .getTemporaryPdfFile();
             temporaryFiles.add(temporaryPdfFile);
 
-            final EmbeddedPdfDocument pdfToDisplay = EmbeddedPdfDocument.getInstance(temporaryPdfFile);
-            previewLayout.replace(embeddedPdfDocument, pdfToDisplay);
+            final PdfPreviewer pdfToDisplay = PdfPreviewer.getInstance(temporaryPdfFile);
+            previewLayout.replace(pdfPreviewer, pdfToDisplay);
         };
     }
 
@@ -103,6 +105,26 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
                 + "where your talents and ambitions are recognized and rewarded and where you will have plenty of opportunities"
                 + " to develop\n"
                 + "as an individual and as a professional.";
+    }
+
+    private String aboutTheJob() {
+        return null;
+    }
+
+    private String getRequirements() {
+        return null;
+    }
+
+    private String getResponsibilities() {
+        return null;
+    }
+
+    private String getBenefits() {
+        return null;
+    }
+
+    private String getCustomEnd() {
+        return null;
     }
 
     @Override

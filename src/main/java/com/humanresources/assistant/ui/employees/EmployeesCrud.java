@@ -2,8 +2,8 @@ package com.humanresources.assistant.ui.employees;
 
 import static java.util.stream.Stream.of;
 
+import com.humanresources.assistant.backend.enums.Grade;
 import com.humanresources.assistant.backend.model.Employee;
-import com.humanresources.assistant.backend.model.Grade;
 import com.humanresources.assistant.backend.service.EmployeesService;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

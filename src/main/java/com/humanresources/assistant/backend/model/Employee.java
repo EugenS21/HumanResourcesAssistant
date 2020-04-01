@@ -1,5 +1,6 @@
 package com.humanresources.assistant.backend.model;
 
+import com.humanresources.assistant.backend.enums.Grade;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.humanresources.assistant.backend.model;
+package com.humanresources.assistant.backend.enums;
 
 import lombok.Getter;
 

@@ -5,7 +5,7 @@ import static com.vaadin.flow.component.notification.Notification.show;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.of;
 
-import com.humanresources.assistant.backend.model.Department;
+import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.service.FileService;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
