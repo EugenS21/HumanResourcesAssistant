@@ -3,7 +3,7 @@ package com.humanresources.assistant.ui;
 import com.humanresources.assistant.backend.authentication.AccessControlFactory;
 import com.humanresources.assistant.backend.authentication.AccessData;
 import com.humanresources.assistant.ui.cvs.CVs;
-import com.humanresources.assistant.ui.cvs.Generator;
+import com.humanresources.assistant.ui.cvs.generator.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.vaadin.flow.component.AttachEvent;
