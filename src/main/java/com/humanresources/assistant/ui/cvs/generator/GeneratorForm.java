@@ -1,9 +1,13 @@
 package com.humanresources.assistant.ui.cvs.generator;
 
+import static java.util.Arrays.asList;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneratorForm extends VerticalLayout {
 
@@ -49,21 +53,33 @@ public class GeneratorForm extends VerticalLayout {
     private void initializeFormFields() {
         applyButton.setText("Apply Changes");
         applyButton.setSizeFull();
+
         headerField.setLabel("Header");
-        headerField.setSizeFull();
-        companyDescription.setLabel("Company Description");
-        companyDescription.setSizeFull();
-        aboutTheJob.setLabel("About The Job");
-        aboutTheJob.setSizeFull();
-        requirements.setLabel("Requirements List");
-        requirements.setSizeFull();
-        techStack.setLabel("Tech Stack List");
-        techStack.setSizeFull();
-        responsibilities.setLabel("Responsibilities List");
-        responsibilities.setSizeFull();
-        companyBenefits.setLabel("Company Benefits List");
-        companyBenefits.setSizeFull();
         footerField.setLabel("Custom End");
-        footerField.setSizeFull();
+
+        companyDescription.setLabel("Company Description");
+        aboutTheJob.setLabel("About The Job");
+        requirements.setLabel("Requirements List");
+        techStack.setLabel("Tech Stack List");
+        responsibilities.setLabel("Responsibilities List");
+        companyBenefits.setLabel("Company Benefits List");
+        initializeTextAreas(new ArrayList<TextArea>() {{
+            addAll(asList(companyDescription, aboutTheJob, requirements, techStack, responsibilities, companyBenefits));
+        }});
+        initializeTextFields(new ArrayList<TextField>() {{add(footerField); add(headerField);}});
+    }
+
+    private void initializeTextAreas(List<TextArea> textAreaList) {
+        for (TextArea textArea : textAreaList) {
+            textArea.setSizeFull();
+            textArea.setMinHeight("10px");
+            textArea.setMaxHeight("200px");
+        }
+    }
+
+    private void initializeTextFields(List<TextField> textFieldsList) {
+        for (TextField textField : textFieldsList) {
+            textField.setSizeFull();
+        }
     }
 }

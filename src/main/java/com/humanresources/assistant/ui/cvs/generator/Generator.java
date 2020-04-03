@@ -83,7 +83,9 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         optionsLayout.setAlignItems(Alignment.CENTER);
         previewLayout.setAlignItems(Alignment.CENTER);
         generate.setText("Generate CV");
+        generate.setEnabled(false);
         changeBody.setText("Change Components");
+        changeBody.setEnabled(false);
         department.setItems(Department.values());
         department.setLabel("Department");
         department.setEmptySelectionAllowed(false);
@@ -110,6 +112,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         return (ValueChangeListener<? super ComponentValueChangeEvent<Select<Department>, Department>>) selectionChange -> {
             if (grade.getValue() != null) {
                 buildDocumentData();
+                generate.setEnabled(true);
+                changeBody.setEnabled(true);
             }
         };
     }
@@ -118,6 +122,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         return (ValueChangeListener<? super ComponentValueChangeEvent<Select<Grade>, Grade>>) selectionChange -> {
             if (department.getValue() != null) {
                 buildDocumentData();
+                generate.setEnabled(true);
+                changeBody.setEnabled(true);
             }
         };
     }
