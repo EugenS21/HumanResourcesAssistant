@@ -2,12 +2,18 @@ package com.humanresources.assistant.ui.cvs.generator;
 
 import static java.util.Arrays.asList;
 
+import com.humanresources.assistant.backend.tools.pdf.DocumentContent;
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GeneratorForm extends VerticalLayout {
 
@@ -21,6 +27,11 @@ public class GeneratorForm extends VerticalLayout {
     private final TextField footerField;
     private final Button applyButton;
 
+    @Getter
+    private final DocumentContent documentContent;
+    @Setter
+    private Dialog currentDialog;
+
     public GeneratorForm() {
         setWidth("800px");
         headerField = new TextField();
@@ -32,11 +43,13 @@ public class GeneratorForm extends VerticalLayout {
         companyBenefits = new TextArea();
         footerField = new TextField();
         applyButton = new Button();
+        documentContent = new DocumentContent();
 
         initializeFormFields();
 
-        add(headerField, companyDescription, aboutTheJob, requirements,
-            techStack, responsibilities, companyBenefits, footerField, applyButton);
+        add(headerField, companyDescription, aboutTheJob,
+            requirements, techStack, responsibilities,
+            companyBenefits, footerField, applyButton);
     }
 
     public void setFormContent(GeneratorFormData formFieldsData) {
@@ -53,6 +66,7 @@ public class GeneratorForm extends VerticalLayout {
     private void initializeFormFields() {
         applyButton.setText("Apply Changes");
         applyButton.setSizeFull();
+        applyButton.addClickListener(applyButtonAction());
 
         headerField.setLabel("Header");
         footerField.setLabel("Custom End");
@@ -73,7 +87,7 @@ public class GeneratorForm extends VerticalLayout {
         for (TextArea textArea : textAreaList) {
             textArea.setSizeFull();
             textArea.setMinHeight("10px");
-            textArea.setMaxHeight("200px");
+            textArea.setMaxHeight("150px");
         }
     }
 
@@ -81,5 +95,11 @@ public class GeneratorForm extends VerticalLayout {
         for (TextField textField : textFieldsList) {
             textField.setSizeFull();
         }
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> applyButtonAction() {
+        return (ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
+            currentDialog.close();
+        };
     }
 }

@@ -1,11 +1,9 @@
 package com.humanresources.assistant.ui.cvs.generator;
 
 import static com.humanresources.assistant.backend.functions.GenericFunctions.getStringFromList;
-import static com.humanresources.assistant.backend.tools.other.FileParser.getAboutJob;
 
 import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.enums.Grade;
-import com.humanresources.assistant.backend.tools.other.FileParser;
 import com.humanresources.assistant.backend.tools.pdf.DocumentContent;
 import com.humanresources.assistant.backend.tools.pdf.PdfFileGenerator;
 import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
@@ -13,6 +11,7 @@ import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
@@ -69,7 +68,7 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         temporaryFiles = new ArrayList<>();
         pdfPreviewer = new PdfPreviewer();
         generatorForm = new GeneratorForm();
-        documentContent = DocumentContent.builder().build();
+        generatorForm.setCurrentDialog(dialog);
 
         initializeFrontEndComponents();
         initializeDialog();
@@ -99,13 +98,14 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         details.addContent(new ListItem("Wait for the CV to be prepared and check the right side;"));
         details.addContent(new ListItem("Share the pdf document to all the available services."));
         generate.addClickListener(generateAndDisplayPdf());
-        changeBody.addClickListener(openGenerator());
+        changeBody.addClickListener(openEditor());
         grade.addValueChangeListener(onGradeChange());
         department.addValueChangeListener(onDepartmentChange());
     }
 
     private void initializeDialog() {
         dialog.add(generatorForm);
+        dialog.addDetachListener(onDialogClose());
     }
 
     private ValueChangeListener<? super ComponentValueChangeEvent<Select<Department>, Department>> onDepartmentChange() {
@@ -113,7 +113,6 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
             if (grade.getValue() != null) {
                 buildDocumentData();
                 generate.setEnabled(true);
-                changeBody.setEnabled(true);
             }
         };
     }
@@ -123,23 +122,23 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
             if (department.getValue() != null) {
                 buildDocumentData();
                 generate.setEnabled(true);
-                changeBody.setEnabled(true);
             }
         };
     }
 
-    private ComponentEventListener<ClickEvent<Button>> openGenerator() {
+    private ComponentEventListener<ClickEvent<Button>> openEditor() {
         return (ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
             GeneratorFormData generatorFormData = GeneratorFormData.builder()
                 .aboutTheJobValue(documentContent.getJobDescription())
                 .companyBenefitsValue(getStringFromList.apply(documentContent.getBenefits()))
                 .companyDescriptionValue(documentContent.getCompanyDescription())
-                .footerFieldValue(documentContent.getFooter())
+                .footerFieldValue(FOOTER)
                 .headerFieldValue(documentContent.getHeader())
                 .requirementsValue(getStringFromList.apply(documentContent.getRequirements()))
                 .responsibilitiesValue(getStringFromList.apply(documentContent.getResponsibilities()))
                 .techStackValue(getStringFromList.apply(documentContent.getTechStack()))
                 .build();
+
             generatorForm.setFormContent(generatorFormData);
             dialog.open();
         };
@@ -147,63 +146,47 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
 
     private ComponentEventListener<ClickEvent<Button>> generateAndDisplayPdf() {
         return (ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
-            final File temporaryPdfFile = new PdfFileGenerator()
-                .setHeader(documentContent.getHeader())
-                .setCompanyData(documentContent.getCompanyDescription())
-                .setAboutJob(documentContent.getJobDescription())
-                .setRequirements(documentContent.getRequirements())
-                .setTechStack(documentContent.getTechStack())
-                .setResponsibilities(documentContent.getResponsibilities())
-                .setCompanyBenefits(documentContent.getBenefits())
-                .setFooter(FOOTER)
-                .getTemporaryPdfFile();
-            temporaryFiles.add(temporaryPdfFile);
+            final File temporaryPdfFile = getPdfContent();
 
-            final PdfPreviewer pdfToDisplay = PdfPreviewer.getInstance(temporaryPdfFile);
-            previewLayout.replace(previewLayout.getComponentAt(0), pdfToDisplay);
+            temporaryFiles.add(temporaryPdfFile);
+            changeBody.setEnabled(true);
+            generate.setEnabled(false);
+            generateAndDisplayPdf(temporaryPdfFile);
+        };
+    }
+
+    private ComponentEventListener<DetachEvent> onDialogClose() {
+        return (ComponentEventListener<DetachEvent>) buttonClickEvent -> {
+            documentContent = generatorForm.getDocumentContent();
+            File temporaryPdfFile = getPdfContent();
+
+            temporaryFiles.add(temporaryPdfFile);
+            generateAndDisplayPdf(temporaryPdfFile);
         };
     }
 
     private void buildDocumentData() {
-        documentContent = DocumentContent.builder()
-            .benefits(getBenefits())
-            .companyDescription(getCompanyDescription())
-            .footer(FOOTER)
-            .header(getHeader())
-            .jobDescription(aboutTheJob())
-            .requirements(getRequirements())
-            .responsibilities(getResponsibilities())
-            .techStack(getTechStack())
-            .build();
+        documentContent = new DocumentContent(department, grade);
     }
 
-    private String getHeader() {
-        final String gradeName = grade.getValue().getName().toUpperCase();
-        final String department = this.department.getValue().getName().toUpperCase();
-        return gradeName + " " + department;
+    private void generateAndDisplayPdf(File temporaryPdfFile) {
+        final PdfPreviewer pdfToDisplay = PdfPreviewer.getInstance(temporaryPdfFile);
+        previewLayout.replace(previewLayout.getComponentAt(0), pdfToDisplay);
     }
 
-    private String aboutTheJob() {
-        return getAboutJob(grade.getValue(), department.getValue());
+    private File getPdfContent() {
+        return new PdfFileGenerator()
+            .setHeader(documentContent.getHeader())
+            .setCompanyData(documentContent.getCompanyDescription())
+            .setAboutJob(documentContent.getJobDescription())
+            .setRequirements(documentContent.getRequirements())
+            .setTechStack(documentContent.getTechStack())
+            .setResponsibilities(documentContent.getResponsibilities())
+            .setCompanyBenefits(documentContent.getBenefits())
+            .setFooter(FOOTER)
+            .getTemporaryPdfFile();
     }
 
-    private List<String> getRequirements() {
-        return FileParser.getRequirements(grade.getValue(), department.getValue());
-    }
-
-    private List<String> getResponsibilities() {
-        return FileParser.getResponsibilities(grade.getValue(), department.getValue());
-    }
-
-    private List<String> getTechStack() {
-        return FileParser.getTechStack(department.getValue());
-    }
-
-    private List<String> getBenefits() {
-        return FileParser.getBenefits();
-    }
-
-    private String getCompanyDescription() {return FileParser.getCompanyDescription();}
 
     @Override
     public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
