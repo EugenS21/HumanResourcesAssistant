@@ -104,6 +104,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
     }
 
     private void initializeDialog() {
+        dialog.setCloseOnOutsideClick(false);
+        dialog.setCloseOnEsc(false);
         dialog.add(generatorForm);
         dialog.addDetachListener(onDialogClose());
     }
