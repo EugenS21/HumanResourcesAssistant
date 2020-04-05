@@ -169,7 +169,7 @@ public class GeneratorForm extends VerticalLayout {
             documentContent.setJobDescription(aboutTheJob.getValue());
             if (!aboutTheJob.isEmpty()) {
                 enableButton();
-            } ;
+            }
         };
     }
 
