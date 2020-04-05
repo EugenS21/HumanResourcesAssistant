@@ -1,7 +1,17 @@
 package com.humanresources.assistant.ui;
 
+import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
+import static com.vaadin.flow.component.icon.VaadinIcon.DIPLOMA;
+import static com.vaadin.flow.component.icon.VaadinIcon.PLUS_CIRCLE;
+import static com.vaadin.flow.component.icon.VaadinIcon.PLUS_MINUS;
+import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
+import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
+import static com.vaadin.flow.component.icon.VaadinIcon.USER_CHECK;
+
 import com.humanresources.assistant.backend.authentication.AccessControlFactory;
 import com.humanresources.assistant.backend.authentication.AccessData;
+import com.humanresources.assistant.ui.bonuses.GradeRise;
+import com.humanresources.assistant.ui.bonuses.SalaryRise;
 import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.cvs.generator.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
@@ -42,37 +52,42 @@ public class MainLayout extends AppLayout implements RouterLayout {
         drawerToggle.addClassName("menu-toggle");
         addToNavbar(drawerToggle);
 
-        addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, VaadinIcon.TOOLBOX.create()));
+        addToDrawer(createMenuLink(SalaryRise.class, SalaryRise.VIEW_NAME, PLUS_CIRCLE));
 
-        addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, VaadinIcon.CLOUD_UPLOAD.create()));
+        addToDrawer(createMenuLink(GradeRise.class, GradeRise.VIEW_NAME, PLUS_MINUS));
 
-        addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, VaadinIcon.DIPLOMA.create()));
+        addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
 
-        addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, VaadinIcon.USER_CHECK.create()));
+        addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));
 
-        logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
+        addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, DIPLOMA));
+
+        addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, USER_CHECK));
+
+        logoutButton = createMenuButton("Logout", SIGN_OUT);
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-        logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        logoutButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         logoutButton.addClickListener(logout -> {
             AccessData accessData = AccessControlFactory.SINGLETONE.createAccessData();
             accessData.signOut();
         });
     }
 
-    private RouterLink createMenuLink(Class<? extends Component> viewClass,
-                                      String caption, Icon icon) {
+    private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption, VaadinIcon vaadinIcon) {
         final RouterLink routerLink = new RouterLink(null, viewClass);
         routerLink.setClassName("menu-link");
+        final Icon icon = vaadinIcon.create();
         routerLink.add(icon);
         routerLink.add(new Span(caption));
         icon.setSize("24px");
         return routerLink;
     }
 
-    private Button createMenuButton(String caption, Icon icon) {
+    private Button createMenuButton(String caption, VaadinIcon vaadinIcon) {
         final Button routerButton = new Button(caption);
         routerButton.setClassName("menu-button");
         routerButton.addThemeVariants(ButtonVariant.LUMO_LARGE);
+        final Icon icon = vaadinIcon.create();
         routerButton.setIcon(icon);
         icon.setSize("24px");
         return routerButton;
