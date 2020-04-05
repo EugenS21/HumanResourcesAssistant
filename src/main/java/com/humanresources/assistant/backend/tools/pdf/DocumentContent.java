@@ -9,18 +9,23 @@ import com.vaadin.flow.component.select.Select;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class DocumentContent {
 
-    private final String header;
-    private final String companyDescription;
-    private final String jobDescription;
-    private final List<String> requirements;
-    private final List<String> techStack;
-    private final List<String> responsibilities;
-    private final List<String> benefits;
+    private static final String FOOTER = "WE ARE WAITING FOR YOU!";
+
+    private String header;
+    private String companyDescription;
+    private String jobDescription;
+    private List<String> requirements;
+    private List<String> techStack;
+    private List<String> responsibilities;
+    private List<String> benefits;
+    private String customEnd;
 
     public DocumentContent() {
         this.header = null;
@@ -43,6 +48,7 @@ public class DocumentContent {
             this.techStack = FileParser.getTechStack(department.getValue());
             this.benefits = FileParser.getBenefits();
             this.companyDescription = FileParser.getCompanyDescription();
+            this.customEnd = FOOTER;
         } else {
             throw new IllegalArgumentException("One of the provided arguments is null");
         }

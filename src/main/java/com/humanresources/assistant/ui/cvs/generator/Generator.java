@@ -11,12 +11,12 @@ import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.dialog.GeneratedVaadinDialog.OpenedChangeEvent;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -38,8 +38,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
 
     private Logger logger = LoggerFactory.getLogger(Generator.class);
     public static final String VIEW_NAME = "CVs Generator";
-    private static final String FOOTER = "WE ARE WAITING FOR YOU!";
 
+    public static boolean isDialogOpen = false;
     private final Select<Department> department;
     private final Select<Grade> grade;
     private final Button generate;
@@ -107,7 +107,7 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         dialog.setCloseOnOutsideClick(false);
         dialog.setCloseOnEsc(false);
         dialog.add(generatorForm);
-        dialog.addDetachListener(onDialogClose());
+        dialog.addOpenedChangeListener(onDialogClose());
     }
 
     private ValueChangeListener<? super ComponentValueChangeEvent<Select<Department>, Department>> onDepartmentChange() {
@@ -134,7 +134,7 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
                 .aboutTheJobValue(documentContent.getJobDescription())
                 .companyBenefitsValue(getStringFromList.apply(documentContent.getBenefits()))
                 .companyDescriptionValue(documentContent.getCompanyDescription())
-                .footerFieldValue(FOOTER)
+                .footerFieldValue(documentContent.getCustomEnd())
                 .headerFieldValue(documentContent.getHeader())
                 .requirementsValue(getStringFromList.apply(documentContent.getRequirements()))
                 .responsibilitiesValue(getStringFromList.apply(documentContent.getResponsibilities()))
@@ -157,13 +157,16 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         };
     }
 
-    private ComponentEventListener<DetachEvent> onDialogClose() {
-        return (ComponentEventListener<DetachEvent>) buttonClickEvent -> {
-            documentContent = generatorForm.getDocumentContent();
-            File temporaryPdfFile = getPdfContent();
+    private ComponentEventListener<OpenedChangeEvent<Dialog>> onDialogClose() {
+        return (ComponentEventListener<OpenedChangeEvent<Dialog>>) onDialogClose -> {
+            if (isDialogOpen) {
+                documentContent = generatorForm.getDocumentContent();
+                File temporaryPdfFile = getPdfContent();
 
-            temporaryFiles.add(temporaryPdfFile);
-            generateAndDisplayPdf(temporaryPdfFile);
+                isDialogOpen = false;
+                temporaryFiles.add(temporaryPdfFile);
+                generateAndDisplayPdf(temporaryPdfFile);
+            }
         };
     }
 
@@ -185,10 +188,9 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
             .setTechStack(documentContent.getTechStack())
             .setResponsibilities(documentContent.getResponsibilities())
             .setCompanyBenefits(documentContent.getBenefits())
-            .setFooter(FOOTER)
+            .setFooter(documentContent.getCustomEnd())
             .getTemporaryPdfFile();
     }
-
 
     @Override
     public void beforeLeave(BeforeLeaveEvent beforeLeaveEvent) {
