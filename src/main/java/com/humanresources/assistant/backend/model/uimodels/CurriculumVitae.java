@@ -1,4 +1,4 @@
-package com.humanresources.assistant.backend.model;
+package com.humanresources.assistant.backend.model.uimodels;
 
 import com.humanresources.assistant.backend.enums.Department;
 import lombok.AllArgsConstructor;
@@ -20,4 +20,5 @@ public class CurriculumVitae {
     private String userPhoneNumber;
     private Department jobToApply;
     private String description;
+
 }

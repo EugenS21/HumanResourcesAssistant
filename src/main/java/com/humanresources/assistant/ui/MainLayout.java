@@ -1,5 +1,6 @@
 package com.humanresources.assistant.ui;
 
+import static com.humanresources.assistant.backend.authentication.AccessControlFactory.SINGLETONE;
 import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
 import static com.vaadin.flow.component.icon.VaadinIcon.DIPLOMA;
 import static com.vaadin.flow.component.icon.VaadinIcon.PLUS_CIRCLE;
@@ -8,7 +9,6 @@ import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER_CHECK;
 
-import com.humanresources.assistant.backend.authentication.AccessControlFactory;
 import com.humanresources.assistant.backend.authentication.AccessData;
 import com.humanresources.assistant.ui.bonuses.GradeRise;
 import com.humanresources.assistant.ui.bonuses.SalaryRise;
@@ -18,14 +18,17 @@ import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
@@ -45,16 +48,24 @@ import com.vaadin.flow.theme.lumo.Lumo;
 public class MainLayout extends AppLayout implements RouterLayout {
 
     private final Button logoutButton;
+    private final Accordion accordion;
 
     public MainLayout() {
 
+        final VerticalLayout riseSubMenu = new VerticalLayout();
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
+        accordion = new Accordion();
+        riseSubMenu.add(
+            createMenuLink(SalaryRise.class, SalaryRise.VIEW_NAME, PLUS_CIRCLE),
+            createMenuLink(GradeRise.class, GradeRise.VIEW_NAME, PLUS_MINUS)
+        );
+        accordion
+            .add("Bonuses", riseSubMenu)
+            .addThemeVariants(DetailsVariant.FILLED);
         addToNavbar(drawerToggle);
 
-        addToDrawer(createMenuLink(SalaryRise.class, SalaryRise.VIEW_NAME, PLUS_CIRCLE));
-
-        addToDrawer(createMenuLink(GradeRise.class, GradeRise.VIEW_NAME, PLUS_MINUS));
+        addToDrawer(accordion);
 
         addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
 
@@ -68,7 +79,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
         logoutButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
         logoutButton.addClickListener(logout -> {
-            AccessData accessData = AccessControlFactory.SINGLETONE.createAccessData();
+            AccessData accessData = SINGLETONE.createAccessData();
             accessData.signOut();
         });
     }
@@ -79,7 +90,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
         final Icon icon = vaadinIcon.create();
         routerLink.add(icon);
         routerLink.add(new Span(caption));
-        icon.setSize("24px");
         return routerLink;
     }
 
@@ -89,7 +99,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
         routerButton.addThemeVariants(ButtonVariant.LUMO_LARGE);
         final Icon icon = vaadinIcon.create();
         routerButton.setIcon(icon);
-        icon.setSize("24px");
         return routerButton;
     }
 

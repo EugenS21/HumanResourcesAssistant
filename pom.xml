@@ -18,6 +18,11 @@
       <version>LATEST</version>
     </dependency>
     <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>LATEST</version>
+    </dependency>
+    <dependency>
       <artifactId>crudui</artifactId>
       <groupId>org.vaadin.crudui</groupId>
       <version>4.1.0</version>
@@ -91,7 +96,7 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <vaadin.version>14.1.19</vaadin.version>
+    <vaadin.version>14.1.24</vaadin.version>
   </properties>
 
   <repositories>
