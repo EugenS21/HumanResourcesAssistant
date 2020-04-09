@@ -2,8 +2,9 @@ package com.humanresources.assistant.ui.cvs;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import com.github.javafaker.Faker;
 import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.model.CurriculumVitae;
+import com.humanresources.assistant.backend.model.uimodels.CurriculumVitae;
 import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -25,6 +26,7 @@ import com.vaadin.flow.router.Route;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 @Route(value = "CVs",
@@ -98,8 +100,17 @@ public class CVs extends Div implements AfterNavigationObserver {
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
         List<CurriculumVitae> cvs = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            cvs.add(generateCv());
+        final Locale locale = new Locale("en", "US");
+        final Faker fakerData = new Faker(locale);
+        for (int i = 0; i < 200; i++) {
+//            cvs.add(generateCv());
+
+            cvs.add(CurriculumVitae.builder()
+                        .userDetails(fakerData.name().fullName())
+                        .userPhoneNumber(fakerData.phoneNumber().phoneNumber())
+                        .description(fakerData.lorem().sentence(150))
+                        .jobToApply(Department.values()[new Random().nextInt(Department.values().length - 1)])
+                        .build());
         }
         cvsGrid.setItems(cvs);
     }
@@ -109,10 +120,12 @@ public class CVs extends Div implements AfterNavigationObserver {
     }
 
     private static CurriculumVitae generateCv() {
+        final Locale locale = new Locale("en", "US");
+        final Faker fakerData = new Faker(locale);
         return CurriculumVitae.builder()
-            .userDetails(getRandom(10))
-            .userPhoneNumber(getRandom(8))
-            .description("Here should be a nice super, nice description, yeap boy")
+            .userDetails(fakerData.name().fullName())
+            .userPhoneNumber(fakerData.phoneNumber().phoneNumber())
+            .description("fakerData.lorem().sentence(150)")
             .jobToApply(Department.values()[new Random().nextInt(Department.values().length - 1)])
             .build();
     }

@@ -1,3 +1,21 @@
+.second-text {
+  text-align: justify;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: var(--lumo-secondary-text-color);
+  font-size: var(--lumo-font-size-s);
+  margin-bottom: var(--lumo-space-s);
+  /*word-wrap: break-word;*/
+  white-space: normal;
+}
+
+.card-list-view .footer {
+  color: var(--lumo-tertiary-text-color);
+  font-size: var(--lumo-font-size-xs);
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
 .card-list-view vaadin-grid {
   line-height: var(--lumo-line-height-m);
 }
@@ -14,12 +32,29 @@
   padding: calc(var(--lumo-space-s) * 1.5) var(--lumo-space-m);
 }
 
-.card-list-view img {
+.card-list-view .custom_card {
+  background-color: var(--lumo-base-color);
+  box-shadow: var(--lumo-box-shadow-xs);
+  padding: calc(var(--lumo-space-s) * 0.5) var(--lumo-space-m);
+}
+
+.card-list-view .img {
   border-radius: 50%;
   flex-shrink: 0;
   height: var(--lumo-size-m);
   margin-right: calc(var(--lumo-space-s) * 1.5);
   width: var(--lumo-size-m);
+}
+
+
+.card-list-view .customimg {
+  border-radius: 20%;
+  flex-shrink: 0;
+  height: 2rem;
+  margin-right: calc(var(--lumo-space-s) * 1.5);
+  width: 1.75rem;
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
 .card-list-view .header {
@@ -30,11 +65,6 @@
   font-size: var(--lumo-font-size-s);
   font-weight: bold;
   margin-right: var(--lumo-space-s);
-}
-
-.card-list-view .date {
-  color: var(--lumo-tertiary-text-color);
-  font-size: var(--lumo-font-size-xs);
 }
 
 .card-list-view .post {

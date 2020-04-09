@@ -1,5 +1,8 @@
 package com.humanresources.assistant.ui.bonuses;
 
+import static java.time.LocalDateTime.now;
+
+import com.github.javafaker.Faker;
 import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.enums.Grade;
 import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.FeedbackInformationFieldValues;
@@ -22,9 +25,13 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Route(value = "grade_rise",
        layout = MainLayout.class)
@@ -68,6 +75,7 @@ public class GradeRise extends VerticalLayout implements AfterNavigationObserver
         card.setSpacing(false);
 
         Image pdfImage = new Image();
+        pdfImage.setClassName("img");
         pdfImage.setSrc("http://icons.iconarchive.com/icons/treetog/file-type/256/pdf-icon.png");
 
         VerticalLayout cardBody = new VerticalLayout();
@@ -89,7 +97,9 @@ public class GradeRise extends VerticalLayout implements AfterNavigationObserver
         Span applicantDescription = new Span(feedbackValues.getDescription());
         applicantDescription.addClassName("post");
 
-        String dateAndProject = feedbackValues.getLocalDateTime() + " " + feedbackValues.getProject();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String dateAndProject = feedbackValues.getLocalDateTime().format(formatter) + " " + feedbackValues.getProject();
         Span applicantPhone = new Span(dateAndProject);
         applicantPhone.addClassName("comments");
 
@@ -116,33 +126,24 @@ public class GradeRise extends VerticalLayout implements AfterNavigationObserver
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
         List<FeedbackInformationFieldValues> persons = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-//            final List<Department> departments = Arrays.stream(Department.values()).collect(Collectors.toList());
-//            final List<Grade> grades = Arrays.stream(Grade.values()).collect(Collectors.toList());
-//            Collections.shuffle(departments);
-//            Collections.shuffle(grades);
-//            final Department department = departments.get(2);
-//            final Grade grade = grades.get(1);
-//            Locale locale = new Locale( "en", "US");
-//            final Faker faker = new Faker(locale);
-//            persons.add(FeedbackInformationFieldValues.builder()
-//                .department(department)
-//                .feedback(faker.lorem().sentence(10))
-//                .firstName(faker.name().firstName())
-//                .lastName(faker.name().lastName())
-//                .grade(grade)
-//                .localDateTime(LocalDateTime.parse(faker.date().toString()))
-//                .project(faker.gameOfThrones().house())
-//            .build());
-
+        Locale locale = new Locale("en", "US");
+        final Faker faker = new Faker(locale);
+        for (int i = 0; i < 30; i++) {
+            final List<Department> departments = Arrays.stream(Department.values()).collect(Collectors.toList());
+            final List<Grade> grades = Arrays.stream(Grade.values()).collect(Collectors.toList());
+            Collections.shuffle(departments);
+            Collections.shuffle(grades);
+            final Department department = departments.get(2);
+            final Grade grade = grades.get(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             persons.add(FeedbackInformationFieldValues.builder()
-                            .department(Department.QA)
-                            .description("faker.lorem().sentence(10)")
-                            .firstName("faker.name().firstName()")
-                            .lastName("faker.name().lastName()")
-                            .grade(Grade.A)
-                            .localDateTime(LocalDateTime.now())
-                            .project("faker.gameOfThrones().house()")
+                            .department(department)
+                            .description(faker.lorem().sentence(15))
+                            .firstName(faker.name().firstName())
+                            .lastName(faker.name().lastName())
+                            .grade(grade)
+                            .localDateTime(now())
+                            .project(faker.gameOfThrones().house())
                             .build());
         }
         feedbackGrid.setItems(persons);

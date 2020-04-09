@@ -17,4 +17,12 @@ public class FeedbackInformationFieldValues {
     private final Grade grade;
     private final Department department;
     private final String project;
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
+
+    public String getFullJobData() {
+        return String.format("%s %s", grade.getName(), department.getName());
+    }
 }

@@ -3,6 +3,8 @@ package com.humanresources.assistant.ui.bonuses.profile;
 import static com.vaadin.flow.component.icon.VaadinIcon.ARCHIVE;
 import static com.vaadin.flow.component.icon.VaadinIcon.INFO;
 import static com.vaadin.flow.component.icon.VaadinIcon.NOTEBOOK;
+import static com.vaadin.flow.component.tabs.Tabs.Orientation.HORIZONTAL;
+import static com.vaadin.flow.component.tabs.TabsVariant.LUMO_ICON_ON_TOP;
 
 import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.enums.Grade;
@@ -10,18 +12,18 @@ import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.Gener
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
-import com.vaadin.flow.component.tabs.TabsVariant;
 import java.util.HashMap;
 import java.util.Map;
 
+@CssImport(value = "styles/views/cardlist/card-list-view.css")
 public class BonusProfile extends VerticalLayout {
 
     private final Tabs tabs;
@@ -95,8 +97,8 @@ public class BonusProfile extends VerticalLayout {
 
     private Tabs initializeTabs() {
         final Tabs tabs = new Tabs(general, feedback, history);
-        tabs.setOrientation(Orientation.HORIZONTAL);
-        tabs.addThemeVariants(TabsVariant.LUMO_ICON_ON_TOP);
+        tabs.setOrientation(HORIZONTAL);
+        tabs.addThemeVariants(LUMO_ICON_ON_TOP);
         tabs.setFlexGrowForEnclosedTabs(0.1);
         tabs.addSelectedChangeListener(getTabSelectedListener());
         tabs.addDetachListener(setDefaultTabOnClose());
