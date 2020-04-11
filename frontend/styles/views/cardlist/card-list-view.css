@@ -5,8 +5,20 @@
   color: var(--lumo-secondary-text-color);
   font-size: var(--lumo-font-size-s);
   margin-bottom: var(--lumo-space-s);
-  /*word-wrap: break-word;*/
   white-space: normal;
+}
+
+.cardcustom {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.hidescroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hidescroll {
+  -ms-overflow-style: none;
 }
 
 .card-list-view .footer {

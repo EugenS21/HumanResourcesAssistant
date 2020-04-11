@@ -13,7 +13,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -29,13 +28,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-@Route(value = "CVs",
-       layout = MainLayout.class)
+@Route(value = "CVs", layout = MainLayout.class)
 @PageTitle("Curriculum Vitae List")
-@CssImport(value = "styles/views/cardlist/card-list-view.css",
-           include = "lumo-badge")
+@CssImport(value = "styles/views/cardlist/card-list-view.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")
-public class CVs extends Div implements AfterNavigationObserver {
+public class CVs extends VerticalLayout implements AfterNavigationObserver {
 
     public static final String VIEW_NAME = "CVs list";
 
@@ -64,6 +61,7 @@ public class CVs extends Div implements AfterNavigationObserver {
         card.setSpacing(false);
 
         Image pdfImage = new Image();
+        pdfImage.setClassName("img");
         pdfImage.setSrc("http://icons.iconarchive.com/icons/treetog/file-type/256/pdf-icon.png");
 
         VerticalLayout cardBody = new VerticalLayout();

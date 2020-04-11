@@ -1,4 +1,4 @@
-package com.humanresources.assistant.ui.bonuses.profile;
+package com.humanresources.assistant.ui.bonuses.modal.tabpages;
 
 import static com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.CENTER;
 import static java.time.format.DateTimeFormatter.ofPattern;
@@ -8,7 +8,7 @@ import com.github.appreciated.card.label.TitleLabel;
 import com.github.javafaker.Faker;
 import com.humanresources.assistant.backend.enums.Department;
 import com.humanresources.assistant.backend.enums.Grade;
-import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.FeedbackInformationFieldValues;
+import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.FeedbackFields;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Image;
@@ -36,11 +36,13 @@ public class FeedbackInformation extends VerticalLayout {
     private final VerticalLayout verticalLayout;
 
     public FeedbackInformation() {
-
         feedbackCards = new ArrayList<>();
         verticalLayout = new VerticalLayout();
+        verticalLayout.getStyle().set("overflow", "auto");
+        verticalLayout.addClassName("hidescroll");
 
-        setWidth("650px");
+        setWidth("550px");
+        setHeight("800px");
         addClassName("card-list-view");
 
         initializeCards();
@@ -49,8 +51,9 @@ public class FeedbackInformation extends VerticalLayout {
         add(verticalLayout);
     }
 
-    private Card initializeCard(FeedbackInformationFieldValues informationFieldValues) {
+    private Card initializeCard(FeedbackFields informationFieldValues) {
         final Card card = new Card();
+        card.setClassName("cardcustom");
         final HorizontalLayout header = new HorizontalLayout();
         final HorizontalLayout description = new HorizontalLayout();
         final HorizontalLayout footer = new HorizontalLayout();
@@ -66,7 +69,7 @@ public class FeedbackInformation extends VerticalLayout {
         TitleLabel titleLabel = new TitleLabel(informationFieldValues.getFullName()).withWhiteSpaceNoWrap();
         header.add(pdfImage, titleLabel);
 
-        Paragraph descriptionText = new Paragraph(informationFieldValues.getDescription());
+        Paragraph descriptionText = new Paragraph(informationFieldValues.getFeedBack());
         descriptionText.addClassName("second-text");
         description.add(descriptionText);
 
@@ -95,15 +98,16 @@ public class FeedbackInformation extends VerticalLayout {
             final Department department = streamDepartment.get(0);
             final Random random = new Random();
             feedbackCards.add(
-                initializeCard(FeedbackInformationFieldValues.builder()
-                                   .firstName(faker.name().firstName())
-                                   .lastName(faker.name().lastName())
-                                   .description(faker.lorem().sentence(random.nextInt(200)))
-                                   .localDateTime(LocalDateTime.now().plusDays(random.nextInt(366)))
-                                   .project(faker.gameOfThrones().house())
-                                   .grade(grade)
-                                   .department(department)
-                                   .build()));
+                initializeCard(
+                    FeedbackFields.builder()
+                        .firstName(faker.name().firstName())
+                        .lastName(faker.name().lastName())
+                        .feedBack(faker.lorem().sentence(random.nextInt(200)))
+                        .localDateTime(LocalDateTime.now().plusDays(random.nextInt(366)))
+                        .project(faker.gameOfThrones().house())
+                        .grade(grade)
+                        .department(department)
+                        .build()));
         }
     }
 }
