@@ -32,7 +32,7 @@ public class BonusesManagement extends VerticalLayout implements AfterNavigation
 
     public static final String VIEW_NAME = "Bonuses";
 
-    private BonusesGrid bonusesGrid;
+    private BonusesRequestsGrid bonusesGrid;
 
     public BonusesManagement() {
         setHeightFull();
@@ -61,7 +61,7 @@ public class BonusesManagement extends VerticalLayout implements AfterNavigation
                     .project(faker.gameOfThrones().house())
                     .build());
         }
-        bonusesGrid = new BonusesGrid(persons);
+        bonusesGrid = new BonusesRequestsGrid(persons);
         add(bonusesGrid);
     }
 

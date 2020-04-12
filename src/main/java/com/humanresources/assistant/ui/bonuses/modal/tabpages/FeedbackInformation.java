@@ -1,6 +1,5 @@
 package com.humanresources.assistant.ui.bonuses.modal.tabpages;
 
-import static com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.CENTER;
 import static java.time.format.DateTimeFormatter.ofPattern;
 
 import com.github.appreciated.card.Card;
@@ -30,38 +29,24 @@ import java.util.stream.Collectors;
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")
 public class FeedbackInformation extends VerticalLayout {
 
-    private final static String DATE_PATTERN = "dd MM yyyy HH:mm";
+    private final static String DATE_PATTERN = "dd/MM/yyyy HH:mm";
 
     private final List<Card> feedbackCards;
-    private final VerticalLayout verticalLayout;
 
     public FeedbackInformation() {
         feedbackCards = new ArrayList<>();
-        verticalLayout = new VerticalLayout();
-        verticalLayout.getStyle().set("overflow", "auto");
-        verticalLayout.addClassName("hidescroll");
-
-        setWidth("550px");
-        setHeight("800px");
-        addClassName("card-list-view");
 
         initializeCards();
 
-        feedbackCards.forEach(verticalLayout::add);
-        add(verticalLayout);
+        feedbackCards.forEach(this::add);
     }
 
     private Card initializeCard(FeedbackFields informationFieldValues) {
         final Card card = new Card();
-        card.setClassName("cardcustom");
         final HorizontalLayout header = new HorizontalLayout();
         final HorizontalLayout description = new HorizontalLayout();
         final HorizontalLayout footer = new HorizontalLayout();
-        header.setSizeFull();
-        description.setSizeFull();
-        footer.setSizeFull();
         card.setSizeFull();
-        card.setAlignItems(CENTER);
 
         Image pdfImage = new Image();
         pdfImage.setSrc("http://icons.iconarchive.com/icons/treetog/file-type/256/pdf-icon.png");
@@ -89,7 +74,7 @@ public class FeedbackInformation extends VerticalLayout {
     private void initializeCards() {
         Locale locale = new Locale("en", "US");
         Faker faker = new Faker(locale);
-        for (int i = 0; i < 80; i++) {
+        for (int i = 0; i < 10; i++) {
             final List<Grade> streamGrade = Arrays.stream(Grade.values()).collect(Collectors.toList());
             Collections.shuffle(streamGrade);
             final Grade grade = streamGrade.get(0);
@@ -102,7 +87,7 @@ public class FeedbackInformation extends VerticalLayout {
                     FeedbackFields.builder()
                         .firstName(faker.name().firstName())
                         .lastName(faker.name().lastName())
-                        .feedBack(faker.lorem().sentence(random.nextInt(200)))
+                        .feedBack(faker.lorem().sentence(random.nextInt(50)))
                         .localDateTime(LocalDateTime.now().plusDays(random.nextInt(366)))
                         .project(faker.gameOfThrones().house())
                         .grade(grade)

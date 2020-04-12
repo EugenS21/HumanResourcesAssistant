@@ -1,4 +1,4 @@
-package com.humanresources.assistant.backend.exceptions;
+package com.humanresources.assistant.backend.exceptions.ui;
 
 public class MethodNotFound extends Exception {
 

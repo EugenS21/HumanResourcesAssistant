@@ -1,12 +1,13 @@
 package com.humanresources.assistant.ui.bonuses;
 
-import com.humanresources.assistant.backend.exceptions.GridCardDataException;
-import com.humanresources.assistant.backend.exceptions.GridCardNotFound;
+import static com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT;
+
+import com.humanresources.assistant.backend.exceptions.ui.grid.GridCardDataException;
+import com.humanresources.assistant.backend.exceptions.ui.grid.GridCardNotFound;
 import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.BonusFields;
 import com.humanresources.assistant.ui.bonuses.modal.GridBonusModal;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -14,19 +15,21 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.selection.SelectionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BonusesGrid extends VerticalLayout {
+@Getter
+public class BonusesRequestsGrid extends VerticalLayout {
 
-    private static final Logger logger = LoggerFactory.getLogger(BonusesGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(BonusesRequestsGrid.class);
 
     private final Grid<BonusFields> requestsGrid;
 
-    public BonusesGrid(List<BonusFields> gridData) {
+    public BonusesRequestsGrid(List<BonusFields> gridData) {
         setId("card-list-view");
-        addClassNames("card-list-view");
+        addClassName("card-list-view");
         setSizeFull();
         requestsGrid = initializeGrid(gridData);
         add(requestsGrid);
@@ -34,7 +37,7 @@ public class BonusesGrid extends VerticalLayout {
 
     private Grid<BonusFields> initializeGrid(List<BonusFields> gridData) {
         final Grid<BonusFields> grid = new Grid<>();
-        grid.addThemeVariants(GridVariant.LUMO_COMPACT, GridVariant.LUMO_COMPACT);
+        grid.addThemeVariants(LUMO_COMPACT, LUMO_COMPACT);
         grid.addComponentColumn(this::createCard);
         grid.addSelectionListener(selectionListener());
         grid.setItems(gridData);

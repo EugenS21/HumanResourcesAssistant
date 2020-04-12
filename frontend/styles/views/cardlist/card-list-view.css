@@ -8,16 +8,11 @@
   white-space: normal;
 }
 
-.cardcustom {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.hidescroll::-webkit-scrollbar {
+.hide-scroll::-webkit-scrollbar {
   display: none;
 }
 
-.hidescroll {
+.hide-scroll {
   -ms-overflow-style: none;
 }
 

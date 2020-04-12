@@ -1,92 +1,78 @@
 package com.humanresources.assistant.ui.bonuses.modal;
 
+import static com.humanresources.assistant.ui.bonuses.modal.ModalSizes.HEIGHT;
+import static com.humanresources.assistant.ui.bonuses.modal.ModalSizes.WIDTH;
+import static java.lang.String.format;
+
+import com.humanresources.assistant.backend.exceptions.ui.grid.UnknownGridBonusModalTab;
 import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.BonusFields;
+import com.humanresources.assistant.ui.bonuses.modal.tabpages.FeedbackInformation;
+import com.humanresources.assistant.ui.bonuses.modal.tabpages.GeneralInformation;
+import com.humanresources.assistant.ui.bonuses.modal.tabs.FeedbackTab;
+import com.humanresources.assistant.ui.bonuses.modal.tabs.GeneralTab;
+import com.humanresources.assistant.ui.bonuses.modal.tabs.HistoryTab;
+import com.humanresources.assistant.ui.bonuses.modal.tabs.ModalBody;
 import com.humanresources.assistant.ui.bonuses.modal.tabs.ModalTabs;
+import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
+import lombok.Getter;
+import lombok.SneakyThrows;
 
 @CssImport(value = "styles/views/cardlist/card-list-view.css")
+@Getter
 public class GridBonusModal extends VerticalLayout {
 
     private final ModalTabs modalTabs;
-
-//    private final GeneralInformation generalInformation;
-//    private final FeedbackInformation feedbackInformation;
-//    private final HistoryInformation historyInformation;
-//    private final Map<Tab, Component> tabsLayouts;
-//    private Component currentlySelectedPage;
+    private ModalBody modalBody;
 
     public GridBonusModal(BonusFields gradeRiseFields) {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
+        setWidth(WIDTH.getSize());
+        setHeight(HEIGHT.getSize());
         modalTabs = new ModalTabs();
-        //TODO need here to put the initialization of page with specific content by specific tab
-//        modalTabs.addSelectedChangeListener();
-//        generalInformation = getGeneralInformation(gradeRiseFields);
-//        feedbackInformation = getFeedBackInformation();
-//        historyInformation = getHistoryInformation();
-//
-//        feedback = getFeedBackTab();
-//        general = getGeneralTab();
-//        history = getHistoryTab();
-//        tabs = initializeTabs();
-//
-//        tabsLayouts = initializeTabsMap();
-//
-//        add(tabs);
-//        add(generalInformation, feedbackInformation, historyInformation);
+        modalTabs.addSelectedChangeListener(onTabChange(gradeRiseFields));
+        addAttachListener(initializeDefaultTab(gradeRiseFields));
         add(modalTabs);
     }
-//
-//    private FeedbackInformation getFeedBackInformation() {
-//        final FeedbackInformation feedbackInformation = new FeedbackInformation();
-//        feedbackInformation.setVisible(false);
-//        return feedbackInformation;
-//    }
-//
-//    private HistoryInformation getHistoryInformation() {
-//        final HistoryInformation historyInformation = new HistoryInformation();
-//        historyInformation.setVisible(false);
-//        return historyInformation;
-//    }
-//
-//    private GeneralInformation getGeneralInformation(BonusFields gradeRiseFields) {
-//        final GeneralInformation generalInformation = new GeneralInformation(gradeRiseFields);
-//        generalInformation.setVisible(true);
-//        return generalInformation;
-//    }
-//
-//    private Tabs initializeTabs() {
-//        final Tabs tabs = new Tabs(general, feedback, history);
-//
-//        tabs.addSelectedChangeListener(getTabSelectedListener());
-//        tabs.addDetachListener(setDefaultTabOnClose());
-//        tabs.setSelectedTab(general);
-//        currentlySelectedPage = generalInformation;
-//        return tabs;
-//    }
-//
-//    private Map<Tab, Component> initializeTabsMap() {
-//        return new HashMap<Tab, Component>() {{
-//            put(feedback, feedbackInformation);
-//            put(general, generalInformation);
-//            put(history, historyInformation);
-//        }};
-//    }
-//
-//    private ComponentEventListener<DetachEvent> setDefaultTabOnClose() {
-//        return event -> tabs.setSelectedTab(general);
-//    }
-//
-//    private ComponentEventListener<SelectedChangeEvent> getTabSelectedListener() {
-//        return event -> {
-//            final Component component = tabsLayouts.get(tabs.getSelectedTab());
-//            if (!component.equals(currentlySelectedPage)) {
-//                currentlySelectedPage.setVisible(false);
-//            }
-//            currentlySelectedPage = component;
-//            component.setVisible(true);
-//        };
-//    }
+
+    private ComponentEventListener<AttachEvent> initializeDefaultTab(BonusFields gradeRiseFields) {
+        return event -> {
+            final GeneralInformation generalInformationPage = new GeneralInformation(gradeRiseFields);
+            modalBody = new ModalBody(generalInformationPage);
+            add(modalBody);
+        };
+    }
+
+    private ComponentEventListener<SelectedChangeEvent> onTabChange(BonusFields gradeRiseFields) {
+        return tab -> {
+            remove(modalBody);
+            final Tab selectedTab = tab.getSelectedTab();
+            modalBody = getInitializedPageBySpecificTab(selectedTab, gradeRiseFields);
+            add(modalBody);
+        };
+    }
+
+    @SneakyThrows
+    private ModalBody getInitializedPageBySpecificTab(Tab selectedTab, BonusFields bonusFields) {
+        if (selectedTab instanceof GeneralTab) {
+            final GeneralInformation generalInformation = new GeneralInformation(bonusFields);
+            modalBody = new ModalBody(generalInformation);
+            return modalBody;
+        } else if (selectedTab instanceof FeedbackTab) {
+            final FeedbackInformation feedbackInformation = new FeedbackInformation();
+            modalBody = new ModalBody(feedbackInformation);
+            return modalBody;
+        } else if (selectedTab instanceof HistoryTab) {
+            return null;
+        } else {
+            final String exceptionMessage = format("Unknown tab [%s] from modal was selected", selectedTab.getLabel());
+            throw new UnknownGridBonusModalTab(exceptionMessage);
+        }
+    }
 
 }
