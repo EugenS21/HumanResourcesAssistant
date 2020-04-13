@@ -14,6 +14,7 @@ import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.cvs.generator.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
+import com.humanresources.assistant.ui.mainpage.MainPage;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -24,7 +25,6 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
@@ -35,30 +35,33 @@ import com.vaadin.flow.theme.lumo.Lumo;
 /**
  * The main layout. Contains the navigation menu.
  */
-@Theme(value = Lumo.class,
-       variant = Lumo.DARK)
-@PWA(name = "Human Resource Production",
-     shortName = "HR Assistant")
+@Theme(value = Lumo.class, variant = Lumo.DARK)
+@PWA(name = "Human Resource Production", shortName = "HR Assistant", iconPath = "src/main/resources/icons/icon.png")
 @JsModule("./styles/shared-styles.js")
 @Route("")
 public class MainLayout extends AppLayout implements RouterLayout {
 
-    private final Button logoutButton;
+    private final MainPage mainPage;
+    private Button logoutButton;
 
     public MainLayout() {
 
-        final VerticalLayout riseSubMenu = new VerticalLayout();
+        addMenuItems();
+
+        mainPage = new MainPage();
+
+        setContent(mainPage);
+
+    }
+
+    private void addMenuItems() {
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
 
         addToDrawer(createMenuLink(BonusesManagement.class, BonusesManagement.VIEW_NAME, BOOK_PERCENT));
-
         addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
-
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));
-
         addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, DIPLOMA));
-
         addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, USER_CHECK));
 
         logoutButton = createMenuButton("Logout", SIGN_OUT);
