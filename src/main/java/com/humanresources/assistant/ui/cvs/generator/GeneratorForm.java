@@ -4,6 +4,7 @@ import static com.humanresources.assistant.backend.functions.GenericFunctions.ge
 import static java.util.Arrays.asList;
 
 import com.humanresources.assistant.backend.tools.pdf.DocumentContent;
+import com.humanresources.assistant.ui.cvs.Generator;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;

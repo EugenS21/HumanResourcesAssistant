@@ -1,4 +1,4 @@
-package com.humanresources.assistant.ui.cvs.generator;
+package com.humanresources.assistant.ui.cvs;
 
 import static com.humanresources.assistant.backend.functions.GenericFunctions.getStringFromList;
 
@@ -8,6 +8,8 @@ import com.humanresources.assistant.backend.tools.pdf.DocumentContent;
 import com.humanresources.assistant.backend.tools.pdf.PdfFileGenerator;
 import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
 import com.humanresources.assistant.ui.MainLayout;
+import com.humanresources.assistant.ui.cvs.generator.GeneratorForm;
+import com.humanresources.assistant.ui.cvs.generator.GeneratorFormData;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -31,8 +33,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Route(value = "Generator",
-       layout = MainLayout.class)
+@Route(value = "cvs_generator", layout = MainLayout.class)
 @PageTitle("CV generator")
 public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
 

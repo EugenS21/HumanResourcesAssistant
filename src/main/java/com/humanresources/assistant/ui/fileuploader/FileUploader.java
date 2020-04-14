@@ -28,8 +28,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = "FilesUploader",
-       layout = MainLayout.class)
+@Route(value = "files_uploader", layout = MainLayout.class)
 @PageTitle("Upload the CV you want to be analyzed")
 public class FileUploader extends VerticalLayout {
 

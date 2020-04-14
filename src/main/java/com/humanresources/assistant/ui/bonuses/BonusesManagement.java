@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-@Route(value = "grade_rise", layout = MainLayout.class)
+@Route(value = "bonuses_management", layout = MainLayout.class)
 @PageTitle("Grade Rise Management")
 @CssImport(value = "styles/views/cardlist/card-list-view.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")

@@ -19,8 +19,7 @@ import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
 import org.vaadin.crudui.form.CrudFormFactory;
 
-@Route(value = "employees",
-       layout = MainLayout.class)
+@Route(value = "employees", layout = MainLayout.class)
 @PageTitle("Employees List")
 public class EmployeesCrud extends VerticalLayout {
 

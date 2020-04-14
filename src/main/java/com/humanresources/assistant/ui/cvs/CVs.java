@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-@Route(value = "CVs", layout = MainLayout.class)
+@Route(value = "cvs_list", layout = MainLayout.class)
 @PageTitle("Curriculum Vitae List")
 @CssImport(value = "styles/views/cardlist/card-list-view.css", include = "lumo-badge")
 @JsModule("@vaadin/vaadin-lumo-styles/badge.js")
