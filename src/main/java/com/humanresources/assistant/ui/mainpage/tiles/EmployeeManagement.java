@@ -18,7 +18,7 @@ public final class EmployeeManagement extends Div implements ITileGenerics {
     @Override
     public Map<TileDetails, String> getTileDetails() {
         return new HashMap<TileDetails, String>() {{
-            put(TileDetails.TITLE, "Employees Management");
+            put(TileDetails.TITLE, "Staff Management");
             put(TileDetails.DESCRIPTION, "This is a powerful module for the management of your existing and new "
                 + "coming employees. ");
             put(BACKGROUND, "card_back_emp");

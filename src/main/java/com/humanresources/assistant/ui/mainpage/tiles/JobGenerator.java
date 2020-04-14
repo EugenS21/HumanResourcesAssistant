@@ -10,10 +10,10 @@ import com.vaadin.flow.component.html.Div;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CVsGenerator extends Div implements ITileGenerics {
+public final class JobGenerator extends Div implements ITileGenerics {
 
 
-    public CVsGenerator() {
+    public JobGenerator() {
         add(getInitializedCard());
     }
 
@@ -21,9 +21,9 @@ public final class CVsGenerator extends Div implements ITileGenerics {
     public Map<TileDetails, String> getTileDetails() {
         return new HashMap<TileDetails, String>() {{
             put(TITLE, "Job Generator");
-            put(DESCRIPTION, "Are you tired of writing job description documents? Leave it to us our "
-                + "sophisticated algorithms will handle this for you.");
-            put(BACKGROUND, "card_back_cv");
+            put(DESCRIPTION, "Are you tired of writing job description documents? Leave it to our "
+                + "smart algorithms will handle this for you.");
+            put(BACKGROUND, "card_back_job");
             put(HREF, "/cvs_generator");
         }};
     }

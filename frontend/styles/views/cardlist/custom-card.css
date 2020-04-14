@@ -42,7 +42,7 @@ body {
 
 .custom-card:hover h2 {
   background: rgba(0, 0, 0, 0.93);
-  opacity: 0.6;
+  opacity: 0.8;
   color: #fff;
   margin-top: 100px;
   padding: 5px;
@@ -66,17 +66,32 @@ body {
 }
 
 .card_back_emp {
-  background: #3487f7 url('https://www.taylorsds.com.au/wp-content/uploads/Website_People-Management_1.png') no-repeat center bottom;
+  background: #556b7e url('https://www.taylorsds.com.au/wp-content/uploads/Website_People-Management_1.png') no-repeat center bottom;
   background-size: cover;
 }
 
 .card_back_cv {
-  background: #3487f7 url('https://pngimg.com/uploads/cv/cv_PNG1.png') no-repeat center bottom;
+  background: #556b7e url('https://pngimg.com/uploads/cv/cv_PNG1.png') no-repeat center bottom;
+  background-size: cover;
+}
+
+.card_back_job {
+  background: #556b7e url('https://www.giraffe.co.za/static/landing-image-0b5a7e7edfb082849bf93a1da1ee0fcf.svg') no-repeat center bottom;
+  background-size: cover;
+}
+
+.card_back_rise {
+  background: #556b7e url('https://w1.pngwave.com/png/808/104/933/boost-icon-extension-icon-growth-icon-improvement-icon-progress-icon-rise-icon-upgrade-icon-red-line-text-png-clip-art.png') no-repeat center bottom;
+  background-size: cover;
+}
+
+.card_back_rqs {
+  background: #556b7e url('https://icon2.cleanpng.com/20180519/lhy/kisspng-computer-icons-leave-of-absence-clip-art-5b0052baf0cd43.5065847915267478349863.jpg') no-repeat center bottom;
   background-size: cover;
 }
 
 .card_back_docs {
-  background: #3487f7 url('https://www.keyimagetech.com/wp-content/uploads/2019/07/header_Document-2.png') no-repeat center bottom;
+  background: #556b7e url('https://www.keyimagetech.com/wp-content/uploads/2019/07/header_Document-2.png') no-repeat center bottom;
   background-size: cover;
 }
 

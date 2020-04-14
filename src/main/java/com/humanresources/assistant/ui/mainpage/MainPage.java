@@ -19,6 +19,7 @@ public class MainPage extends VerticalLayout {
 
         tileGrid = new TileGrid();
 
+        tileGrid.getStyle().set("overflow", "hidden");
         add(welcome, content, tileGrid);
     }
 }

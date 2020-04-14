@@ -10,21 +10,21 @@ import com.vaadin.flow.component.html.Div;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class BonusesManagement extends Div implements ITileGenerics {
+public final class RequestsManagement extends Div implements ITileGenerics {
 
 
-    public BonusesManagement() {
+    public RequestsManagement() {
         add(getInitializedCard());
     }
 
     @Override
     public Map<TileDetails, String> getTileDetails() {
         return new HashMap<TileDetails, String>() {{
-            put(TITLE, "Bonuses Management");
-            put(DESCRIPTION, "Your employees will need sometimes to be remunerated with bonuses for their job, manage them "
-                + "using our product.");
-            put(BACKGROUND, "card_back_rise");
-            put(HREF, "/bonuses_management");
+            put(TITLE, "Requests Management");
+            put(DESCRIPTION, "Manage employees request like vacation or unexpected leaves easily using our adaptive and "
+                + "modern engine. ");
+            put(BACKGROUND, "card_back_rqs");
+            put(HREF, "/requests_management");
         }};
     }
 }
