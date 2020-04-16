@@ -1,9 +1,11 @@
 package com.humanresources.assistant.ui;
 
 import static com.humanresources.assistant.backend.authentication.AccessControlFactory.SINGLETONE;
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL;
 import static com.vaadin.flow.component.icon.VaadinIcon.BOOK_PERCENT;
 import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
 import static com.vaadin.flow.component.icon.VaadinIcon.DIPLOMA;
+import static com.vaadin.flow.component.icon.VaadinIcon.NEWSPAPER;
 import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER_CHECK;
@@ -15,6 +17,7 @@ import com.humanresources.assistant.ui.cvs.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.humanresources.assistant.ui.mainpage.MainPage;
+import com.humanresources.assistant.ui.requests.RequestsManagement;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -58,6 +61,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
 
+        addToDrawer(createMenuLink(RequestsManagement.class, RequestsManagement.VIEW_NAME, NEWSPAPER));
         addToDrawer(createMenuLink(BonusesManagement.class, BonusesManagement.VIEW_NAME, BOOK_PERCENT));
         addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));
@@ -66,7 +70,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
         logoutButton = createMenuButton("Logout", SIGN_OUT);
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-        logoutButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+        logoutButton.addThemeVariants(LUMO_SMALL);
         logoutButton.addClickListener(logout -> {
             AccessData accessData = SINGLETONE.createAccessData();
             accessData.signOut();
