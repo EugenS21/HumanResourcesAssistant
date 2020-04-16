@@ -6,11 +6,9 @@ import com.humanresources.assistant.ui.mainpage.tiles.DocumentsManagement;
 import com.humanresources.assistant.ui.mainpage.tiles.EmployeeManagement;
 import com.humanresources.assistant.ui.mainpage.tiles.JobGenerator;
 import com.humanresources.assistant.ui.mainpage.tiles.RequestsManagement;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-@CssImport(value = "styles/views/cardlist/divider.css")
 public class TileGrid extends Div {
 
     private final HorizontalLayout firstLayout;
@@ -33,7 +31,6 @@ public class TileGrid extends Div {
         requestsManagement = new RequestsManagement();
         cVsManagement = new CVsManagement();
         jobGenerator = new JobGenerator();
-        divider.addClassName("gradient");
 
         firstLayout.addAndExpand(employeeManagement, documentsManagement, cVsManagement);
         secondLayout.addAndExpand(jobGenerator, bonusesManagement, requestsManagement);

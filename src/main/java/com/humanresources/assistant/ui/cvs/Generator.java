@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 @PageTitle("CV generator")
 public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
 
-    private Logger logger = LoggerFactory.getLogger(Generator.class);
+    private final Logger logger = LoggerFactory.getLogger(Generator.class);
     public static final String VIEW_NAME = "CVs Generator";
 
     public static boolean isDialogOpen = false;
@@ -48,15 +48,16 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
     private final Details details;
     private final VerticalLayout optionsLayout;
     private final VerticalLayout previewLayout;
-    private Dialog dialog;
+    private final Dialog dialog;
 
-    private List<File> temporaryFiles;
-    private PdfPreviewer pdfPreviewer;
-    private GeneratorForm generatorForm;
+    private final List<File> temporaryFiles;
+    private final PdfPreviewer pdfPreviewer;
+    private final GeneratorForm generatorForm;
     private DocumentContent documentContent;
 
     public Generator() {
         setSizeFull();
+        getStyle().set("padding", "10px");
         optionsLayout = new VerticalLayout();
         previewLayout = new VerticalLayout();
         generate = new Button();
