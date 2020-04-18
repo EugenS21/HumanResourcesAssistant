@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +33,6 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Size (max = 30)
     private String username;
 
     @NotBlank
@@ -42,7 +40,6 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size (max = 20)
     private String password;
 
     @ManyToMany (fetch = FetchType.LAZY)

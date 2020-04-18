@@ -24,7 +24,7 @@ import lombok.Setter;
 @Getter
 public class Employee {
 
-    protected static final String TABLE_NAME = "t_user";
+    protected static final String TABLE_NAME = "t_employee";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

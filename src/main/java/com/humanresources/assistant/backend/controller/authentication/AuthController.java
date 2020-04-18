@@ -1,6 +1,10 @@
 package com.humanresources.assistant.backend.controller.authentication;
 
-import com.humanresources.assistant.backend.enums.ERole;
+import static com.humanresources.assistant.backend.enums.ERole.ADMIN;
+import static com.humanresources.assistant.backend.enums.ERole.HR;
+import static com.humanresources.assistant.backend.enums.ERole.HR_ASSISTANT;
+import static com.humanresources.assistant.backend.enums.ERole.USER;
+
 import com.humanresources.assistant.backend.model.authentication.Role;
 import com.humanresources.assistant.backend.model.authentication.User;
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
@@ -10,7 +14,6 @@ import com.humanresources.assistant.backend.payload.response.MessageResponse;
 import com.humanresources.assistant.backend.repository.authentication.IRoleRepository;
 import com.humanresources.assistant.backend.repository.authentication.IUserRepository;
 import com.humanresources.assistant.backend.security.jwt.JwtUtils;
-import com.humanresources.assistant.backend.security.services.UserDetailsImpl;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
@@ -22,14 +25,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping ("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -47,7 +49,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping ("/signin")
+    @RequestMapping (method = RequestMethod.POST, value = "/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         final UsernamePasswordAuthenticationToken authenticationDetails = new UsernamePasswordAuthenticationToken(
             loginRequest.getUsername(),
@@ -56,13 +58,11 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        final JwtResponse jwtResponse = new JwtResponse(jwt, userDetails);
+        final JwtResponse jwtResponse = new JwtResponse(jwt);
         return ResponseEntity.ok(jwtResponse);
     }
 
-    @PostMapping ("/signup")
+    @RequestMapping (method = RequestMethod.POST, value = "/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -79,34 +79,34 @@ public class AuthController {
         final String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encodedPassword);
 
-        Set<String> strRoles = signUpRequest.getRole();
+        Set<String> requestRole = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
+        if (requestRole == null) {
             Role userRole =
                 roleRepository
-                    .findByName(ERole.USER)
+                    .findByNameLike(USER.toString())
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
-            strRoles.forEach(role -> {
+            requestRole.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ADMIN)
+                        Role adminRole = roleRepository.findByNameLike(ADMIN.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-
                         break;
                     case "hr":
-                        Role modRole = roleRepository.findByName(ERole.HR)
+                        Role modRole = roleRepository.findByNameLike(HR.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
-
                         break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.HR_ASSISTANT)
+                    case "hr_assistant":
+                        Role userRole = roleRepository.findByNameLike(HR_ASSISTANT.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
+                        break;
+                    default:
                 }
             });
         }

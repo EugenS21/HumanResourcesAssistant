@@ -3,11 +3,13 @@ package com.humanresources.assistant.backend.payload.request;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class SignUpRequest {
 
     @NotBlank

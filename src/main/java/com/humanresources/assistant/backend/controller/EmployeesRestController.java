@@ -16,16 +16,13 @@ public class EmployeesRestController {
     @Autowired
     EmployeesService employeesService;
 
-    @GetMapping("/users")
+    @GetMapping ("/users")
     public List<Employee> getAllProducts() {
         return employeesService.getAllEmployees();
     }
 
-    @RequestMapping(method = RequestMethod.POST,
-                    value = "/users")
-    public void postNewUser(
-        @RequestBody
-            Employee employee) {
+    @RequestMapping (method = RequestMethod.POST, value = "/users")
+    public void postNewUser(@RequestBody Employee employee) {
         employeesService.saveUser(employee);
     }
 }

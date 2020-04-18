@@ -1,10 +1,7 @@
 package com.humanresources.assistant.backend.model.authentication;
 
-import com.humanresources.assistant.backend.enums.ERole;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -25,8 +22,7 @@ public class Role {
     @GeneratedValue
     private Integer id;
 
-    @Enumerated (EnumType.STRING)
-    @Column (length = 20)
-    private ERole name;
+    @Column (name = "name")
+    private String name;
 
 }

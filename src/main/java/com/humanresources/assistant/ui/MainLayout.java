@@ -1,6 +1,5 @@
 package com.humanresources.assistant.ui;
 
-import static com.humanresources.assistant.backend.authentication.AccessControlFactory.SINGLETONE;
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL;
 import static com.vaadin.flow.component.icon.VaadinIcon.BOOK_PERCENT;
 import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
@@ -10,7 +9,6 @@ import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER_CHECK;
 
-import com.humanresources.assistant.backend.authentication.AccessData;
 import com.humanresources.assistant.ui.bonuses.BonusesManagement;
 import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.cvs.Generator;
@@ -20,6 +18,7 @@ import com.humanresources.assistant.ui.mainpage.MainPage;
 import com.humanresources.assistant.ui.requests.RequestsManagement;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -32,6 +31,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -72,8 +72,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
         logoutButton.addThemeVariants(LUMO_SMALL);
         logoutButton.addClickListener(logout -> {
-            AccessData accessData = SINGLETONE.createAccessData();
-            accessData.signOut();
+            VaadinSession.getCurrent().getSession().invalidate();
+            UI.getCurrent().navigate("signin");
         });
     }
 

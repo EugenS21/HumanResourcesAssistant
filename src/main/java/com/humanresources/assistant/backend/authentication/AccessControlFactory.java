@@ -1,14 +1,13 @@
 package com.humanresources.assistant.backend.authentication;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
+@Component
 public class AccessControlFactory {
-    @Getter
-    public static final AccessControlFactory SINGLETONE = new AccessControlFactory();
 
-    public AccessData createAccessData(){
-        return new AdminLogin();
-    }
+    @Autowired
+    public UserLogin userLogin;
 }
