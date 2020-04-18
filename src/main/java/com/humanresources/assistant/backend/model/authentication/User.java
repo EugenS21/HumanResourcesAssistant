@@ -1,6 +1,5 @@
 package com.humanresources.assistant.backend.model.authentication;
 
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,7 +44,7 @@ public class User {
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable (name = "t_user_role", joinColumns = @JoinColumn (name = "user_id"),
                 inverseJoinColumns = @JoinColumn (name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     public User(String username, String email, String password) {
         this.username = username;
