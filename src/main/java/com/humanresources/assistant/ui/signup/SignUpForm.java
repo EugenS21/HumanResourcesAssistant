@@ -33,6 +33,7 @@ public class SignUpForm extends Dialog {
     private final PasswordField password;
     private final EmailField email;
     private final Button button;
+
     @Value ("${app.baseUrl}")
     private String baseUrl;
     @Autowired
@@ -47,6 +48,7 @@ public class SignUpForm extends Dialog {
         email = getNewEmailField("Corporate email");
         button = getNewButton();
 
+        //TODO remove
         username.setValue("eugen");
         password.setValue("eugen123");
         email.setValue("eugen@ourcompany.com");
@@ -103,7 +105,7 @@ public class SignUpForm extends Dialog {
         final EmailField emailField = new EmailField(label);
         emailField.setPattern("[A-Za-z]+@ourcompany.com");
         emailField.setPlaceholder(label);
-        emailField.setErrorMessage("Email containing digits is not allowed, also other domains than @ourcompany.com");
+        emailField.setErrorMessage("Email containing digits is not allowed, also other domains than our company allow");
         emailField.addThemeVariants(LUMO_ALIGN_CENTER);
 
         return emailField;

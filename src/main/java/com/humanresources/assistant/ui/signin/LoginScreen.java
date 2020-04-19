@@ -38,6 +38,7 @@ public class LoginScreen extends VerticalLayout {
         setHorizontalComponentAlignment(Alignment.CENTER);
         setSizeFull();
 
+        // TODO remove hardcoded values and add a static width var
         username = new TextField("Username");
         username.setWidth("300px");
         username.setValue("eugen");
