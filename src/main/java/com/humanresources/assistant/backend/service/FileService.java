@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.service;
 
-import com.humanresources.assistant.backend.model.File;
+import com.humanresources.assistant.backend.entity.File;
 import com.humanresources.assistant.backend.repository.IFileRepository;
 import com.vaadin.flow.router.NotFoundException;
 import java.io.IOException;

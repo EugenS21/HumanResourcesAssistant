@@ -5,8 +5,8 @@ import static com.humanresources.assistant.backend.enums.ERole.HR;
 import static com.humanresources.assistant.backend.enums.ERole.HR_ASSISTANT;
 import static com.humanresources.assistant.backend.enums.ERole.USER;
 
-import com.humanresources.assistant.backend.model.authentication.Role;
-import com.humanresources.assistant.backend.model.authentication.User;
+import com.humanresources.assistant.backend.entity.authentication.Role;
+import com.humanresources.assistant.backend.entity.authentication.User;
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
 import com.humanresources.assistant.backend.payload.request.SignUpRequest;
 import com.humanresources.assistant.backend.payload.response.JwtResponse;

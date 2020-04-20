@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.service;
 
-import com.humanresources.assistant.backend.model.Employee;
+import com.humanresources.assistant.backend.entity.Employee;
 import com.humanresources.assistant.backend.repository.IEmployeeRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ public class EmployeesService {
     IEmployeeRepository userRepository;
 
     public List<Employee> getAllEmployees() {
-        List<Employee> usersList = new ArrayList<>();
-        userRepository.findAll().forEach(usersList::add);
-        return usersList;
+        List<Employee> employeesList = new ArrayList<>();
+        userRepository.findAll().forEach(employeesList::add);
+        return employeesList;
     }
 
     public void saveUser(Employee employee) {

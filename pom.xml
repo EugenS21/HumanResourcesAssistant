@@ -28,9 +28,9 @@
       <version>2.0.0.beta4</version>
     </dependency>
     <dependency>
-      <artifactId>crudui</artifactId>
       <groupId>org.vaadin.crudui</groupId>
-      <version>4.1.0</version>
+      <artifactId>crudui</artifactId>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <artifactId>postgresql</artifactId>

@@ -16,16 +16,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Route ("signin")
 @PageTitle ("Login to the site")
 @CssImport ("./styles/shared-styles.css")
-@Component
 public class LoginScreen extends VerticalLayout {
 
     final TextField username;
     final PasswordField password;
+
     @Autowired
     private AccessData accessData;
     @Autowired

@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.controller;
 
-import com.humanresources.assistant.backend.model.File;
+import com.humanresources.assistant.backend.entity.File;
 import com.humanresources.assistant.backend.model.UploadFileResponse;
 import com.humanresources.assistant.backend.service.FileService;
 import java.util.Arrays;

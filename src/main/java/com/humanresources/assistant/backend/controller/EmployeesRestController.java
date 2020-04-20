@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.controller;
 
-import com.humanresources.assistant.backend.model.Employee;
+import com.humanresources.assistant.backend.entity.Employee;
 import com.humanresources.assistant.backend.service.EmployeesService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ public class EmployeesRestController {
     @Autowired
     EmployeesService employeesService;
 
-    @GetMapping ("/users")
+    @GetMapping ("/employees")
     public List<Employee> getAllProducts() {
         return employeesService.getAllEmployees();
     }
 
-    @RequestMapping (method = RequestMethod.POST, value = "/users")
-    public void postNewUser(@RequestBody Employee employee) {
+    @RequestMapping (method = RequestMethod.POST, value = "/employees")
+    public void postNewEmployee(@RequestBody Employee employee) {
         employeesService.saveUser(employee);
     }
 }

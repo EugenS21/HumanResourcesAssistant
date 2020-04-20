@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.repository.authentication;
 
-import com.humanresources.assistant.backend.model.authentication.Role;
+import com.humanresources.assistant.backend.entity.authentication.Role;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

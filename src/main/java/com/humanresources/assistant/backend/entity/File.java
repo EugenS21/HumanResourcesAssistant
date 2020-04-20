@@ -1,6 +1,6 @@
-package com.humanresources.assistant.backend.model;
+package com.humanresources.assistant.backend.entity;
 
-import static com.humanresources.assistant.backend.model.File.TABLE_NAME;
+import static com.humanresources.assistant.backend.entity.File.TABLE_NAME;
 
 import java.util.UUID;
 import javax.persistence.Entity;

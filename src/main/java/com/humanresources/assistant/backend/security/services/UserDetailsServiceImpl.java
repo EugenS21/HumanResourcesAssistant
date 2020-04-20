@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.security.services;
 
-import com.humanresources.assistant.backend.model.authentication.User;
+import com.humanresources.assistant.backend.entity.authentication.User;
 import com.humanresources.assistant.backend.repository.authentication.IUserRepository;
 import javax.transaction.Transactional;
 import lombok.SneakyThrows;

@@ -1,7 +1,7 @@
 package com.humanresources.assistant.backend.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.humanresources.assistant.backend.model.authentication.User;
+import com.humanresources.assistant.backend.entity.authentication.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

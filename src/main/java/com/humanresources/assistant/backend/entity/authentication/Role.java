@@ -1,6 +1,7 @@
-package com.humanresources.assistant.backend.model.authentication;
+package com.humanresources.assistant.backend.entity.authentication;
 
-import javax.persistence.Column;
+import static com.humanresources.assistant.backend.entity.authentication.Role.TABLE_NAME;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,18 +12,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name = "t_role")
+@Table (name = TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class Role {
 
+    protected static final String TABLE_NAME = "t_role";
+
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column (name = "name")
     private String name;
 
 }
