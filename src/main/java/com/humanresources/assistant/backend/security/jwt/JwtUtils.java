@@ -40,7 +40,7 @@ public class JwtUtils {
     }
 
     public String getUserNameFromJwtToken(String authToken) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().getSubject();
+        return (String) Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().get("username");
     }
 
     public boolean validateJwtToken(String authToken) {

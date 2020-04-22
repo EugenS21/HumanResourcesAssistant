@@ -76,10 +76,16 @@ public class AuthController {
                 .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        if (signUpRequest.getRoles().isEmpty()) {
+            return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Error: User should have at least one role!"));
+        }
+
         final String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encodedPassword);
 
-        Set<String> requestRole = signUpRequest.getRole();
+        Set<String> requestRole = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (requestRole == null) {
@@ -101,12 +107,11 @@ public class AuthController {
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
                         break;
-                    case "hr_assistant":
+                    default:
                         Role userRole = roleRepository.findByNameLike(HR_ASSISTANT.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                         break;
-                    default:
                 }
             });
         }

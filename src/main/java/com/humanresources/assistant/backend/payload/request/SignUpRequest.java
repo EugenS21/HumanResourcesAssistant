@@ -20,7 +20,7 @@ public class SignUpRequest {
     @Size (max = 50, message = "Invalid email length")
     private String email;
 
-    private Set<String> role;
+    private Set<String> roles;
 
     @NotBlank
     @Size (min = 6, max = 20, message = "Password should contain at least 6 characters, max length is 20")

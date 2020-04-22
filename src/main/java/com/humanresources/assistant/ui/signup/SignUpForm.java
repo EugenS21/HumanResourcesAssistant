@@ -72,11 +72,11 @@ public class SignUpForm extends Dialog {
                 .username(username.getValue())
                 .password(password.getValue())
                 .email(email.getValue())
-                .role(singleton(ADMIN.name()))
+                .roles(singleton(ADMIN.name()))
                 .build();
             try {
                 restTemplate.postForEntity(signUpUrl, signUpRequest, Object.class);
-                show("User succesfully created").addThemeVariants(LUMO_SUCCESS);
+                show("User successfully created").addThemeVariants(LUMO_SUCCESS);
             } catch (HttpClientErrorException e) {
                 show(e.getMessage()).addThemeVariants(LUMO_ERROR);
             }

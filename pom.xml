@@ -46,6 +46,10 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
       <artifactId>vaadin-spring-boot-starter</artifactId>
       <groupId>com.vaadin</groupId>
     </dependency>

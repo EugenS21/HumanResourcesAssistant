@@ -4,12 +4,10 @@ import com.humanresources.assistant.backend.authentication.UserLogin;
 import com.humanresources.assistant.ui.signin.LoginScreen;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.vaadin.flow.server.VaadinServletConfiguration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringComponent
-@VaadinServletConfiguration (productionMode = false)
 public class VaadinInitListener implements VaadinServiceInitListener {
 
     @Autowired

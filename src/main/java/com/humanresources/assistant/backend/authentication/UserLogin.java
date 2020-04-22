@@ -1,46 +1,28 @@
 package com.humanresources.assistant.backend.authentication;
 
-import static java.util.Objects.requireNonNull;
-
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
-import com.vaadin.flow.server.VaadinService;
-import java.util.LinkedHashMap;
-import javax.servlet.http.Cookie;
+import com.humanresources.assistant.restclient.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 public class UserLogin implements AccessData {
 
     @Autowired
-    private RestTemplate restTemplate;
+    WebClient webClient;
 
-    @Value ("${app.baseUrl}")
-    private String baseUrl;
-
-    @Value ("${app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    @Autowired
+    LoginService loginService;
 
     @Override
     public boolean signIn(String username, String password) {
-        final LinkedHashMap responses;
-        final String url = baseUrl + "signin";
         final LoginRequest loginRequest = LoginRequest.builder()
             .username(username)
             .password(password)
             .build();
 
-        try {
-            responses = (LinkedHashMap) restTemplate.postForObject(url, loginRequest, Object.class);
-        } catch (Exception e) {
-            return false;
-        }
-        final String token = (String) requireNonNull(responses).get("token");
-        Cookie authenticationCookie = new Cookie("Authentication", token);
-        authenticationCookie.setMaxAge(jwtExpirationMs / 1000);
-        VaadinService.getCurrentResponse().addCookie(authenticationCookie);
+        loginService.login(loginRequest);
         CurrentUser.set(username);
         return true;
     }
