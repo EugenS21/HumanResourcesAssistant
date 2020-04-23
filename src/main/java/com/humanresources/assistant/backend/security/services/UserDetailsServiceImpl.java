@@ -1,7 +1,7 @@
 package com.humanresources.assistant.backend.security.services;
 
 import com.humanresources.assistant.backend.entity.authentication.User;
-import com.humanresources.assistant.backend.repository.authentication.IUserRepository;
+import com.humanresources.assistant.backend.repository.authentication.UserRepository;
 import javax.transaction.Transactional;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    IUserRepository userRepository;
+    UserRepository userRepository;
 
     @Override
     @Transactional

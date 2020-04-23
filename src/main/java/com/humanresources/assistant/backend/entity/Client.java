@@ -2,11 +2,9 @@ package com.humanresources.assistant.backend.entity;
 
 import static com.humanresources.assistant.backend.entity.Client.TABLE_NAME;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,7 +33,6 @@ public class Client {
     @NotNull
     private String countryName;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn (name = "project_id", referencedColumnName = "id")
+    @OneToOne (mappedBy = "client")
     private Project project;
 }

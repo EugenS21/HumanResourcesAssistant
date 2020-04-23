@@ -2,7 +2,6 @@ package com.humanresources.assistant.backend.entity;
 
 import com.humanresources.assistant.backend.entity.authentication.User;
 import java.time.LocalDate;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,13 +17,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = Employee.TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
 @Builder
 public class Employee {
@@ -56,7 +51,8 @@ public class Employee {
     private Boolean isFired;
 
     @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn (name = "user_id", referencedColumnName = "id")
+    @JoinColumn (name = "user_id", unique = true, nullable = false,
+                 updatable = false, referencedColumnName = "id")
     private User user;
 
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
@@ -71,10 +67,9 @@ public class Employee {
     @JoinColumn (name = "project_id", nullable = false)
     private Project project;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable (name = "t_employee_grade",
-                joinColumns = @JoinColumn (name = "employee_id"),
-                inverseJoinColumns = @JoinColumn (name = "grade_id"))
-    private Set<Grade> grades;
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn (name = "grade_id", unique = true, nullable = false,
+                 updatable = false, referencedColumnName = "id")
+    private Grade grades;
 
 }

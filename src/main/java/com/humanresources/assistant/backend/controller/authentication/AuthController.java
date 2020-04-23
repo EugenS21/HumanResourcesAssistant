@@ -12,7 +12,7 @@ import com.humanresources.assistant.backend.payload.request.SignUpRequest;
 import com.humanresources.assistant.backend.payload.response.JwtResponse;
 import com.humanresources.assistant.backend.payload.response.MessageResponse;
 import com.humanresources.assistant.backend.repository.authentication.IRoleRepository;
-import com.humanresources.assistant.backend.repository.authentication.IUserRepository;
+import com.humanresources.assistant.backend.repository.authentication.UserRepository;
 import com.humanresources.assistant.backend.security.jwt.JwtUtils;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +38,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    IUserRepository userRepository;
+    UserRepository userRepository;
 
     @Autowired
     IRoleRepository roleRepository;

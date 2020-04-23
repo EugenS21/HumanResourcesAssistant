@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,8 @@ public class Project {
     @OneToMany (mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Employee> employees;
 
-    @OneToOne (mappedBy = "project")
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn (name = "client_id", referencedColumnName = "id",
+                 unique = true, nullable = false, updatable = false)
     private Client client;
 }
