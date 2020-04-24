@@ -1,6 +1,7 @@
 package com.humanresources.assistant.ui;
 
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL;
+import static com.vaadin.flow.component.icon.VaadinIcon.AIRPLANE;
 import static com.vaadin.flow.component.icon.VaadinIcon.BOOK_PERCENT;
 import static com.vaadin.flow.component.icon.VaadinIcon.CALENDAR_USER;
 import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
@@ -12,6 +13,7 @@ import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER;
 
 import com.humanresources.assistant.ui.bonuses.BonusesManagement;
+import com.humanresources.assistant.ui.crudgrids.ClientCrud;
 import com.humanresources.assistant.ui.crudgrids.DepartmentsCrud;
 import com.humanresources.assistant.ui.crudgrids.UsersCrud;
 import com.humanresources.assistant.ui.cvs.CVs;
@@ -73,6 +75,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
         addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, CALENDAR_USER));
         addToDrawer(createMenuLink(UsersCrud.class, UsersCrud.VIEW_NAME, USER));
         addToDrawer(createMenuLink(DepartmentsCrud.class, DepartmentsCrud.VIEW_NAME, INSTITUTION));
+        addToDrawer(createMenuLink(ClientCrud.class, ClientCrud.VIEW_NAME, AIRPLANE));
 
         logoutButton = createMenuButton("Logout", SIGN_OUT);
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");

@@ -30,7 +30,7 @@ public class Department {
     protected final static String TABLE_NAME = "t_department";
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
