@@ -1,13 +1,11 @@
 package com.humanresources.assistant.ui.employees;
 
-import static com.humanresources.assistant.backend.functions.GenericFunctions.convertDepartmentModelToEntity;
 import static java.util.stream.Stream.of;
 
 import com.humanresources.assistant.backend.entity.Employee;
 import com.humanresources.assistant.restclient.service.DepartmentRestService;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.Route;
@@ -72,7 +70,7 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-        departmentList = departmentRestService.getObjects();
+//        departmentList = departmentRestService.getObjects();
     }
 
     private GridCrud<Employee> getInitializedGrid() {
@@ -96,15 +94,15 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
             operation -> {
                 switch (operation) {
                     case ADD:
-                        crudFormFactory.setVisibleProperties(operation, propertiesName);
-                        final List<com.humanresources.assistant.backend.entity.Department> departmentsEntities
-                            = convertDepartmentModelToEntity.apply(departmentList);
-                        crudFormFactory.setFieldProvider("department", () -> {
-                            Select<com.humanresources.assistant.backend.entity.Department> departments = new Select<>();
-                            departments.setItems(departmentsEntities);
-                            departments.setItemLabelGenerator(com.humanresources.assistant.backend.entity.Department::getName);
-                            return departments;
-                        });
+//                        crudFormFactory.setVisibleProperties(operation, propertiesName);
+//                        final List<com.humanresources.assistant.backend.entity.Department> departmentsEntities
+//                            = convertDepartmentModelToEntity.apply(departmentList);
+//                        crudFormFactory.setFieldProvider("department", () -> {
+//                            Select<com.humanresources.assistant.backend.entity.Department> departments = new Select<>();
+//                            departments.setItems(departmentsEntities);
+//                            departments.setItemLabelGenerator(com.humanresources.assistant.backend.entity.Department::getName);
+//                            return departments;
+//                        });
                         break;
                     case DELETE:
                         crudFormFactory.setVisibleProperties(operation, deleteProperties);
