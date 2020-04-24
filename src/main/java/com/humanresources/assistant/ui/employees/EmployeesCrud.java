@@ -11,7 +11,6 @@ import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.Route;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
@@ -26,7 +25,7 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
     @Autowired
     DepartmentRestService departmentRestService;
 
-    private List<com.humanresources.assistant.restclient.model.Department> departmentList;
+//    private List<com.humanresources.assistant.restclient.model.Department> departmentList;
 //    private List<Location> locationList;
 //    private List<Project> projectList;
 //    private List<Grade> gradeList;

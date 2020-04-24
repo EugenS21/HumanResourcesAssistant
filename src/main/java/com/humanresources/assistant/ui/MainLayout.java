@@ -2,21 +2,24 @@ package com.humanresources.assistant.ui;
 
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL;
 import static com.vaadin.flow.component.icon.VaadinIcon.BOOK_PERCENT;
+import static com.vaadin.flow.component.icon.VaadinIcon.CALENDAR_USER;
 import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
 import static com.vaadin.flow.component.icon.VaadinIcon.DIPLOMA;
+import static com.vaadin.flow.component.icon.VaadinIcon.INSTITUTION;
 import static com.vaadin.flow.component.icon.VaadinIcon.NEWSPAPER;
 import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER;
 
 import com.humanresources.assistant.ui.bonuses.BonusesManagement;
+import com.humanresources.assistant.ui.crudgrids.DepartmentsCrud;
+import com.humanresources.assistant.ui.crudgrids.UsersCrud;
 import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.cvs.Generator;
 import com.humanresources.assistant.ui.employees.EmployeesCrud;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.humanresources.assistant.ui.mainpage.MainPage;
 import com.humanresources.assistant.ui.requests.RequestsManagement;
-import com.humanresources.assistant.ui.users.UsersCrud;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -67,8 +70,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
         addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));
         addToDrawer(createMenuLink(CVs.class, CVs.VIEW_NAME, DIPLOMA));
-        addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, VaadinIcon.CALENDAR_USER));
+        addToDrawer(createMenuLink(EmployeesCrud.class, EmployeesCrud.VIEW_NAME, CALENDAR_USER));
         addToDrawer(createMenuLink(UsersCrud.class, UsersCrud.VIEW_NAME, USER));
+        addToDrawer(createMenuLink(DepartmentsCrud.class, DepartmentsCrud.VIEW_NAME, INSTITUTION));
 
         logoutButton = createMenuButton("Logout", SIGN_OUT);
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");

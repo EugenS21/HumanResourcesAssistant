@@ -1,11 +1,11 @@
 package com.humanresources.assistant.restclient.service;
 
+import com.humanresources.assistant.backend.dto.DepartmentDto;
 import com.humanresources.assistant.restclient.CommonService;
-import com.humanresources.assistant.restclient.model.Department;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DepartmentRestService extends CommonService<Department> {
+public class DepartmentRestService extends CommonService<DepartmentDto> {
 
     public static final String DEPARTMENT = "department";
 
@@ -15,7 +15,7 @@ public class DepartmentRestService extends CommonService<Department> {
     }
 
     @Override
-    public Class<Department> getResponseClass() {
-        return Department.class;
+    public Class<DepartmentDto> getResponseClass() {
+        return DepartmentDto.class;
     }
 }

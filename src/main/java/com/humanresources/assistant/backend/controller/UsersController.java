@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,10 +31,10 @@ public class UsersController {
             .body(userService.getAllUsers());
     }
 
-    @DeleteMapping (value = "/user", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping (value = "/user/{id}", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAuthority('admin')")
     @ResponseBody
-    public ResponseEntity<?> deleteUser(@RequestParam ("id") Long userId) {
+    public ResponseEntity<?> deleteUser(@PathVariable (name = "id") Long userId) {
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok()

@@ -1,7 +1,6 @@
 package com.humanresources.assistant.restclient;
 
-import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -31,23 +30,29 @@ public abstract class CommonService<T> {
             .block();
     }
 
-    public T postObject() {
-        return null;
+    public T postObject(T body) {
+        return restClient.post()
+            .uri(getURI())
+            .body(fromValue(body))
+            .retrieve()
+            .bodyToMono(getResponseClass())
+            .block();
     }
 
-    public T putObject() {
-        return null;
+    public <U extends Number> T putObject(U id, T body) {
+        return restClient.put()
+            .uri(getURI() + "/{id}", id)
+            .body(fromValue(body))
+            .retrieve()
+            .bodyToMono(getResponseClass())
+            .block();
     }
 
     public void deleteObject(String id) {
-        logger.info(
-            requireNonNull(
-                restClient.delete()
-                    .uri(format("%s?id=%s", getURI(), id))
-                    .exchange()
-                    .block())
-                .statusCode()
-                .getReasonPhrase());
+        restClient.delete()
+            .uri(getURI() + "/{id}", id)
+            .exchange()
+            .block();
     }
 
 }

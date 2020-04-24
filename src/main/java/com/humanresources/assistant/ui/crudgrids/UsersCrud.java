@@ -1,6 +1,6 @@
-package com.humanresources.assistant.ui.users;
+package com.humanresources.assistant.ui.crudgrids;
 
-import static com.humanresources.assistant.ui.users.UsersCrud.VIEW_NAME;
+import static com.humanresources.assistant.ui.crudgrids.UsersCrud.VIEW_NAME;
 import static java.util.Arrays.stream;
 import static java.util.stream.Stream.of;
 
