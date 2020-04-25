@@ -1,6 +1,7 @@
 package com.humanresources.assistant.backend.entity;
 
 import static com.humanresources.assistant.backend.entity.Leave.TABLE_NAME;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Leave {
     protected static final String TABLE_NAME = "t_leave";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = IDENTITY)
     private Integer id;
 
     @NotNull

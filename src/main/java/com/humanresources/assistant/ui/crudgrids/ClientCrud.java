@@ -86,7 +86,7 @@ public class ClientCrud extends VerticalLayout {
 
     private String[] getPropertiesName() {
         return of(ClientDto.class.getDeclaredFields())
-            .filter(field -> field.getModifiers() == PRIVATE)
+            .filter(field -> field.getModifiers() == PRIVATE && !field.getName().equals("id"))
             .map(Field::getName)
             .toArray(String[]::new);
     }

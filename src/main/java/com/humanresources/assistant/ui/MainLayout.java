@@ -7,6 +7,7 @@ import static com.vaadin.flow.component.icon.VaadinIcon.CLOUD_UPLOAD;
 import static com.vaadin.flow.component.icon.VaadinIcon.DIPLOMA;
 import static com.vaadin.flow.component.icon.VaadinIcon.INSTITUTION;
 import static com.vaadin.flow.component.icon.VaadinIcon.NEWSPAPER;
+import static com.vaadin.flow.component.icon.VaadinIcon.POINTER;
 import static com.vaadin.flow.component.icon.VaadinIcon.PRESENTATION;
 import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
@@ -17,6 +18,7 @@ import com.humanresources.assistant.ui.bonuses.BonusesManagement;
 import com.humanresources.assistant.ui.crudgrids.ClientCrud;
 import com.humanresources.assistant.ui.crudgrids.DepartmentsCrud;
 import com.humanresources.assistant.ui.crudgrids.EmployeesCrud;
+import com.humanresources.assistant.ui.crudgrids.GradeCrud;
 import com.humanresources.assistant.ui.crudgrids.ProjectCrud;
 import com.humanresources.assistant.ui.crudgrids.UsersCrud;
 import com.humanresources.assistant.ui.cvs.CVs;
@@ -79,6 +81,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
         addToDrawer(createMenuLink(DepartmentsCrud.class, DepartmentsCrud.VIEW_NAME, INSTITUTION));
         addToDrawer(createMenuLink(ClientCrud.class, ClientCrud.VIEW_NAME, USER_CHECK));
         addToDrawer(createMenuLink(ProjectCrud.class, ProjectCrud.VIEW_NAME, PRESENTATION));
+        addToDrawer(createMenuLink(GradeCrud.class, GradeCrud.VIEW_NAME, POINTER));
 
         logoutButton = createMenuButton("Logout", SIGN_OUT);
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");

@@ -85,7 +85,7 @@ public class DepartmentsCrud extends VerticalLayout {
 
     private String[] getPropertiesName() {
         return of(DepartmentDto.class.getDeclaredFields())
-            .filter(field -> field.getModifiers() == PRIVATE)
+            .filter(field -> field.getModifiers() == PRIVATE && !field.getName().equals("id"))
             .map(Field::getName)
             .toArray(String[]::new);
     }

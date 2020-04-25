@@ -97,7 +97,7 @@ public class UsersCrud extends VerticalLayout {
         return of(UserDto.class.getDeclaredFields())
             .filter(field -> field.getModifiers() == PRIVATE)
             .map(Field::getName)
-            .filter(field -> !field.equals("password"))
+            .filter(field -> !field.equals("password") && !field.equals("id"))
             .toArray(String[]::new);
     }
 }

@@ -4,6 +4,7 @@ import static com.humanresources.assistant.backend.entity.authentication.Role.TA
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class Role {
     protected static final String TABLE_NAME = "t_role";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

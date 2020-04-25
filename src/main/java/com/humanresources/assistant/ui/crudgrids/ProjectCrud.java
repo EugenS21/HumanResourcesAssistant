@@ -80,7 +80,6 @@ public class ProjectCrud extends VerticalLayout implements AfterNavigationObserv
         projectGrid.getGrid().setMultiSort(true);
         projectGrid.setUpdateOperationVisible(false);
         projectGrid.setShowNotifications(true);
-        projectGrid.setClickRowToUpdate(true);
         projectGrid.setDeletedMessage("Selected item was removed successfully");
         projectGrid.setSavedMessage("Project was added successfully");
         setColumnsVisibility(projectGrid, propertiesName);
@@ -132,7 +131,7 @@ public class ProjectCrud extends VerticalLayout implements AfterNavigationObserv
     private String[] getPropertiesName() {
         return of(ProjectDto.class.getDeclaredFields())
             .filter(field -> field.getModifiers() == PRIVATE)
-            .filter(field -> !field.getName().equals("client"))
+            .filter(field -> !field.getName().equals("client") && !field.getName().equals("id"))
             .map(Field::getName)
             .toArray(String[]::new);
     }
