@@ -2,8 +2,8 @@ package com.humanresources.assistant.backend.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.humanresources.assistant.backend.dto.DepartmentDto;
-import com.humanresources.assistant.backend.service.DepartmentService;
+import com.humanresources.assistant.backend.dto.LocationDto;
+import com.humanresources.assistant.backend.service.LocationService;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -19,37 +19,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DepartmentController {
+public class LocationController {
 
-    private final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
+    private final Logger logger = LoggerFactory.getLogger(LocationController.class);
 
     @Autowired
-    DepartmentService departmentService;
+    LocationService locationService;
 
-    @GetMapping (value = "/department", produces = APPLICATION_JSON_VALUE)
+    @GetMapping (value = "/location", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAnyAuthority('hr','admin')")
-    public ResponseEntity<List<DepartmentDto>> getAllDepartments() {
+    public ResponseEntity<List<LocationDto>> getAllLocations() {
         return ResponseEntity.ok()
-            .body(departmentService.getAllDepartments());
+            .body(locationService.getAllLocations());
     }
 
-    @PostMapping (value = "/department", produces = APPLICATION_JSON_VALUE)
+    @PostMapping (value = "/location", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAuthority('admin')")
-    public ResponseEntity<DepartmentDto> postNewDepartment(@Valid @RequestBody DepartmentDto department) {
+    public ResponseEntity<LocationDto> postNewLocation(@Valid @RequestBody LocationDto location) {
         try {
-            departmentService.saveDepartment(department);
-            return ResponseEntity.ok().body(department);
+            locationService.saveLocation(location);
+            return ResponseEntity.ok().body(location);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(department);
+            return ResponseEntity.badRequest().body(location);
         }
     }
 
-    @DeleteMapping (value = "/department/{id}")
+    @DeleteMapping (value = "/location/{id}")
     @PreAuthorize ("hasAuthority('admin')")
-    public ResponseEntity<String> deleteDepartment(@PathVariable (name = "id") @Valid Integer id) {
+    public ResponseEntity<String> deleteLocation(@PathVariable (name = "id") @Valid Integer id) {
         try {
-            departmentService.deleteDepartment(id);
-            return ResponseEntity.ok().body("Department was removed");
+            locationService.deleteLocation(id);
+            return ResponseEntity.ok().body("Location was removed");
         } catch (Exception e) {
             logger.info("DELETE request could not be executed {}", e);
             return ResponseEntity.badRequest().body("Could not remove");

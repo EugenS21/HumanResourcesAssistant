@@ -67,6 +67,7 @@ public class GradeCrud extends VerticalLayout {
         GridCrud<GradeDto> gradeGrid = new GridCrud<>(GradeDto.class);
         final String[] propertiesName = getPropertiesName();
         setColumnsVisibility(gradeGrid, propertiesName);
+        gradeGrid.setUpdateOperationVisible(false);
         setFieldsVisibilityInCrudOperations(gradeGrid, propertiesName);
         return gradeGrid;
     }

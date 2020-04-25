@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class Location {
 
     protected static final String TABLE_NAME = "t_location";
@@ -32,4 +34,5 @@ public class Location {
 
     @NotNull
     private String city;
+
 }
