@@ -1,6 +1,7 @@
 package com.humanresources.assistant.ui.crudgrids;
 
 import static com.humanresources.assistant.ui.crudgrids.UsersCrud.VIEW_NAME;
+import static java.lang.reflect.Modifier.PRIVATE;
 import static java.util.Arrays.stream;
 import static java.util.stream.Stream.of;
 import static org.vaadin.crudui.crud.CrudOperation.values;
@@ -84,7 +85,7 @@ public class DepartmentsCrud extends VerticalLayout {
 
     private String[] getPropertiesName() {
         return of(DepartmentDto.class.getDeclaredFields())
-            .filter(field -> field.getModifiers() == 2)
+            .filter(field -> field.getModifiers() == PRIVATE)
             .map(Field::getName)
             .toArray(String[]::new);
     }

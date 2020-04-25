@@ -2,11 +2,13 @@ package com.humanresources.assistant.backend.entity;
 
 import static com.humanresources.assistant.backend.entity.Client.TABLE_NAME;
 
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,7 +37,10 @@ public class Client {
 
     @NotNull
     private String countryName;
+//
+//    @OneToOne (mappedBy = "client")
+//    private Project project;
 
-    @OneToOne (mappedBy = "client")
-    private Project project;
+    @OneToMany (mappedBy = "client", fetch = FetchType.LAZY)
+    private Set<Project> projects;
 }

@@ -1,5 +1,6 @@
-package com.humanresources.assistant.ui.employees;
+package com.humanresources.assistant.ui.crudgrids;
 
+import static java.lang.reflect.Modifier.PRIVATE;
 import static java.util.stream.Stream.of;
 
 import com.humanresources.assistant.backend.entity.Employee;
@@ -118,7 +119,7 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     private String[] getPropertiesName() {
         return of(Employee.class.getDeclaredFields())
-            .filter(field -> field.getModifiers() == 2)
+            .filter(field -> field.getModifiers() == PRIVATE)
             .map(Field::getName)
             .filter(field -> !field.equals("id") && !field.equals("user"))
             .toArray(String[]::new);

@@ -4,12 +4,10 @@ import com.humanresources.assistant.backend.entity.authentication.User;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -55,19 +53,22 @@ public class Employee {
                  updatable = false, referencedColumnName = "id")
     private User user;
 
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
-    @JoinColumn (name = "department_id", nullable = false)
+    @OneToOne
+    @JoinColumn (name = "department_id", unique = true, nullable = false,
+                 updatable = false, referencedColumnName = "id")
     private Department department;
 
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
-    @JoinColumn (name = "location_id", nullable = false)
+    @OneToOne
+    @JoinColumn (name = "location_id", unique = true, nullable = false,
+                 updatable = false, referencedColumnName = "id")
     private Location location;
 
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
-    @JoinColumn (name = "project_id", nullable = false)
+    @OneToOne
+    @JoinColumn (name = "project_id", unique = true, nullable = false,
+                 updatable = false, referencedColumnName = "id")
     private Project project;
 
-    @OneToOne (cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn (name = "grade_id", unique = true, nullable = false,
                  updatable = false, referencedColumnName = "id")
     private Grade grades;

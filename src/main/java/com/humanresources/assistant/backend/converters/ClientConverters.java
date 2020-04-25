@@ -27,6 +27,7 @@ public class ClientConverters extends Generic<Client, ClientDto> {
     @Override
     protected Function<ClientDto, Client> convertDtoToEntity() {
         return client -> Client.builder()
+            .id(client.getId())
             .countryName(client.getCountryName())
             .clientName(client.getClientName())
             .build();

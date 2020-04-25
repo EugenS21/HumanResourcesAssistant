@@ -1,6 +1,7 @@
 package com.humanresources.assistant.ui.crudgrids;
 
 import static com.humanresources.assistant.ui.crudgrids.UsersCrud.VIEW_NAME;
+import static java.lang.reflect.Modifier.PRIVATE;
 import static java.util.Arrays.stream;
 import static java.util.stream.Stream.of;
 
@@ -94,7 +95,7 @@ public class UsersCrud extends VerticalLayout {
 
     private String[] getPropertiesName() {
         return of(UserDto.class.getDeclaredFields())
-            .filter(field -> field.getModifiers() == 2)
+            .filter(field -> field.getModifiers() == PRIVATE)
             .map(Field::getName)
             .filter(field -> !field.equals("password"))
             .toArray(String[]::new);
