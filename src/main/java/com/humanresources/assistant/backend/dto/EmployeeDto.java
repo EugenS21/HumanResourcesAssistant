@@ -1,40 +1,62 @@
 package com.humanresources.assistant.backend.dto;
 
-import com.humanresources.assistant.backend.entity.Department;
-import com.humanresources.assistant.backend.entity.Grade;
-import com.humanresources.assistant.backend.entity.Location;
-import com.humanresources.assistant.backend.entity.Project;
-import com.humanresources.assistant.backend.entity.authentication.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDto {
 
-    private final Integer id;
+    @JsonProperty ("id")
+    private Integer id;
 
-    private final String firstName;
+    @JsonProperty ("firstName")
+    private String firstName;
 
-    private final String secondName;
+    @JsonProperty ("secondName")
+    private String secondName;
 
-    private final LocalDate birthDate;
+    @JsonProperty ("birthDate")
+    @JsonSerialize (using = LocalDateSerializer.class)
+    @JsonDeserialize (using = LocalDateDeserializer.class)
+    private LocalDate birthDate;
 
-    private final LocalDate dateOfEmployment;
+    @JsonProperty ("dateOfEmployment")
+    @JsonSerialize (using = LocalDateSerializer.class)
+    @JsonDeserialize (using = LocalDateDeserializer.class)
+    private LocalDate dateOfEmployment;
 
-    private final Integer salary;
+    @JsonProperty ("salary")
+    private Integer salary;
 
-    private final Boolean isFired;
+    @JsonProperty ("isFired")
+    private Boolean isFired;
 
-    private final User user;
+    @JsonProperty ("user")
+    private UserDto user;
 
-    private final Department department;
+    @JsonProperty ("department")
+    private DepartmentDto department;
 
-    private final Location location;
+    @JsonProperty ("location")
+    private LocationDto location;
 
-    private final Project project;
+    @JsonProperty ("project")
+    private ProjectDto project;
 
-    private final Grade grades;
+    @JsonProperty ("grades")
+    private GradeDto grade;
 
 }

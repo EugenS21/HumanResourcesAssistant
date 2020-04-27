@@ -27,7 +27,7 @@ public class EmployeesController {
     EmployeesService employeesService;
 
     @RequestMapping (method = GET, value = "/employee", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAnyAuthority('hr')")
+    @PreAuthorize ("hasAuthority('hr')")
     @ResponseBody
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         return ResponseEntity.ok()
@@ -36,13 +36,13 @@ public class EmployeesController {
     }
 
     @RequestMapping (method = POST, value = "/employee", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAnyAuthority('hr')")
+    @PreAuthorize ("hasAuthority('hr')")
     public void postNewEmployee(@RequestBody EmployeeDto employee) {
         employeesService.saveUser(employee);
     }
 
     @RequestMapping (method = GET, value = "/employee/{id}", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAnyAuthority('hr')")
+    @PreAuthorize ("hasAuthority('hr')")
     @ResponseBody
     public ResponseEntity<EmployeeDto> getEmployee(@RequestParam ("id") @PathVariable ("id") String employeeId) {
         return ResponseEntity.ok()
@@ -51,13 +51,13 @@ public class EmployeesController {
     }
 
     @RequestMapping (method = DELETE, value = "/employee", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAnyAuthority('hr')")
+    @PreAuthorize ("hasAuthority('hr')")
     public void deleteEmployee(@RequestParam ("id") String employeeId) {
         employeesService.deleteEmployee(employeeId);
     }
 
     @RequestMapping (method = PUT, value = "/employee", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAnyAuthority('hr')")
+    @PreAuthorize ("hasAuthority('hr')")
     public void deleteEmployee(@RequestParam ("id") String employeeId, EmployeeDto employeeDto) {
         employeesService.deleteEmployee(employeeId);
         employeesService.saveUser(employeeDto);

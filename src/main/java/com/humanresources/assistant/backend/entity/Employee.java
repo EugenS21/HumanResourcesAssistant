@@ -4,6 +4,7 @@ import com.humanresources.assistant.backend.entity.authentication.User;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,29 +49,25 @@ public class Employee {
     @NotNull
     private Boolean isFired;
 
-    @OneToOne (cascade = CascadeType.ALL)
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn (name = "user_id", unique = true, nullable = false,
                  updatable = false, referencedColumnName = "id")
     private User user;
 
-    @OneToOne
-    @JoinColumn (name = "department_id", unique = true, nullable = false,
-                 updatable = false, referencedColumnName = "id")
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn (name = "department_id")
     private Department department;
 
-    @OneToOne
-    @JoinColumn (name = "location_id", unique = true, nullable = false,
-                 updatable = false, referencedColumnName = "id")
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn (name = "location_id")
     private Location location;
 
-    @OneToOne
-    @JoinColumn (name = "project_id", unique = true, nullable = false,
-                 updatable = false, referencedColumnName = "id")
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn (name = "project_id")
     private Project project;
 
-    @OneToOne
-    @JoinColumn (name = "grade_id", unique = true, nullable = false,
-                 updatable = false, referencedColumnName = "id")
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn (name = "grade_id")
     private Grade grades;
 
 }

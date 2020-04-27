@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 public class UserConverters extends Generic<User, UserDto> {
 
     public Function<List<User>, List<UserDto>> convertUserEntityListToDto = convertListEntitiesToDto();
+    public Function<User, UserDto> convertUserEntityToDto = convertEntityToDto();
+    public Function<UserDto, User> convertUserDtoToEntity = convertDtoToEntity();
+
 
     @Override
     protected Function<User, UserDto> convertEntityToDto() {
@@ -23,7 +26,11 @@ public class UserConverters extends Generic<User, UserDto> {
 
     @Override
     protected Function<UserDto, User> convertDtoToEntity() {
-        return null;
+        return user -> User.builder()
+            .id(user.getId())
+            .username(user.getUsername())
+            .email(user.getEmail())
+            .build();
     }
 
     @Override
@@ -35,7 +42,9 @@ public class UserConverters extends Generic<User, UserDto> {
 
     @Override
     protected Function<List<UserDto>, List<User>> convertListDtoToEntities() {
-        return null;
+        return users -> users.stream()
+            .map(user -> convertDtoToEntity().apply(user))
+            .collect(Collectors.toList());
     }
 
 }

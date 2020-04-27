@@ -23,7 +23,7 @@ public class UsersController {
     UsersService userService;
 
     @GetMapping (value = "/user", produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize ("hasAuthority('admin')")
+    @PreAuthorize ("hasAnyAuthority('admin','hr')")
     @ResponseBody
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok()
