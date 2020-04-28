@@ -10,6 +10,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import com.humanresources.assistant.backend.dto.EmployeeDto;
 import com.humanresources.assistant.backend.service.EmployeesService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,21 +45,21 @@ public class EmployeesController {
     @RequestMapping (method = GET, value = "/employee/{id}", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAuthority('hr')")
     @ResponseBody
-    public ResponseEntity<EmployeeDto> getEmployee(@RequestParam ("id") @PathVariable ("id") String employeeId) {
+    public ResponseEntity<EmployeeDto> getEmployee(@RequestParam ("id") @PathVariable ("id") Integer employeeId) {
         return ResponseEntity.ok()
             .contentType(APPLICATION_JSON)
             .body(employeesService.findById(employeeId));
     }
 
-    @RequestMapping (method = DELETE, value = "/employee", produces = APPLICATION_JSON_VALUE)
+    @RequestMapping (method = DELETE, value = "/employee/{id}", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAuthority('hr')")
-    public void deleteEmployee(@RequestParam ("id") String employeeId) {
+    public void deleteEmployee(@PathVariable (name = "id") @Valid Integer employeeId) {
         employeesService.deleteEmployee(employeeId);
     }
 
     @RequestMapping (method = PUT, value = "/employee", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize ("hasAuthority('hr')")
-    public void deleteEmployee(@RequestParam ("id") String employeeId, EmployeeDto employeeDto) {
+    public void deleteEmployee(@RequestParam ("id") Integer employeeId, EmployeeDto employeeDto) {
         employeesService.deleteEmployee(employeeId);
         employeesService.saveUser(employeeDto);
     }

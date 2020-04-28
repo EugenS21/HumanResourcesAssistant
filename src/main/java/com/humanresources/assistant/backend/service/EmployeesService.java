@@ -31,12 +31,12 @@ public class EmployeesService {
     }
 
     @SneakyThrows
-    public EmployeeDto findById(String employeeId) {
+    public EmployeeDto findById(Integer employeeId) {
         final Optional<Employee> foundEmployee = employeeRepository.findById(employeeId);
         return employeeConverters.convertEmployeeEntityToDto.apply(foundEmployee.orElseThrow(EmployeeNotFound::new));
     }
 
-    public void deleteEmployee(String employeeId) {
+    public void deleteEmployee(Integer employeeId) {
         employeeRepository.deleteById(employeeId);
     }
 
