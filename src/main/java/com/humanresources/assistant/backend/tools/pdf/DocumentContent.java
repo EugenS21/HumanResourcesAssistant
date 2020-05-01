@@ -2,8 +2,8 @@ package com.humanresources.assistant.backend.tools.pdf;
 
 import static com.humanresources.assistant.backend.tools.other.FileParser.getAboutJob;
 
-import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.enums.Grade;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
+import com.humanresources.assistant.backend.enums.GradeEnum;
 import com.humanresources.assistant.backend.tools.other.FileParser;
 import com.vaadin.flow.component.select.Select;
 import java.util.List;
@@ -37,7 +37,7 @@ public class DocumentContent {
         this.benefits = null;
     }
 
-    public DocumentContent(Select<Department> department, Select<Grade> grade) {
+    public DocumentContent(Select<DepartmentEnum> department, Select<GradeEnum> grade) {
         if (department != null && grade != null) {
             final String gradeName = grade.getValue().getName().toUpperCase();
             final String departmentName = department.getValue().getName().toUpperCase();

@@ -17,7 +17,7 @@ public class GradeDto {
     @JsonProperty ("id")
     private Integer id;
 
-    @JsonProperty ("name")
-    private String name;
+    @JsonProperty ("grade")
+    private String grade;
 
 }

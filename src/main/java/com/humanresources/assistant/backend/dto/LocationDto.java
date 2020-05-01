@@ -15,7 +15,7 @@ import lombok.Setter;
 public class LocationDto {
 
     @JsonProperty ("id")
-    private Integer id;
+    private Long id;
 
     @JsonProperty ("countryName")
     private String countryName;

@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.model;
 
-import com.humanresources.assistant.backend.enums.RequestType;
+import com.humanresources.assistant.backend.enums.LeaveTypeEnum;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +15,5 @@ public class Request {
     private final String lastName;
     private final LocalDate firstDate;
     private final LocalDate lastDate;
-    private final RequestType requestType;
+    private final LeaveTypeEnum requestType;
 }

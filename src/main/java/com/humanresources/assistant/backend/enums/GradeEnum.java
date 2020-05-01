@@ -2,7 +2,7 @@ package com.humanresources.assistant.backend.enums;
 
 import lombok.Getter;
 
-public enum Grade {
+public enum GradeEnum {
 
     J(1, "Junior"),
     T(2, "Technician"),
@@ -10,12 +10,12 @@ public enum Grade {
     E(4, "Engineer"),
     A(5, "Architect");
 
-    private Integer id;
+    private final Integer id;
 
     @Getter
-    private String name;
+    private final String name;
 
-    Grade(Integer id, String name) {
+    GradeEnum(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

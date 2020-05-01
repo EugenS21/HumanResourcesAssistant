@@ -18,10 +18,10 @@ public class FileService {
 
     public File storeFile(MultipartFile multipartFile) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        File file;
+        File fileEntity;
         try {
-            file = new File(fileName, multipartFile.getContentType(), multipartFile.getBytes());
-            return iFileRepository.save(file);
+            fileEntity = new File(fileName, multipartFile.getContentType(), multipartFile.getBytes());
+            return iFileRepository.save(fileEntity);
         } catch (IOException ignored) {return null;}
     }
 

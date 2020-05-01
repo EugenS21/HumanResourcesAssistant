@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.entity.authentication;
 
-import static com.humanresources.assistant.backend.entity.authentication.User.TABLE_NAME;
+import static com.humanresources.assistant.backend.entity.authentication.UserEntity.TABLE_NAME;
 
 import java.util.Set;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class User {
+public class UserEntity {
 
     protected static final String TABLE_NAME = "t_user";
 
@@ -51,9 +51,9 @@ public class User {
     @JoinTable (name = "t_user_role",
                 joinColumns = @JoinColumn (name = "user_id"),
                 inverseJoinColumns = @JoinColumn (name = "role_id"))
-    private Set<Role> roles;
+    private Set<RoleEntity> roles;
 
-    public User(String username, String email, String password) {
+    public UserEntity(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;

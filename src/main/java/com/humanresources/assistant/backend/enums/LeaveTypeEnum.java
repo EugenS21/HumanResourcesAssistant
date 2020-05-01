@@ -1,6 +1,6 @@
 package com.humanresources.assistant.backend.enums;
 
-public enum RequestType {
+public enum LeaveTypeEnum {
     /**
      * Anual leave, paid
      */

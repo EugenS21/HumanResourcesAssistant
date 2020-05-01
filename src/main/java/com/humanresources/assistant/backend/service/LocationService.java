@@ -4,7 +4,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import com.humanresources.assistant.backend.converters.LocationConverters;
 import com.humanresources.assistant.backend.dto.LocationDto;
-import com.humanresources.assistant.backend.entity.Location;
+import com.humanresources.assistant.backend.entity.LocationEntity;
 import com.humanresources.assistant.backend.exceptions.LocationNotFound;
 import com.humanresources.assistant.backend.repository.LocationRepository;
 import java.util.List;
@@ -32,11 +32,11 @@ public class LocationService {
 
     @SneakyThrows
     public LocationDto updateLocation(Integer id, LocationDto locationDto) {
-        final Location foundLocation = locationRepository.findById(id).orElseThrow(LocationNotFound::new);
-        foundLocation.setCity(locationDto.getCity());
-        foundLocation.setCountryName(locationDto.getCountryName());
-        locationRepository.save(foundLocation);
-        return locationConverters.convertLocationEntityToDto.apply(foundLocation);
+        final LocationEntity foundLocationEntity = locationRepository.findById(id).orElseThrow(LocationNotFound::new);
+        foundLocationEntity.setCity(locationDto.getCity());
+        foundLocationEntity.setCountryName(locationDto.getCountryName());
+        locationRepository.save(foundLocationEntity);
+        return locationConverters.convertLocationEntityToDto.apply(foundLocationEntity);
     }
 
     public void deleteLocation(Integer id) {

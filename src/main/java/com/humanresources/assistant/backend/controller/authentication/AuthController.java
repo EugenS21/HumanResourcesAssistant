@@ -5,8 +5,8 @@ import static com.humanresources.assistant.backend.enums.ERole.HR;
 import static com.humanresources.assistant.backend.enums.ERole.HR_ASSISTANT;
 import static com.humanresources.assistant.backend.enums.ERole.USER;
 
-import com.humanresources.assistant.backend.entity.authentication.Role;
-import com.humanresources.assistant.backend.entity.authentication.User;
+import com.humanresources.assistant.backend.entity.authentication.RoleEntity;
+import com.humanresources.assistant.backend.entity.authentication.UserEntity;
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
 import com.humanresources.assistant.backend.payload.request.SignUpRequest;
 import com.humanresources.assistant.backend.payload.response.JwtResponse;
@@ -83,13 +83,13 @@ public class AuthController {
         }
 
         final String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encodedPassword);
+        UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(), encodedPassword);
 
         Set<String> requestRole = signUpRequest.getRoles();
-        Set<Role> roles = new HashSet<>();
+        Set<RoleEntity> roles = new HashSet<>();
 
         if (requestRole == null) {
-            Role userRole =
+            RoleEntity userRole =
                 roleRepository
                     .findByNameLike(USER.toString())
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -98,17 +98,17 @@ public class AuthController {
             requestRole.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByNameLike(ADMIN.toString())
+                        RoleEntity adminRole = roleRepository.findByNameLike(ADMIN.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
                         break;
                     case "hr":
-                        Role modRole = roleRepository.findByNameLike(HR.toString())
+                        RoleEntity modRole = roleRepository.findByNameLike(HR.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
                         break;
                     default:
-                        Role userRole = roleRepository.findByNameLike(HR_ASSISTANT.toString())
+                        RoleEntity userRole = roleRepository.findByNameLike(HR_ASSISTANT.toString())
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                         break;

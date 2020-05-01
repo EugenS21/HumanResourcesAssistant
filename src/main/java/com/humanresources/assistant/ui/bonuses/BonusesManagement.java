@@ -3,8 +3,8 @@ package com.humanresources.assistant.ui.bonuses;
 import static java.time.LocalDateTime.now;
 
 import com.github.javafaker.Faker;
-import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.enums.Grade;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
+import com.humanresources.assistant.backend.enums.GradeEnum;
 import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.BonusFields;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -44,12 +44,12 @@ public class BonusesManagement extends VerticalLayout implements AfterNavigation
         Locale locale = new Locale("en", "US");
         final Faker faker = new Faker(locale);
         for (int i = 0; i < 100; i++) {
-            final List<Department> departments = Arrays.stream(Department.values()).collect(Collectors.toList());
-            final List<Grade> grades = Arrays.stream(Grade.values()).collect(Collectors.toList());
+            final List<DepartmentEnum> departments = Arrays.stream(DepartmentEnum.values()).collect(Collectors.toList());
+            final List<GradeEnum> grades = Arrays.stream(GradeEnum.values()).collect(Collectors.toList());
             Collections.shuffle(departments);
             Collections.shuffle(grades);
-            final Department department = departments.get(2);
-            final Grade grade = grades.get(1);
+            final DepartmentEnum department = departments.get(2);
+            final GradeEnum grade = grades.get(1);
             persons.add(
                 BonusFields.builder()
                     .department(department)

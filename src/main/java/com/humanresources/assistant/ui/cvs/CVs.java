@@ -3,7 +3,7 @@ package com.humanresources.assistant.ui.cvs;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import com.github.javafaker.Faker;
-import com.humanresources.assistant.backend.enums.Department;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
 import com.humanresources.assistant.backend.model.uimodels.CurriculumVitae;
 import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
 import com.humanresources.assistant.ui.MainLayout;
@@ -95,6 +95,21 @@ public class CVs extends VerticalLayout implements AfterNavigationObserver {
         return card;
     }
 
+    private static CurriculumVitae generateCv() {
+        final Locale locale = new Locale("en", "US");
+        final Faker fakerData = new Faker(locale);
+        return CurriculumVitae.builder()
+            .userDetails(fakerData.name().fullName())
+            .userPhoneNumber(fakerData.phoneNumber().phoneNumber())
+            .description("fakerData.lorem().sentence(150)")
+            .jobToApply(DepartmentEnum.values()[new Random().nextInt(DepartmentEnum.values().length - 1)])
+            .build();
+    }
+
+    private static String getRandom(int count) {
+        return randomAlphanumeric(count);
+    }
+
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
         List<CurriculumVitae> cvs = new ArrayList<>();
@@ -107,25 +122,10 @@ public class CVs extends VerticalLayout implements AfterNavigationObserver {
                         .userDetails(fakerData.name().fullName())
                         .userPhoneNumber(fakerData.phoneNumber().phoneNumber())
                         .description(fakerData.lorem().sentence(150))
-                        .jobToApply(Department.values()[new Random().nextInt(Department.values().length - 1)])
+                        .jobToApply(DepartmentEnum.values()[new Random().nextInt(DepartmentEnum.values().length - 1)])
                         .build());
         }
         cvsGrid.setItems(cvs);
-    }
-
-    private static String getRandom(int count) {
-        return randomAlphanumeric(count);
-    }
-
-    private static CurriculumVitae generateCv() {
-        final Locale locale = new Locale("en", "US");
-        final Faker fakerData = new Faker(locale);
-        return CurriculumVitae.builder()
-            .userDetails(fakerData.name().fullName())
-            .userPhoneNumber(fakerData.phoneNumber().phoneNumber())
-            .description("fakerData.lorem().sentence(150)")
-            .jobToApply(Department.values()[new Random().nextInt(Department.values().length - 1)])
-            .build();
     }
 
     private void initializeDialog() {

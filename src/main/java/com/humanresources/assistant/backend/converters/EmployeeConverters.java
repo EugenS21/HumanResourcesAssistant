@@ -1,7 +1,7 @@
 package com.humanresources.assistant.backend.converters;
 
 import com.humanresources.assistant.backend.dto.EmployeeDto;
-import com.humanresources.assistant.backend.entity.Employee;
+import com.humanresources.assistant.backend.entity.EmployeeEntity;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeConverters extends Generic<Employee, EmployeeDto> {
+public class EmployeeConverters extends Generic<EmployeeEntity, EmployeeDto> {
 
     @Autowired
     DepartmentConverters departmentConverters;
@@ -26,23 +26,23 @@ public class EmployeeConverters extends Generic<Employee, EmployeeDto> {
     @Autowired
     UserConverters userConverters;
 
-    public Function<Employee, EmployeeDto> convertEmployeeEntityToDto = convertEntityToDto();
-    public Function<EmployeeDto, Employee> convertEmployeeDtoToEntity = convertDtoToEntity();
-    public Function<List<Employee>, List<EmployeeDto>> convertEmployeeEntityListToDto = convertListEntitiesToDto();
-    public Function<List<EmployeeDto>, List<Employee>> convertEmployeeDtoListToEntities = convertListDtoToEntities();
+    public Function<EmployeeEntity, EmployeeDto> convertEmployeeEntityToDto = convertEntityToDto();
+    public Function<EmployeeDto, EmployeeEntity> convertEmployeeDtoToEntity = convertDtoToEntity();
+    public Function<List<EmployeeEntity>, List<EmployeeDto>> convertEmployeeEntityListToDto = convertListEntitiesToDto();
+    public Function<List<EmployeeDto>, List<EmployeeEntity>> convertEmployeeDtoListToEntities = convertListDtoToEntities();
 
     @Override
-    protected Function<Employee, EmployeeDto> convertEntityToDto() {
+    protected Function<EmployeeEntity, EmployeeDto> convertEntityToDto() {
         return employee -> EmployeeDto.builder()
             .birthDate(employee.getBirthDate())
             .dateOfEmployment(employee.getDateOfEmployment())
-            .department(departmentConverters.convertDepartmentEntityToDto.apply(employee.getDepartment()))
+            .department(departmentConverters.convertDepartmentEntityToDto.apply(employee.getDepartmentEntity()))
             .firstName(employee.getFirstName())
-            .grade(gradeConverters.convertGradeEntityToDto.apply(employee.getGrades()))
+            .grade(gradeConverters.convertGradeEntityToDto.apply(employee.getGradeEntity()))
             .id(employee.getId())
             .isFired(employee.getIsFired())
-            .location(locationConverters.convertLocationEntityToDto.apply(employee.getLocation()))
-            .project(projectConverters.convertProjectEntityToDto.apply(employee.getProject()))
+            .location(locationConverters.convertLocationEntityToDto.apply(employee.getLocationEntity()))
+            .project(projectConverters.convertProjectEntityToDto.apply(employee.getProjectEntity()))
             .salary(employee.getSalary())
             .secondName(employee.getSecondName())
             .user(userConverters.convertUserEntityToDto.apply(employee.getUser()))
@@ -50,17 +50,17 @@ public class EmployeeConverters extends Generic<Employee, EmployeeDto> {
     }
 
     @Override
-    protected Function<EmployeeDto, Employee> convertDtoToEntity() {
-        return employeeDto -> Employee.builder()
+    protected Function<EmployeeDto, EmployeeEntity> convertDtoToEntity() {
+        return employeeDto -> EmployeeEntity.builder()
             .birthDate(employeeDto.getBirthDate())
             .dateOfEmployment(employeeDto.getDateOfEmployment())
-            .department(departmentConverters.convertDtoToEntity().apply(employeeDto.getDepartment()))
+            .departmentEntity(departmentConverters.convertDtoToEntity().apply(employeeDto.getDepartment()))
             .firstName(employeeDto.getFirstName())
-            .grades(gradeConverters.convertGradeDtoToEntity.apply(employeeDto.getGrade()))
+            .gradeEntity(gradeConverters.convertGradeDtoToEntity.apply(employeeDto.getGrade()))
             .id(employeeDto.getId())
             .isFired(employeeDto.getIsFired())
-            .location(locationConverters.convertLocationDtoToEntity.apply(employeeDto.getLocation()))
-            .project(projectConverters.convertProjectDtoToEntity.apply(employeeDto.getProject()))
+            .locationEntity(locationConverters.convertLocationDtoToEntity.apply(employeeDto.getLocation()))
+            .projectEntity(projectConverters.convertProjectDtoToEntity.apply(employeeDto.getProject()))
             .salary(employeeDto.getSalary())
             .secondName(employeeDto.getSecondName())
             .user(userConverters.convertUserDtoToEntity.apply(employeeDto.getUser()))
@@ -68,14 +68,14 @@ public class EmployeeConverters extends Generic<Employee, EmployeeDto> {
     }
 
     @Override
-    protected Function<List<Employee>, List<EmployeeDto>> convertListEntitiesToDto() {
+    protected Function<List<EmployeeEntity>, List<EmployeeDto>> convertListEntitiesToDto() {
         return employees -> employees.stream()
             .map(employee -> convertEmployeeEntityToDto.apply(employee))
             .collect(Collectors.toList());
     }
 
     @Override
-    protected Function<List<EmployeeDto>, List<Employee>> convertListDtoToEntities() {
+    protected Function<List<EmployeeDto>, List<EmployeeEntity>> convertListDtoToEntities() {
         return employees -> employees.stream()
             .map(employeeDto -> convertEmployeeDtoToEntity.apply(employeeDto))
             .collect(Collectors.toList());

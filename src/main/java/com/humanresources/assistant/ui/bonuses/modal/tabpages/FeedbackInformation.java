@@ -5,8 +5,8 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 import com.github.appreciated.card.Card;
 import com.github.appreciated.card.label.TitleLabel;
 import com.github.javafaker.Faker;
-import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.enums.Grade;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
+import com.humanresources.assistant.backend.enums.GradeEnum;
 import com.humanresources.assistant.backend.model.uimodels.bonuses.profile.FeedbackFields;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -75,12 +75,12 @@ public class FeedbackInformation extends VerticalLayout {
         Locale locale = new Locale("en", "US");
         Faker faker = new Faker(locale);
         for (int i = 0; i < 10; i++) {
-            final List<Grade> streamGrade = Arrays.stream(Grade.values()).collect(Collectors.toList());
+            final List<GradeEnum> streamGrade = Arrays.stream(GradeEnum.values()).collect(Collectors.toList());
             Collections.shuffle(streamGrade);
-            final Grade grade = streamGrade.get(0);
-            final List<Department> streamDepartment = Arrays.stream(Department.values()).collect(Collectors.toList());
+            final GradeEnum grade = streamGrade.get(0);
+            final List<DepartmentEnum> streamDepartment = Arrays.stream(DepartmentEnum.values()).collect(Collectors.toList());
             Collections.shuffle(streamDepartment);
-            final Department department = streamDepartment.get(0);
+            final DepartmentEnum department = streamDepartment.get(0);
             final Random random = new Random();
             feedbackCards.add(
                 initializeCard(

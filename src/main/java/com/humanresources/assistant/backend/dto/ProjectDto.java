@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ProjectDto {
 
     @JsonProperty ("id")
-    private Integer id;
+    private Long id;
 
     @JsonProperty ("projectName")
     private String projectName;

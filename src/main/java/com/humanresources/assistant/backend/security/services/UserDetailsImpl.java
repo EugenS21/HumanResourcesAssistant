@@ -1,7 +1,7 @@
 package com.humanresources.assistant.backend.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.humanresources.assistant.backend.entity.authentication.User;
+import com.humanresources.assistant.backend.entity.authentication.UserEntity;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(User user) {
+    public static UserDetailsImpl build(UserEntity user) {
         List<GrantedAuthority> authorities = user.getRoles()
             .stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))

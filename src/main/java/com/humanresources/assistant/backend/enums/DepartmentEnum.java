@@ -2,7 +2,7 @@ package com.humanresources.assistant.backend.enums;
 
 import lombok.Getter;
 
-public enum Department {
+public enum DepartmentEnum {
 
     QA(1, "QA"),
     DEV(2, "Developer"),
@@ -10,12 +10,12 @@ public enum Department {
     OPS(4, "Dev Ops"),
     ARH(5, "Architect");
 
-    private Integer id;
+    private final Integer id;
 
     @Getter
-    private String name;
+    private final String name;
 
-    Department(Integer id, String name) {
+    DepartmentEnum(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

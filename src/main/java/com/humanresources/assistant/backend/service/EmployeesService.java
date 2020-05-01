@@ -4,7 +4,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import com.humanresources.assistant.backend.converters.EmployeeConverters;
 import com.humanresources.assistant.backend.dto.EmployeeDto;
-import com.humanresources.assistant.backend.entity.Employee;
+import com.humanresources.assistant.backend.entity.EmployeeEntity;
 import com.humanresources.assistant.backend.exceptions.EmployeeNotFound;
 import com.humanresources.assistant.backend.repository.EmployeeRepository;
 import java.util.List;
@@ -32,7 +32,7 @@ public class EmployeesService {
 
     @SneakyThrows
     public EmployeeDto findById(Integer employeeId) {
-        final Optional<Employee> foundEmployee = employeeRepository.findById(employeeId);
+        final Optional<EmployeeEntity> foundEmployee = employeeRepository.findById(employeeId);
         return employeeConverters.convertEmployeeEntityToDto.apply(foundEmployee.orElseThrow(EmployeeNotFound::new));
     }
 

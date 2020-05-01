@@ -2,7 +2,7 @@ package com.humanresources.assistant.ui.requests.grid;
 
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
-import com.humanresources.assistant.backend.enums.RequestType;
+import com.humanresources.assistant.backend.enums.LeaveTypeEnum;
 import com.humanresources.assistant.backend.exceptions.ui.grid.GridItemNotFound;
 import com.humanresources.assistant.backend.model.Request;
 import com.humanresources.assistant.ui.requests.grid.modal.RequestModal;
@@ -116,8 +116,8 @@ public class RequestsGrid extends Grid<Request> {
     }
 
     private void initializeRequestTypeFilter(HeaderRow filterRow) {
-        Select<RequestType> requestType = new Select<>(RequestType.values());
-        final ValueChangeListener<ComponentValueChangeEvent<Select<RequestType>, RequestType>> valueChangeListener
+        Select<LeaveTypeEnum> requestType = new Select<>(LeaveTypeEnum.values());
+        final ValueChangeListener<ComponentValueChangeEvent<Select<LeaveTypeEnum>, LeaveTypeEnum>> valueChangeListener
             = event -> dataProvider.addFilter(request -> request.getRequestType().equals(requestType.getValue()));
 
         requestType.addValueChangeListener(valueChangeListener);

@@ -17,7 +17,7 @@ public class DepartmentDto {
     @JsonProperty ("id")
     private Integer id;
 
-    @JsonProperty ("name")
-    private String name;
+    @JsonProperty ("department")
+    private String department;
 
 }

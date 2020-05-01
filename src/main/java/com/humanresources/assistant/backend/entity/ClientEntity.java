@@ -1,14 +1,13 @@
 package com.humanresources.assistant.backend.entity;
 
-import static com.humanresources.assistant.backend.entity.Client.TABLE_NAME;
+import static com.humanresources.assistant.backend.entity.ClientEntity.TABLE_NAME;
 
-import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,23 +23,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Client {
+public class ClientEntity {
 
     protected static final String TABLE_NAME = "t_client";
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column
+    @SequenceGenerator (name = "client_id_generator", sequenceName = "seq_client", allocationSize = 10)
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "client_id_generator")
+    private Long id;
 
     @NotNull
+    @Column
     private String clientName;
 
     @NotNull
+    @Column
     private String countryName;
-//
-//    @OneToOne (mappedBy = "client")
-//    private Project project;
-
-    @OneToMany (mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<Project> projects;
 }

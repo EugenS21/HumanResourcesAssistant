@@ -4,7 +4,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import com.humanresources.assistant.backend.converters.ClientConverters;
 import com.humanresources.assistant.backend.dto.ClientDto;
-import com.humanresources.assistant.backend.entity.Client;
+import com.humanresources.assistant.backend.entity.ClientEntity;
 import com.humanresources.assistant.backend.exceptions.ClientNotFound;
 import com.humanresources.assistant.backend.repository.ClientRepository;
 import java.util.List;
@@ -32,11 +32,11 @@ public class ClientService {
 
     @SneakyThrows
     public ClientDto updateClient(Integer id, ClientDto clientDto) {
-        final Client foundClient = clientRepository.findById(id).orElseThrow(ClientNotFound::new);
-        foundClient.setClientName(clientDto.getClientName());
-        foundClient.setCountryName(clientDto.getCountryName());
-        clientRepository.save(foundClient);
-        return clientConverters.convertClientEntityToDto.apply(foundClient);
+        final ClientEntity foundClientEntity = clientRepository.findById(id).orElseThrow(ClientNotFound::new);
+        foundClientEntity.setClientName(clientDto.getClientName());
+        foundClientEntity.setCountryName(clientDto.getCountryName());
+        clientRepository.save(foundClientEntity);
+        return clientConverters.convertClientEntityToDto.apply(foundClientEntity);
     }
 
     public void deleteClient(Integer id) {

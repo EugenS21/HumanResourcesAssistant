@@ -4,7 +4,8 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import com.humanresources.assistant.backend.converters.DepartmentConverters;
 import com.humanresources.assistant.backend.dto.DepartmentDto;
-import com.humanresources.assistant.backend.entity.Department;
+import com.humanresources.assistant.backend.entity.DepartmentEntity;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
 import com.humanresources.assistant.backend.exceptions.DepartmentNotFound;
 import com.humanresources.assistant.backend.repository.DepartmentRepository;
 import java.util.List;
@@ -32,10 +33,10 @@ public class DepartmentService {
 
     @SneakyThrows
     public DepartmentDto updateDepartment(Integer id, DepartmentDto departmentDto) {
-        final Department foundDepartment = departmentRepository.findById(id).orElseThrow(DepartmentNotFound::new);
-        foundDepartment.setName(departmentDto.getName());
-        departmentRepository.save(foundDepartment);
-        return departmentConverters.convertDepartmentEntityToDto.apply(foundDepartment);
+        final DepartmentEntity foundDepartmentEntity = departmentRepository.findById(id).orElseThrow(DepartmentNotFound::new);
+        foundDepartmentEntity.setDepartment(DepartmentEnum.valueOf(departmentDto.getDepartment()));
+        departmentRepository.save(foundDepartmentEntity);
+        return departmentConverters.convertDepartmentEntityToDto.apply(foundDepartmentEntity);
     }
 
     public void deleteDepartment(Integer id) {

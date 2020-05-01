@@ -39,7 +39,7 @@ public class File {
     @JoinTable (name = "t_user_file",
                 joinColumns = @JoinColumn (name = "user_id"),
                 inverseJoinColumns = @JoinColumn (name = "file_id"))
-    private Set<Employee> employees;
+    private Set<EmployeeEntity> employees;
 
     public File(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;

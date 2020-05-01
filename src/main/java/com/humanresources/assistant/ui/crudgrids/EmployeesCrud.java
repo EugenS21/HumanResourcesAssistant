@@ -125,10 +125,10 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
         Predicate<String> columnsToFilter = columnName -> !columnsToIgnore.contains(columnName);
         final String[] columnsToDisplay = stream(propertiesName).filter(columnsToFilter).toArray(String[]::new);
         employeesGrid.getGrid().setColumns(columnsToDisplay);
-        employeesGrid.getGrid().addColumn(employee -> employee.getDepartment().getName()).setHeader("Department");
+        employeesGrid.getGrid().addColumn(employee -> employee.getDepartment().getDepartment()).setHeader("Department");
         employeesGrid.getGrid().addColumn(employee -> employee.getLocation().getCity()).setHeader("Location");
         employeesGrid.getGrid().addColumn(employee -> employee.getProject().getProjectName()).setHeader("Project");
-        employeesGrid.getGrid().addColumn(employee -> employee.getGrade().getName()).setHeader("Grade");
+        employeesGrid.getGrid().addColumn(employee -> employee.getGrade().getGrade()).setHeader("Grade");
         employeesGrid.getGrid().addColumn(employee -> employee.getUser().getEmail()).setHeader("Email");
     }
 
@@ -161,7 +161,7 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     @SneakyThrows
     private Select<DepartmentDto> getDepartmentsSelect() {
-        return getSelect(departments, DepartmentDto::getName);
+        return getSelect(departments, DepartmentDto::getDepartment);
     }
 
     @SneakyThrows
@@ -176,7 +176,7 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     @SneakyThrows
     private Select<GradeDto> getGradesSelect() {
-        return getSelect(grades, GradeDto::getName);
+        return getSelect(grades, GradeDto::getGrade);
     }
 
     @SneakyThrows

@@ -5,7 +5,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import com.humanresources.assistant.backend.converters.ClientConverters;
 import com.humanresources.assistant.backend.converters.ProjectConverters;
 import com.humanresources.assistant.backend.dto.ProjectDto;
-import com.humanresources.assistant.backend.entity.Project;
+import com.humanresources.assistant.backend.entity.ProjectEntity;
 import com.humanresources.assistant.backend.exceptions.ProjectNotFound;
 import com.humanresources.assistant.backend.repository.ProjectRepository;
 import java.util.List;
@@ -36,11 +36,11 @@ public class ProjectService {
 
     @SneakyThrows
     public ProjectDto updateProject(Integer id, ProjectDto projectDto) {
-        final Project foundProject = projectRepository.findById(id).orElseThrow(ProjectNotFound::new);
-        foundProject.setProjectName(projectDto.getProjectName());
-        foundProject.setClient(clientConverters.convertClientDtoToEntity.apply(projectDto.getClient()));
-        projectRepository.save(foundProject);
-        return projectConverters.convertProjectEntityToDto.apply(foundProject);
+        final ProjectEntity foundProjectEntity = projectRepository.findById(id).orElseThrow(ProjectNotFound::new);
+        foundProjectEntity.setProjectName(projectDto.getProjectName());
+        foundProjectEntity.setClientEntity(clientConverters.convertClientDtoToEntity.apply(projectDto.getClient()));
+        projectRepository.save(foundProjectEntity);
+        return projectConverters.convertProjectEntityToDto.apply(foundProjectEntity);
     }
 
     public void deleteProject(Integer id) {

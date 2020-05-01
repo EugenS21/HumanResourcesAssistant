@@ -30,14 +30,18 @@ public class FileController {
     public UploadFileResponse uploadFile(
         @RequestParam("file")
             MultipartFile fileToUpload) {
-        File file = fileService.storeFile(fileToUpload);
+        File fileEntity = fileService.storeFile(fileToUpload);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/downloadFile/")
-            .path(String.valueOf(file.getUuid()))
+            .path(String.valueOf(fileEntity.getUuid()))
             .toUriString();
 
-        return new UploadFileResponse(file.getFileName(), fileDownloadUri, fileToUpload.getContentType(), fileToUpload.getSize());
+        return new UploadFileResponse(
+            fileEntity.getFileName(),
+            fileDownloadUri,
+            fileToUpload.getContentType(),
+            fileToUpload.getSize());
     }
 
     @PostMapping("/uploadFiles")
@@ -54,10 +58,10 @@ public class FileController {
     public ResponseEntity<Resource> downloadFile(
         @PathVariable
             String fileUuid) {
-        File file = fileService.getFile(fileUuid);
+        File fileEntity = fileService.getFile(fileUuid);
         return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(file.getFileType()))
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
-            .body(new ByteArrayResource(file.getData()));
+            .contentType(MediaType.parseMediaType(fileEntity.getFileType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileEntity.getFileName() + "\"")
+            .body(new ByteArrayResource(fileEntity.getData()));
     }
 }

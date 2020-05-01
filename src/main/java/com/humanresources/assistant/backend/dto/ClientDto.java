@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ClientDto {
 
     @JsonProperty ("id")
-    private Integer id;
+    private Long id;
 
     @JsonProperty ("clientName")
     private String clientName;

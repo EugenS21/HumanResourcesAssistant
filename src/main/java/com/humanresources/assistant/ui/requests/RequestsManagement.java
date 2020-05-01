@@ -1,7 +1,7 @@
 package com.humanresources.assistant.ui.requests;
 
 import com.github.javafaker.Faker;
-import com.humanresources.assistant.backend.enums.RequestType;
+import com.humanresources.assistant.backend.enums.LeaveTypeEnum;
 import com.humanresources.assistant.backend.model.Request;
 import com.humanresources.assistant.ui.MainLayout;
 import com.humanresources.assistant.ui.requests.grid.RequestsGrid;
@@ -42,7 +42,7 @@ public class RequestsManagement extends VerticalLayout implements AfterNavigatio
                     .lastName(faker.name().lastName())
                     .firstDate(parse)
                     .lastDate(parse.plusDays(10))
-                    .requestType(RequestType.values()[new Random().nextInt(RequestType.values().length - 1)])
+                    .requestType(LeaveTypeEnum.values()[new Random().nextInt(LeaveTypeEnum.values().length - 1)])
                     .build()
             );
         }

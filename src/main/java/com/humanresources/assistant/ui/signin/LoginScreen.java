@@ -40,11 +40,11 @@ public class LoginScreen extends VerticalLayout {
         // TODO remove hardcoded values and add a static width var
         username = new TextField("Username");
         username.setWidth("300px");
-        username.setValue("eugen");
+//        username.setValue("eugen");
         username.setPlaceholder("Username");
         password = new PasswordField("Password");
         password.setWidthFull();
-        password.setValue("eugen123");
+//        password.setValue("eugen123");
         password.setWidth("300px");
         password.setPlaceholder("Password");
 

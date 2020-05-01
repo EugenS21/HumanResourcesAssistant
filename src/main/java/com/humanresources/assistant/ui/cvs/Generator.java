@@ -2,8 +2,8 @@ package com.humanresources.assistant.ui.cvs;
 
 import static com.humanresources.assistant.backend.functions.GenericFunctions.getStringFromList;
 
-import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.enums.Grade;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
+import com.humanresources.assistant.backend.enums.GradeEnum;
 import com.humanresources.assistant.backend.tools.pdf.DocumentContent;
 import com.humanresources.assistant.backend.tools.pdf.PdfFileGenerator;
 import com.humanresources.assistant.backend.tools.pdf.PdfPreviewer;
@@ -33,16 +33,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Route(value = "cvs_generator", layout = MainLayout.class)
-@PageTitle("CV generator")
+@Route (value = "cvs_generator", layout = MainLayout.class)
+@PageTitle ("CV generator")
 public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
 
     private final Logger logger = LoggerFactory.getLogger(Generator.class);
     public static final String VIEW_NAME = "CVs Generator";
 
     public static boolean isDialogOpen = false;
-    private final Select<Department> department;
-    private final Select<Grade> grade;
+    private final Select<DepartmentEnum> department;
+    private final Select<GradeEnum> grade;
     private final Button generate;
     private final Button changeBody;
     private final Details details;
@@ -87,11 +87,11 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         generate.setEnabled(false);
         changeBody.setText("Change Components");
         changeBody.setEnabled(false);
-        department.setItems(Department.values());
+        department.setItems(DepartmentEnum.values());
         department.setLabel("Department");
         department.setEmptySelectionAllowed(false);
         grade.setLabel("Grade");
-        grade.setItems(Grade.values());
+        grade.setItems(GradeEnum.values());
         grade.setEmptySelectionAllowed(false);
         details.setSummaryText("Welcome to our CVs generator");
         details.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
@@ -112,8 +112,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         dialog.addOpenedChangeListener(onDialogClose());
     }
 
-    private ValueChangeListener<? super ComponentValueChangeEvent<Select<Department>, Department>> onDepartmentChange() {
-        return (ValueChangeListener<? super ComponentValueChangeEvent<Select<Department>, Department>>) selectionChange -> {
+    private ValueChangeListener<? super ComponentValueChangeEvent<Select<DepartmentEnum>, DepartmentEnum>> onDepartmentChange() {
+        return (ValueChangeListener<? super ComponentValueChangeEvent<Select<DepartmentEnum>, DepartmentEnum>>) selectionChange -> {
             if (grade.getValue() != null) {
                 buildDocumentData();
                 generate.setEnabled(true);
@@ -121,8 +121,8 @@ public class Generator extends HorizontalLayout implements BeforeLeaveObserver {
         };
     }
 
-    private ValueChangeListener<? super ComponentValueChangeEvent<Select<Grade>, Grade>> onGradeChange() {
-        return (ValueChangeListener<? super ComponentValueChangeEvent<Select<Grade>, Grade>>) selectionChange -> {
+    private ValueChangeListener<? super ComponentValueChangeEvent<Select<GradeEnum>, GradeEnum>> onGradeChange() {
+        return (ValueChangeListener<? super ComponentValueChangeEvent<Select<GradeEnum>, GradeEnum>>) selectionChange -> {
             if (department.getValue() != null) {
                 buildDocumentData();
                 generate.setEnabled(true);

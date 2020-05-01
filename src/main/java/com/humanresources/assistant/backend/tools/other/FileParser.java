@@ -11,8 +11,8 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.tuple.Triple.of;
 
-import com.humanresources.assistant.backend.enums.Department;
-import com.humanresources.assistant.backend.enums.Grade;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
+import com.humanresources.assistant.backend.enums.GradeEnum;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -77,68 +77,24 @@ public class FileParser {
         return linesDetails;
     }
 
-    private static final class LineToParse {
-
-        List<Triple<Grade, Department, String>> values;
-
-        public LineToParse() {
-            values = new ArrayList<>();
-        }
-
-        public void addValues(String grade, String department, String value) {
-            addConvertedValues(grade, department, value);
-        }
-
-        public List<String> getValueByGradeAndDepartment(Grade grade, Department department) {
-            final List<String> filteredResults = values.stream()
-                .filter(item -> item.getLeft().equals(grade) && item.getMiddle().equals(department))
-                .map(Triple::getRight)
-                .limit(NR_OF_ELEMENTS)
-                .collect(toList());
-            shuffle(filteredResults);
-            return filteredResults;
-        }
-
-        public List<String> getValueByDepartment(Department department) {
-            final List<String> filteredResults = values.stream()
-                .filter(item -> item.getMiddle().equals(department))
-                .map(Triple::getRight)
-                .limit(NR_OF_ELEMENTS)
-                .collect(toList());
-            shuffle(filteredResults);
-            return filteredResults;
-        }
-
-        private void addConvertedValues(String grade, String department, String value) {
-            Grade filteredGrade = null;
-            if (grade != null) {
-                filteredGrade = Stream.of(Grade.values())
-                    .filter(enumGrade -> enumGrade.toString().equals(grade))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException(grade));
-            }
-            final Department filteredDepartment = Stream.of(Department.values())
-                .filter(enumDepartment -> enumDepartment.toString().equals(department))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(department));
-            values.add(of(filteredGrade, filteredDepartment, value));
-        }
-    }
-
-    public static String getAboutJob(Grade grade, Department department) {
+    public static String getAboutJob(GradeEnum grade, DepartmentEnum department) {
         return filterAboutTheJob(grade, department).get(0);
     }
 
-    public static List<String> getResponsibilities(Grade grade, Department department) {
+    public static List<String> getResponsibilities(GradeEnum grade, DepartmentEnum department) {
         return filterResponsibilities(grade, department);
     }
 
-    public static List<String> getRequirements(Grade grade, Department department) {
+    public static List<String> getRequirements(GradeEnum grade, DepartmentEnum department) {
         return filterRequirements(grade, department);
     }
 
-    public static List<String> getTechStack(Department department) {
+    public static List<String> getTechStack(DepartmentEnum department) {
         return filterTechnologyStack(department);
+    }
+
+    private static List<String> filterAboutTheJob(GradeEnum grade, DepartmentEnum department) {
+        return getGradeDepartmentDescriptionFile(JOB_FILE).getValueByGradeAndDepartment(grade, department);
     }
 
     public static List<String> getBenefits() {
@@ -149,20 +105,64 @@ public class FileParser {
         return getCompanyInformation();
     }
 
-    private static List<String> filterAboutTheJob(Grade grade, Department department) {
-        return getGradeDepartmentDescriptionFile(JOB_FILE).getValueByGradeAndDepartment(grade, department);
-    }
-
-    private static List<String> filterResponsibilities(Grade grade, Department department) {
+    private static List<String> filterResponsibilities(GradeEnum grade, DepartmentEnum department) {
         return getGradeDepartmentDescriptionFile(RESPONSIBILITIES_FILE).getValueByGradeAndDepartment(grade, department);
     }
 
-    private static List<String> filterRequirements(Grade grade, Department department) {
+    private static List<String> filterRequirements(GradeEnum grade, DepartmentEnum department) {
         return getGradeDepartmentDescriptionFile(REQUIREMENTS_FILE).getValueByGradeAndDepartment(grade, department);
     }
 
-    private static List<String> filterTechnologyStack(Department department) {
+    private static List<String> filterTechnologyStack(DepartmentEnum department) {
         return getDepartmentDescriptionFile(TECHNOLOGIES_FILE).getValueByDepartment(department);
+    }
+
+    private static final class LineToParse {
+
+        List<Triple<GradeEnum, DepartmentEnum, String>> values;
+
+        public LineToParse() {
+            values = new ArrayList<>();
+        }
+
+        public void addValues(String grade, String department, String value) {
+            addConvertedValues(grade, department, value);
+        }
+
+        public List<String> getValueByGradeAndDepartment(GradeEnum grade, DepartmentEnum department) {
+            final List<String> filteredResults = values.stream()
+                .filter(item -> item.getLeft().equals(grade) && item.getMiddle().equals(department))
+                .map(Triple::getRight)
+                .limit(NR_OF_ELEMENTS)
+                .collect(toList());
+            shuffle(filteredResults);
+            return filteredResults;
+        }
+
+        public List<String> getValueByDepartment(DepartmentEnum department) {
+            final List<String> filteredResults = values.stream()
+                .filter(item -> item.getMiddle().equals(department))
+                .map(Triple::getRight)
+                .limit(NR_OF_ELEMENTS)
+                .collect(toList());
+            shuffle(filteredResults);
+            return filteredResults;
+        }
+
+        private void addConvertedValues(String grade, String department, String value) {
+            GradeEnum filteredGrade = null;
+            if (grade != null) {
+                filteredGrade = Stream.of(GradeEnum.values())
+                    .filter(enumGrade -> enumGrade.toString().equals(grade))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException(grade));
+            }
+            final DepartmentEnum filteredDepartment = Stream.of(DepartmentEnum.values())
+                .filter(enumDepartment -> enumDepartment.toString().equals(department))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(department));
+            values.add(of(filteredGrade, filteredDepartment, value));
+        }
     }
 
     private static List<String> getCompanyBenefits() {

@@ -5,7 +5,7 @@ import static com.vaadin.flow.component.notification.Notification.show;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.of;
 
-import com.humanresources.assistant.backend.enums.Department;
+import com.humanresources.assistant.backend.enums.DepartmentEnum;
 import com.humanresources.assistant.backend.service.FileService;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
@@ -148,7 +148,7 @@ public class FileUploader extends VerticalLayout {
     private void initializeDepartment() {
         listTitle.setText("Chose one of available position");
         listTitle.getStyle().set("font-weight", "bold");
-        department.setItems(of(Department.values()).map(Department::getName).collect(toList()));
+        department.setItems(of(DepartmentEnum.values()).map(DepartmentEnum::getName).collect(toList()));
         department.setVisible(true);
     }
 
