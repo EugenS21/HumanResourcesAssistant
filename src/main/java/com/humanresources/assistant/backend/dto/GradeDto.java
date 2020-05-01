@@ -20,4 +20,7 @@ public class GradeDto {
     @JsonProperty ("grade")
     private String grade;
 
+    @JsonProperty ("additionToSalary")
+    private Double additionToSalary;
+
 }

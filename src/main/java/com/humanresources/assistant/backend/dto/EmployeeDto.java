@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.humanresources.assistant.backend.entity.EmployeeEntity;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,5 +59,8 @@ public class EmployeeDto {
 
     @JsonProperty ("grades")
     private GradeDto grade;
+
+    @JsonProperty ("teamLead")
+    private EmployeeEntity teamLead;
 
 }

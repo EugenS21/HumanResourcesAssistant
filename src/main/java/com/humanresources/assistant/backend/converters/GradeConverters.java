@@ -1,8 +1,9 @@
 package com.humanresources.assistant.backend.converters;
 
+import static com.humanresources.assistant.backend.enums.GradeEnum.enumFrom;
+
 import com.humanresources.assistant.backend.dto.GradeDto;
 import com.humanresources.assistant.backend.entity.GradeEntity;
-import com.humanresources.assistant.backend.enums.GradeEnum;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,13 +22,15 @@ public class GradeConverters extends Generic<GradeEntity, GradeDto> {
         return gradeEntity -> GradeDto.builder()
             .id(gradeEntity.getId())
             .grade(gradeEntity.getGrade().getName())
+            .additionToSalary(gradeEntity.getAdditionToSalary())
             .build();
     }
 
     @Override
     public Function<GradeDto, GradeEntity> convertDtoToEntity() {
         return grade -> GradeEntity.builder()
-            .grade(GradeEnum.valueOf(grade.getGrade()))
+            .grade(enumFrom(grade.getGrade()))
+            .additionToSalary(grade.getAdditionToSalary())
             .build();
     }
 

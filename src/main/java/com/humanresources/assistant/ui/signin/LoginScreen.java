@@ -1,5 +1,6 @@
 package com.humanresources.assistant.ui.signin;
 
+import static com.vaadin.flow.component.Key.ENTER;
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
 import static com.vaadin.flow.component.notification.Notification.show;
 import static com.vaadin.flow.component.notification.NotificationVariant.LUMO_ERROR;
@@ -51,6 +52,7 @@ public class LoginScreen extends VerticalLayout {
         final Button login = new Button("Log in");
         login.addThemeVariants(LUMO_PRIMARY);
         login.addClickListener(this::login);
+        login.addClickShortcut(ENTER);
         login.setWidth("300px");
 
         final Button signUp = new Button("Sign up");

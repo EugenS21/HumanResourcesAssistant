@@ -1,6 +1,7 @@
 package com.humanresources.assistant.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.humanresources.assistant.backend.entity.EmployeeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +20,11 @@ public class DepartmentDto {
 
     @JsonProperty ("department")
     private String department;
+
+    @JsonProperty ("managerId")
+    private EmployeeEntity managerId;
+
+    @JsonProperty ("startingSalary")
+    private Integer startingSalary;
 
 }

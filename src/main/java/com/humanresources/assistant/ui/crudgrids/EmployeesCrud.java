@@ -10,6 +10,7 @@ import com.humanresources.assistant.backend.dto.GradeDto;
 import com.humanresources.assistant.backend.dto.LocationDto;
 import com.humanresources.assistant.backend.dto.ProjectDto;
 import com.humanresources.assistant.backend.dto.UserDto;
+import com.humanresources.assistant.backend.entity.EmployeeEntity;
 import com.humanresources.assistant.restclient.service.DepartmentRestService;
 import com.humanresources.assistant.restclient.service.EmployeeRestService;
 import com.humanresources.assistant.restclient.service.GradeRestService;
@@ -120,11 +121,15 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     private void setColumnsVisibility(GridCrud<EmployeeDto> employeesGrid, String[] propertiesName) {
         List<String> columnsToIgnore = new ArrayList<>() {{
-            add("department"); add("location"); add("project"); add("grade"); add("user");
+            add("department"); add("location"); add("project"); add("grade"); add("user"); add("team lead");
         }};
         Predicate<String> columnsToFilter = columnName -> !columnsToIgnore.contains(columnName);
         final String[] columnsToDisplay = stream(propertiesName).filter(columnsToFilter).toArray(String[]::new);
         employeesGrid.getGrid().setColumns(columnsToDisplay);
+        employeesGrid.getGrid().addColumn(employee -> {
+            EmployeeEntity teamLead = employee.getTeamLead();
+            return teamLead.getFirstName() + " / " + teamLead.getSecondName();
+        }).setHeader("Team Lead");
         employeesGrid.getGrid().addColumn(employee -> employee.getDepartment().getDepartment()).setHeader("Department");
         employeesGrid.getGrid().addColumn(employee -> employee.getLocation().getCity()).setHeader("Location");
         employeesGrid.getGrid().addColumn(employee -> employee.getProject().getProjectName()).setHeader("Project");
