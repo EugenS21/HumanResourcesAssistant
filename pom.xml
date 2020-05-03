@@ -92,6 +92,11 @@
       <groupId>org.projectlombok</groupId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <artifactId>sshj</artifactId>
+      <groupId>com.hierynomus</groupId>
+      <version>0.27.0</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
