@@ -21,6 +21,7 @@ public class LocationConverters extends Generic<LocationEntity, LocationDto> {
             .id(location.getId())
             .countryName(location.getCountryName())
             .city(location.getCity())
+            .street(location.getStreet())
             .build();
     }
 
@@ -29,6 +30,7 @@ public class LocationConverters extends Generic<LocationEntity, LocationDto> {
         return location -> LocationEntity.builder()
             .countryName(location.getCountryName())
             .city(location.getCity())
+            .street(location.getStreet())
             .build();
     }
 

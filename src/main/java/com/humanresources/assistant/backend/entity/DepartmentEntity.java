@@ -5,6 +5,7 @@ import static com.humanresources.assistant.backend.entity.DepartmentEntity.TABLE
 import com.humanresources.assistant.backend.enums.DepartmentEnum;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -20,14 +21,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Immutable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table (name = TABLE_NAME)
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners (AuditingEntityListener.class)
 @Builder
 @Getter
 @Setter
+@Immutable
 public class DepartmentEntity {
 
     protected final static String TABLE_NAME = "t_department";

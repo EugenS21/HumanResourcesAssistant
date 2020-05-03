@@ -29,7 +29,7 @@ public class ClientEntity {
 
     @Id
     @Column
-    @SequenceGenerator (name = "client_id_generator", sequenceName = "seq_client", allocationSize = 10)
+    @SequenceGenerator (name = "client_id_generator", sequenceName = "seq_client", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "client_id_generator")
     private Long id;
 

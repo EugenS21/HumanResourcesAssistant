@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Immutable;
 
 @Entity
 @Table (name = TABLE_NAME)
@@ -26,6 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@Immutable
 public class GradeEntity {
 
     protected static final String TABLE_NAME = "t_grade";
@@ -45,4 +48,6 @@ public class GradeEntity {
     @NotNull
     private Double additionToSalary;
 
+    @OneToOne (mappedBy = "gradeEntity")
+    private EmployeeEntity employee;
 }

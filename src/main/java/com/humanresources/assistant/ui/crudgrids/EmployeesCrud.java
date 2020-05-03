@@ -28,6 +28,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,14 +122,14 @@ public class EmployeesCrud extends VerticalLayout implements AfterNavigationObse
 
     private void setColumnsVisibility(GridCrud<EmployeeDto> employeesGrid, String[] propertiesName) {
         List<String> columnsToIgnore = new ArrayList<>() {{
-            add("department"); add("location"); add("project"); add("grade"); add("user"); add("team lead");
+            add("department"); add("location"); add("project"); add("grade"); add("user"); add("teamLead");
         }};
         Predicate<String> columnsToFilter = columnName -> !columnsToIgnore.contains(columnName);
         final String[] columnsToDisplay = stream(propertiesName).filter(columnsToFilter).toArray(String[]::new);
         employeesGrid.getGrid().setColumns(columnsToDisplay);
         employeesGrid.getGrid().addColumn(employee -> {
-            EmployeeEntity teamLead = employee.getTeamLead();
-            return teamLead.getFirstName() + " / " + teamLead.getSecondName();
+            Optional<EmployeeEntity> teamLead = Optional.ofNullable(employee.getTeamLead());
+            return teamLead.map(team -> team.getFirstName() + " / " + team.getSecondName()).orElse(null);
         }).setHeader("Team Lead");
         employeesGrid.getGrid().addColumn(employee -> employee.getDepartment().getDepartment()).setHeader("Department");
         employeesGrid.getGrid().addColumn(employee -> employee.getLocation().getCity()).setHeader("Location");

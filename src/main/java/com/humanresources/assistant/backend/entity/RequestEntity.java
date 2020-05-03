@@ -40,7 +40,7 @@ public class RequestEntity {
 
     @Id
     @Column
-    @SequenceGenerator (name = "request_generator", sequenceName = "seq_request", allocationSize = 10)
+    @SequenceGenerator (name = "request_generator", sequenceName = "seq_request", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "request_generator")
     private Integer id;
 

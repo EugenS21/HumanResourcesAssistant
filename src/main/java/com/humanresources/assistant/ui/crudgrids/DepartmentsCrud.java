@@ -67,7 +67,6 @@ public class DepartmentsCrud extends VerticalLayout {
         GridCrud<DepartmentDto> departmentGrid = new GridCrud<>(DepartmentDto.class);
         final String[] propertiesName = getPropertiesName();
         setColumnsVisibility(departmentGrid, propertiesName);
-        departmentGrid.setUpdateOperationVisible(false);
         setFieldsVisibilityInCrudOperations(departmentGrid, propertiesName);
         return departmentGrid;
     }

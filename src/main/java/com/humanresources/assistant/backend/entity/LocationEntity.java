@@ -29,7 +29,7 @@ public class LocationEntity {
 
     @Id
     @Column
-    @SequenceGenerator (name = "location_id_generator", sequenceName = "seq_location", allocationSize = 10)
+    @SequenceGenerator (name = "location_id_generator", sequenceName = "seq_location", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "location_id_generator")
     private Long id;
 

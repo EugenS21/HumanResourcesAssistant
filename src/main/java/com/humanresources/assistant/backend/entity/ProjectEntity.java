@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class ProjectEntity {
 
     @Id
     @Column
-    @SequenceGenerator (name = "project_id_generator", sequenceName = "seq_project", allocationSize = 10)
+    @SequenceGenerator (name = "project_id_generator", sequenceName = "seq_project", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "project_id_generator")
     private Long id;
 
@@ -41,4 +42,7 @@ public class ProjectEntity {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn (name = "client_id", referencedColumnName = "id", nullable = false)
     private ClientEntity clientEntity;
+
+    @OneToOne (mappedBy = "projectEntity")
+    private EmployeeEntity employee;
 }

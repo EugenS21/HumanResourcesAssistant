@@ -40,7 +40,7 @@ public class LeaveEntity {
 
     @Id
     @Column
-    @SequenceGenerator (name = "leave_generator", sequenceName = "seq_leave", allocationSize = 10)
+    @SequenceGenerator (name = "leave_generator", sequenceName = "seq_leave", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "leave_generator")
     private Long id;
 

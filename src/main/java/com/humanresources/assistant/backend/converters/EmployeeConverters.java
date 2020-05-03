@@ -54,16 +54,11 @@ public class EmployeeConverters extends Generic<EmployeeEntity, EmployeeDto> {
         return employeeDto -> EmployeeEntity.builder()
             .birthDate(employeeDto.getBirthDate())
             .dateOfEmployment(employeeDto.getDateOfEmployment())
-            .departmentEntity(departmentConverters.convertDtoToEntity().apply(employeeDto.getDepartment()))
             .firstName(employeeDto.getFirstName())
-            .gradeEntity(gradeConverters.convertGradeDtoToEntity.apply(employeeDto.getGrade()))
             .id(employeeDto.getId())
             .isFired(employeeDto.getIsFired())
-            .locationEntity(locationConverters.convertLocationDtoToEntity.apply(employeeDto.getLocation()))
-            .projectEntity(projectConverters.convertProjectDtoToEntity.apply(employeeDto.getProject()))
             .salary(employeeDto.getSalary())
             .secondName(employeeDto.getSecondName())
-            .user(userConverters.convertUserDtoToEntity.apply(employeeDto.getUser()))
             .build();
     }
 

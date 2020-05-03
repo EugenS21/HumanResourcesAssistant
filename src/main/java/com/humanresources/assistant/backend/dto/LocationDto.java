@@ -23,4 +23,7 @@ public class LocationDto {
     @JsonProperty ("city")
     private String city;
 
+    @JsonProperty ("street")
+    private String street;
+
 }
