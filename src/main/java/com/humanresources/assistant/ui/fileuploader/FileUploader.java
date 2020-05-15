@@ -1,12 +1,17 @@
 package com.humanresources.assistant.ui.fileuploader;
 
-import static com.vaadin.flow.component.button.ButtonVariant.MATERIAL_CONTAINED;
-import static com.vaadin.flow.component.notification.Notification.show;
+import static com.humanresources.assistant.backend.enums.DepartmentEnum.values;
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
+import static com.vaadin.flow.component.icon.VaadinIcon.UPLOAD;
+import static com.vaadin.flow.data.value.ValueChangeMode.ON_CHANGE;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.of;
 
+import com.humanresources.assistant.backend.dto.FileDto;
 import com.humanresources.assistant.backend.enums.DepartmentEnum;
-import com.humanresources.assistant.backend.service.FileService;
+import com.humanresources.assistant.restclient.multipart.MultipartFile;
+import com.humanresources.assistant.restclient.service.FileRestService;
+import com.humanresources.assistant.sshclients.model.EmployeeFile;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -18,145 +23,173 @@ import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Receiver;
 import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.InputStreamFactory;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = "files_uploader", layout = MainLayout.class)
-@PageTitle("Upload the CV you want to be analyzed")
-public class FileUploader extends VerticalLayout {
+@Route (value = "cv_files_uploader", layout = MainLayout.class)
+@PageTitle ("Upload the CV you want to be analyzed")
+public class FileUploader extends VerticalLayout implements ComponentEventListener<SucceededEvent>, Receiver {
 
     public static final String VIEW_NAME = "File Uploader";
-    private static final String WIDTH = "405px";
-    private final MultiFileMemoryBuffer memoryBuffer;
-    private final Upload uploadContainer;
-    private final Button uploadButton;
-    private final Span informationContainer;
-    private final TextField personalData;
-    private final TextField phoneNumber;
-    private final ListBox<String> department;
-    private final Details details;
-    private final Span listTitle;
-    private final TextArea textAreaVariant;
+    private static final String WIDTH = "420px";
 
+    private final TextField phoneNumber;
+    private final TextArea textArea;
+    private final ListBox<String> department;
+    private final ByteArrayOutputStream byteArrayOutputStream;
+    private final Upload uploadContainer;
     @Autowired
-    private FileService fileService;
+    FileRestService fileRestService;
+    private boolean fileUploaded;
+    private EmployeeFile employeeFile;
+    private String fileName;
+    private String mimeType;
 
     public FileUploader() {
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
-        memoryBuffer = new MultiFileMemoryBuffer();
-        informationContainer = new Span();
-        uploadContainer = new Upload(memoryBuffer);
-        uploadButton = new Button();
-        personalData = new TextField();
-        phoneNumber = new TextField();
-        department = new ListBox<>();
-        details = new Details();
-        listTitle = new Span();
-        textAreaVariant = new TextArea();
+        Span informationContainer = initializeTextContainer();
+        Button uploadButton = initializeUploadButton();
+        Details details = initializeOrderedList();
+        phoneNumber = initializePhoneNumber();
+        uploadContainer = initializeUploadContainer();
+        department = initializeDepartment();
+        textArea = initializeTextArea();
+        byteArrayOutputStream = new ByteArrayOutputStream();
 
-        initializeOrderedList();
+        add(informationContainer, details, uploadContainer, phoneNumber, department, textArea, uploadButton);
+    }
 
-        initializeTextContainer();
+    @Override
+    public void onComponentEvent(SucceededEvent succeededEvent) {
+        InputStreamFactory inputStreamFactory =
+            (InputStreamFactory) () -> new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        initializeTextFields();
+        MultipartFile multipartFile = MultipartFile.builder()
+            .byteStream(byteArrayOutputStream)
+            .contentType(mimeType)
+            .fileName(fileName)
+            .build();
 
-        initializeUploadBoxComponents();
+        employeeFile = EmployeeFile.builder()
+            .fileName(fileName)
+            .multipartFile(multipartFile)
+            .build();
+        fileUploaded = true;
+    }
 
-        initializeDepartment();
-
-        initializeTextArea();
-
-        add(informationContainer);
-        add(details);
-        add(uploadContainer);
-        add(personalData);
-        add(phoneNumber);
-        add(listTitle);
-        add(department);
-        add(textAreaVariant);
-        add(uploadButton);
+    @Override
+    public OutputStream receiveUpload(String fileName, String mimeType) {
+        this.fileName = fileName;
+        this.mimeType = mimeType;
+        byteArrayOutputStream.reset();
+        return byteArrayOutputStream;
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonClickListener() {
         return (ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
-            if (personalData.isEmpty()) {
-                show("Please add your name and surname");
-            } else if (phoneNumber.isEmpty()) {
-                show("Please add your phone number");
-            } else if (department.getValue().isEmpty()) {
-                show("Please select a position you want to apply");
+            if (fileUploaded && !phoneNumber.isEmpty() && !department.isEmpty()) {
+                FileDto fileDto = FileDto.builder()
+                    .fileName(fileName)
+                    .fileType(mimeType)
+                    .phoneNumber(phoneNumber.getValue())
+                    .department(department.getValue())
+                    .description(textArea.getValue())
+                    .build();
+                fileRestService.postObjectWithFile(fileDto, employeeFile.getMultipartFile());
+                fileUploaded = false;
             } else {
-                memoryBuffer.getFiles().forEach(Notification::show);
+                Notification.show("Can't add your document, check that you've provided all the data")
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
+
         };
     }
 
-    private ComponentEventListener<SucceededEvent> onSuccessFileUpload() {
-        return (ComponentEventListener<SucceededEvent>) uploadContainer -> {
-            uploadButton.setEnabled(true);
-            show("Your file was uploaded successfully!");
-        };
-    }
-
-    private void initializeTextFields() {
-        personalData.setPlaceholder("Name and surname");
-        phoneNumber.setPlaceholder("Phone number");
+    private TextField initializePhoneNumber() {
+        final TextField phoneNumber = new TextField();
+        phoneNumber.setPlaceholder("Phone Number");
+        phoneNumber.setPattern("^0[6|7][0|1|2|6|7|8|9][0-9]{6}$");
+        phoneNumber.setErrorMessage("Please add your phone number so we can stay in touch");
+        phoneNumber.setRequired(true);
         phoneNumber.setWidth(WIDTH);
-        personalData.setWidth(WIDTH);
+        phoneNumber.setRequiredIndicatorVisible(true);
+        phoneNumber.setValueChangeMode(ON_CHANGE);
+        return phoneNumber;
     }
 
-    private void initializeUploadBoxComponents() {
-        uploadButton.addThemeVariants(MATERIAL_CONTAINED);
-        uploadButton.setText("Upload CV");
+    private Button initializeUploadButton() {
+        final Button uploadButton = new Button("Upload CV");
+        uploadButton.addThemeVariants(LUMO_PRIMARY);
+        uploadButton.setIcon(UPLOAD.create());
         uploadButton.addClickListener(buttonClickListener());
-        uploadButton.setEnabled(false);
-        uploadContainer.setAcceptedFileTypes("application/pdf");
+        uploadButton.setWidth(WIDTH);
+        return uploadButton;
+    }
+
+    private Upload initializeUploadContainer() {
+        final MemoryBuffer memoryBuffer = new MemoryBuffer();
+        final Upload uploadContainer = new Upload(memoryBuffer);
+        uploadContainer.setAcceptedFileTypes(
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         uploadContainer.setMaxFiles(1);
         uploadContainer.setDropLabel(new Label("Upload your CV in pdf format"));
+        uploadContainer.addSucceededListener(this);
+        uploadContainer.setReceiver(this);
         uploadContainer.setWidth(WIDTH);
-        uploadContainer.addSucceededListener(onSuccessFileUpload());
-        uploadButton.setWidth(WIDTH);
-
+        return uploadContainer;
     }
 
-    private void initializeTextContainer() {
-        informationContainer.setText("Please upload your curriculum vitae in the container bellow");
-        informationContainer.setWidth(WIDTH);
+    private Span initializeTextContainer() {
+        final Span informationContainer = new Span();
+        informationContainer.setText("Please upload your CV in the container bellow");
         informationContainer.getStyle().set("font-size", "16px");
         informationContainer.getStyle().set("font-weight", "bold");
+        informationContainer.setWidth(WIDTH);
+        return informationContainer;
     }
 
-    private void initializeOrderedList() {
+    private Details initializeOrderedList() {
+        final Details details = new Details();
         details.setSummaryText("Please read the following rules");
         details.addThemeVariants(DetailsVariant.REVERSE, DetailsVariant.FILLED);
         details.addContent(new ListItem("Your CV should be only in pdf format;"));
         details.addContent(new ListItem("You can't upload more than 1 file at once;"));
         details.addContent(new ListItem("EuroPass CV format is expected;"));
         details.addContent(new ListItem("After uploading the CV dont' forget to provide additional data."));
+        return details;
     }
 
-    private void initializeDepartment() {
-        listTitle.setText("Chose one of available position");
-        listTitle.getStyle().set("font-weight", "bold");
-        department.setItems(of(DepartmentEnum.values()).map(DepartmentEnum::getName).collect(toList()));
-        department.setVisible(true);
+    private ListBox<String> initializeDepartment() {
+        final ListBox<String> department = new ListBox<>();
+        department.setItems(of(values()).map(DepartmentEnum::getName).collect(toList()));
+        return department;
     }
 
-    private void initializeTextArea() {
-        textAreaVariant.setWidth(WIDTH);
+    private TextArea initializeTextArea() {
+        final TextArea textAreaVariant = new TextArea();
         textAreaVariant.getStyle().set("maxHeight", "150px");
         textAreaVariant.getStyle().set("minHeight", "50px");
         textAreaVariant.setMaxLength(200);
         textAreaVariant.setPlaceholder("Add your description here");
+        textAreaVariant.setWidth(WIDTH);
+        return textAreaVariant;
     }
 }

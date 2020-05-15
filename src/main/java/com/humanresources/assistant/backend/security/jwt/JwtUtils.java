@@ -1,6 +1,10 @@
 package com.humanresources.assistant.backend.security.jwt;
 
+import static io.jsonwebtoken.Jwts.parser;
+
+import com.humanresources.assistant.backend.dto.UserDto;
 import com.humanresources.assistant.backend.security.services.UserDetailsImpl;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -40,12 +44,21 @@ public class JwtUtils {
     }
 
     public String getUserNameFromJwtToken(String authToken) {
-        return (String) Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().get("username");
+        return (String) parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().get("username");
+    }
+
+    public UserDto getUserDetailsFromJwt(String authToken) {
+        Claims jwtClaims = parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
+        return UserDto.builder()
+            .username((String) jwtClaims.get("username"))
+            .id(Long.valueOf((Integer) jwtClaims.get("id")))
+            .email((String) jwtClaims.get("email"))
+            .build();
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
