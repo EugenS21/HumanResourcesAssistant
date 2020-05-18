@@ -2,7 +2,6 @@ package com.humanresources.assistant.backend.service;
 
 import com.humanresources.assistant.backend.converters.FileConverters;
 import com.humanresources.assistant.backend.dto.FileDto;
-import com.humanresources.assistant.backend.exceptions.FileNotFound;
 import com.humanresources.assistant.backend.repository.FileRepository;
 import com.humanresources.assistant.sshclients.clients.SftpClient;
 import java.nio.file.Path;
@@ -11,6 +10,7 @@ import java.util.List;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,9 +33,8 @@ public class FileService {
         return fileConverters.convertFileEntityListToDto.apply(fileRepository.findAll());
     }
 
-    @SneakyThrows
-    public FileDto getFileById(Integer id) {
-        return fileConverters.convertFileEntityToDto.apply(fileRepository.findById(id).orElseThrow(FileNotFound::new));
+    public Resource getFileById(FileDto fileToGet) {
+        return sftpClient.getUserFile(fileToGet);
     }
 
     @SneakyThrows

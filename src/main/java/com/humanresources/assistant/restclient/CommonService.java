@@ -2,6 +2,7 @@ package com.humanresources.assistant.restclient;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromMultipartData;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
+import static org.springframework.web.reactive.function.client.ExchangeStrategies.builder;
 
 import com.vaadin.flow.router.NotFoundException;
 import java.lang.reflect.Field;
@@ -64,6 +65,19 @@ public abstract class CommonService<T> {
             .body(fromMultipartData(bodyBuilder.build()))
             .retrieve()
             .bodyToMono(getResponseClass())
+            .block();
+    }
+
+    public <U extends Number> List<byte[]> getObjectById(U id) {
+        return restClient
+            .mutate()
+            .exchangeStrategies(builder().codecs(codec -> codec.defaultCodecs().maxInMemorySize(52428800)).build())
+            .build()
+            .get()
+            .uri(getURI() + "/{id}", id)
+            .retrieve()
+            .bodyToFlux(byte[].class)
+            .collectList()
             .block();
     }
 

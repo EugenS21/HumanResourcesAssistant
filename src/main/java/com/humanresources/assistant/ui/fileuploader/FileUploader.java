@@ -11,7 +11,6 @@ import com.humanresources.assistant.backend.dto.FileDto;
 import com.humanresources.assistant.backend.enums.DepartmentEnum;
 import com.humanresources.assistant.restclient.multipart.MultipartFile;
 import com.humanresources.assistant.restclient.service.FileRestService;
-import com.humanresources.assistant.sshclients.model.EmployeeFile;
 import com.humanresources.assistant.ui.MainLayout;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -36,8 +35,13 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InputStreamFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 @Route (value = "cv_files_uploader", layout = MainLayout.class)
 @PageTitle ("Upload the CV you want to be analyzed")
@@ -51,12 +55,15 @@ public class FileUploader extends VerticalLayout implements ComponentEventListen
     private final ListBox<String> department;
     private final ByteArrayOutputStream byteArrayOutputStream;
     private final Upload uploadContainer;
+
+    private boolean fileUploaded;
     @Autowired
     FileRestService fileRestService;
-    private boolean fileUploaded;
-    private EmployeeFile employeeFile;
     private String fileName;
     private String mimeType;
+    private MultipartFile employeeFile;
+    @Value ("${java.io.tmpdir}")
+    private String tmpDir;
 
     public FileUploader() {
         setSizeFull();
@@ -80,15 +87,10 @@ public class FileUploader extends VerticalLayout implements ComponentEventListen
         InputStreamFactory inputStreamFactory =
             (InputStreamFactory) () -> new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        MultipartFile multipartFile = MultipartFile.builder()
+        employeeFile = MultipartFile.builder()
             .byteStream(byteArrayOutputStream)
             .contentType(mimeType)
             .fileName(fileName)
-            .build();
-
-        employeeFile = EmployeeFile.builder()
-            .fileName(fileName)
-            .multipartFile(multipartFile)
             .build();
         fileUploaded = true;
     }
@@ -111,7 +113,17 @@ public class FileUploader extends VerticalLayout implements ComponentEventListen
                     .department(department.getValue())
                     .description(textArea.getValue())
                     .build();
-                fileRestService.postObjectWithFile(fileDto, employeeFile.getMultipartFile());
+//                fileRestService.postObjectWithFile(fileDto, employeeFile);
+                List<byte[]> objectById = fileRestService.getObjectById(6L);
+
+                // TODO set from the client side the name of the file
+                File file = new File(tmpDir + "pdf_file.pdf");
+                try {
+                    OutputStream outputStream = new FileOutputStream(file);
+                    for (byte[] bytes : objectById) {
+                        outputStream.write(bytes);
+                    }
+                } catch (IOException exception) {}
                 fileUploaded = false;
             } else {
                 Notification.show("Can't add your document, check that you've provided all the data")

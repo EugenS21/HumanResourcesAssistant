@@ -1,6 +1,8 @@
 package com.humanresources.assistant.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.File;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,5 +36,8 @@ public class FileDto {
 
     @JsonProperty ("user")
     private UserDto user;
+
+    @JsonIgnore
+    private File multipartFile;
 
 }

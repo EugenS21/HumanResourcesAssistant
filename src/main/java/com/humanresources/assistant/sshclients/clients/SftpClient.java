@@ -9,11 +9,13 @@ import java.io.IOException;
 import lombok.SneakyThrows;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.xfer.FileSystemFile;
-import net.schmizz.sshj.xfer.LocalDestFile;
 import net.schmizz.sshj.xfer.LocalSourceFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +25,9 @@ public class SftpClient {
     private final static String USER_CV_DESTINATION = "/home/savcaangela/ftp/cvs";
     private final Logger log = LoggerFactory.getLogger(SftpClient.class);
 
+    @Value ("${java.io.tmpdir}")
+    private String tmpDir;
+
     @Autowired
     private SFTPClient sftpClient;
 
@@ -30,14 +35,13 @@ public class SftpClient {
     private TerminalClient terminalClient;
 
     public String uploadUserFile(FileDto fileToUpload, String pathToLocalFile) {
-        String username = fileToUpload.getUser().getEmail().replaceAll("@.*$", "").trim();
-        terminalClient.makeDirectory(format(USER_FILE_DESTINATION, username));
-        return uploadFile(fileToUpload.getFileName(), pathToLocalFile, format(USER_FILE_DESTINATION, username));
+        String userFolder = getUserFolder(fileToUpload);
+        terminalClient.makeDirectory(userFolder);
+        return uploadFile(fileToUpload.getFileName(), pathToLocalFile, format(USER_FILE_DESTINATION, userFolder));
     }
 
-    public LocalSourceFile getUserFile(String fileName) {
-        // TODO implement after design
-        return null;
+    public Resource getUserFile(FileDto fileToGet) {
+        return new FileSystemResource(getFile(fileToGet));
     }
 
     public LocalSourceFile getCv() {
@@ -52,7 +56,7 @@ public class SftpClient {
     @SneakyThrows
     private String uploadFile(String fileName, String fileLocation, String destination) {
         try {
-            log.info(String.format("Transferring file %s to location %s", fileName, destination));
+            log.info(format("Transferring file %s to location %s", fileName, destination));
             sftpClient.put(new FileSystemFile(fileLocation), destination);
             return destination;
         } catch (IOException e) {
@@ -66,10 +70,30 @@ public class SftpClient {
         }
     }
 
-    private LocalDestFile getFile(String fileName) {
-        log.info(String.format("Getting file %s from the destination %s", fileName));
-//        TODO implement after designing
-//        sftpClient.get("", "");
-        return null;
+    private File getFile(FileDto fileToGet) {
+        String source = getUserFolder(fileToGet) + "/" + fileToGet.getFileName();
+        String destination = tmpDir + fileToGet.getFileName();
+        log.info(format("Getting file %s from the source %s", fileToGet.getFileName(), source));
+        log.info(format("Will store the file into the location %s", destination));
+        File file = new File(destination);
+        log.info("Setting read and write permission for the file " + destination);
+        if (!file.setReadable(true)) {
+            log.warn("Could not set read permission for the file " + destination);
+        }
+        if (!file.setWritable(true)) {
+            log.warn("Could not set write permission for the file " + destination);
+        }
+        try {
+            sftpClient.get(source, destination);
+        } catch (IOException exception) {
+            log.error(format(
+                "Could not file from the destination %s because of an unexpected error:", source, exception.getCause()));
+        }
+        return file;
+    }
+
+    private String getUserFolder(FileDto file) {
+        String userFolder = file.getUser().getEmail().replaceAll("@.*$", "").trim();
+        return format(USER_FILE_DESTINATION, userFolder);
     }
 }
