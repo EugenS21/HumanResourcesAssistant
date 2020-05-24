@@ -10,4 +10,8 @@ public enum ERole {
     public String toString() {
         return this.name().toLowerCase();
     }
+
+    public boolean equals(String role) {
+        return this.toString().toLowerCase().equals(role.toLowerCase().trim());
+    }
 }

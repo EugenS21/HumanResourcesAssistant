@@ -24,7 +24,7 @@ public class LoginService {
     @Value ("${app.baseUrl}")
     private String baseUrl;
 
-    public void login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         final Login token = webClient.post()
             .uri(SIGN_IN)
             .contentType(MediaType.APPLICATION_JSON)
@@ -39,6 +39,8 @@ public class LoginService {
             .build();
 
         beanUpdater.updateBeanWithSpecificValue("initialize", newWebClient);
+
+        return token.getToken();
     }
 
 }

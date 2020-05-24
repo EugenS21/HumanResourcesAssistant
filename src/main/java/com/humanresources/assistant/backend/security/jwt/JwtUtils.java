@@ -11,7 +11,9 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +57,7 @@ public class JwtUtils {
             .username((String) jwtClaims.get("username"))
             .id(Long.valueOf((Integer) jwtClaims.get("id")))
             .email((String) jwtClaims.get("email"))
+            .role((String) ((LinkedHashMap) ((ArrayList) jwtClaims.get("roles")).get(0)).get("authority"))
             .build();
     }
 

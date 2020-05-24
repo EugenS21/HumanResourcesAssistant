@@ -1,5 +1,6 @@
 package com.humanresources.assistant.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,8 @@ public class UserDto {
 
     @JsonProperty ("email")
     private String email;
+
+    @JsonIgnore
+    private String role;
 
 }

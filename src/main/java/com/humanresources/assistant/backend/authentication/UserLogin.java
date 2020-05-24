@@ -3,6 +3,7 @@ package com.humanresources.assistant.backend.authentication;
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
 import com.humanresources.assistant.restclient.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,6 +16,9 @@ public class UserLogin implements AccessData {
     @Autowired
     LoginService loginService;
 
+    @Value ("${app.jwtExpirationMs}")
+    private int jwtExpirationMs;
+
     @Override
     public boolean signIn(String username, String password) {
         final LoginRequest loginRequest = LoginRequest.builder()
@@ -22,8 +26,9 @@ public class UserLogin implements AccessData {
             .password(password)
             .build();
 
-        loginService.login(loginRequest);
+        String login = loginService.login(loginRequest);
         CurrentUser.set(username);
+        CurrentUser.setBearer(login, jwtExpirationMs);
         return true;
     }
 
