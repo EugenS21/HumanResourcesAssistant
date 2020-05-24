@@ -45,7 +45,7 @@ public class FileController {
     public ResponseEntity<FileDto> postFile(@RequestParam ("file") MultipartFile file,
         @RequestHeader ("Authorization") String userDetails,
         @Valid @NotNull @ModelAttribute FileDto fileToUpload) {
-        UserDto userData = jwtUtils.getUserDetailsFromJwt(userDetails.replaceAll("Bearer ", ""));
+        UserDto userData = jwtUtils.getUserDetailsFromJwt(userDetails);
         fileToUpload.setUser(userData);
         try {
             fileService.saveFile(fileToUpload, file);

@@ -28,7 +28,7 @@ import com.humanresources.assistant.ui.cvs.CVs;
 import com.humanresources.assistant.ui.cvs.Generator;
 import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.humanresources.assistant.ui.mainpage.MainPage;
-import com.humanresources.assistant.ui.requests.RequestsManagement;
+import com.humanresources.assistant.ui.requests.LeavesManagement;
 import com.humanresources.assistant.ui.userprofile.ProfileSettings;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
@@ -75,7 +75,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
 
-        addToDrawer(createMenuLink(RequestsManagement.class, RequestsManagement.VIEW_NAME, NEWSPAPER));
+        addToDrawer(createMenuLink(LeavesManagement.class, LeavesManagement.VIEW_NAME, NEWSPAPER));
         addToDrawer(createMenuLink(BonusesManagement.class, BonusesManagement.VIEW_NAME, BOOK_PERCENT));
         addToDrawer(createMenuLink(Generator.class, Generator.VIEW_NAME, TOOLBOX));
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));

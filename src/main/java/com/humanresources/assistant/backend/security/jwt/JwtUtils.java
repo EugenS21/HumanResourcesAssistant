@@ -48,7 +48,9 @@ public class JwtUtils {
     }
 
     public UserDto getUserDetailsFromJwt(String authToken) {
-        Claims jwtClaims = parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
+        Claims jwtClaims = parser().setSigningKey(jwtSecret)
+            .parseClaimsJws(authToken.replaceAll("Bearer ", ""))
+            .getBody();
         return UserDto.builder()
             .username((String) jwtClaims.get("username"))
             .id(Long.valueOf((Integer) jwtClaims.get("id")))

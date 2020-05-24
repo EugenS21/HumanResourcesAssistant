@@ -2,9 +2,9 @@ package com.humanresources.assistant.backend.entity;
 
 import static com.humanresources.assistant.backend.entity.LeaveEntity.TABLE_NAME;
 
+import com.humanresources.assistant.backend.entity.authentication.UserEntity;
 import com.humanresources.assistant.backend.enums.LeaveTypeEnum;
 import java.time.LocalDate;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,12 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +30,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table (name = TABLE_NAME)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -47,7 +48,7 @@ public class LeaveEntity {
     @Column
     @NotNull
     @Enumerated (EnumType.STRING)
-    private LeaveTypeEnum name;
+    private LeaveTypeEnum leaveType;
 
     @Column
     @CreatedDate
@@ -68,10 +69,8 @@ public class LeaveEntity {
     @Column
     private Boolean isApproved;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable (name = "t_employee_leaves",
-                joinColumns = @JoinColumn (name = "employee_id"),
-                inverseJoinColumns = @JoinColumn (name = "leave_id"))
-    private List<LeaveEntity> leaves;
+    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @JoinColumn (name = "user_id", referencedColumnName = "id", nullable = false)
+    private UserEntity user;
 
 }

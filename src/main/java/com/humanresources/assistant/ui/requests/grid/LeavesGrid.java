@@ -19,7 +19,7 @@ import com.vaadin.flow.data.selection.SelectionListener;
 import java.time.LocalDate;
 import java.util.List;
 
-public class RequestsGrid extends Grid<Request> {
+public class LeavesGrid extends Grid<Request> {
 
     private final ListDataProvider<Request> dataProvider;
     private final Grid.Column<Request> firstNameColumn;
@@ -29,7 +29,7 @@ public class RequestsGrid extends Grid<Request> {
     private final Grid.Column<Request> requestTypeColumn;
     private RequestModal requestModal;
 
-    public RequestsGrid(List<Request> dataProvider) {
+    public LeavesGrid(List<Request> dataProvider) {
 
         this.dataProvider = new ListDataProvider<>(dataProvider);
 

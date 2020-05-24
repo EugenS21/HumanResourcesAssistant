@@ -4,7 +4,7 @@ import com.github.javafaker.Faker;
 import com.humanresources.assistant.backend.enums.LeaveTypeEnum;
 import com.humanresources.assistant.backend.model.Request;
 import com.humanresources.assistant.ui.MainLayout;
-import com.humanresources.assistant.ui.requests.grid.RequestsGrid;
+import com.humanresources.assistant.ui.requests.grid.LeavesGrid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-@Route(value = "requests_management", layout = MainLayout.class)
-@PageTitle("Requests Management")
-public class RequestsManagement extends VerticalLayout implements AfterNavigationObserver, BeforeLeaveObserver {
+@Route (value = "leaves_management", layout = MainLayout.class)
+@PageTitle ("Leaves Management")
+public class LeavesManagement extends VerticalLayout implements AfterNavigationObserver, BeforeLeaveObserver {
 
-    public static final String VIEW_NAME = "Requests";
-    private RequestsGrid requestsGrid;
+    public static final String VIEW_NAME = "Leaves";
+    private LeavesGrid requestsGrid;
 
-    public RequestsManagement() {
+    public LeavesManagement() {
         setSizeFull();
     }
 
@@ -47,7 +47,7 @@ public class RequestsManagement extends VerticalLayout implements AfterNavigatio
             );
         }
 
-        requestsGrid = new RequestsGrid(requests);
+        requestsGrid = new LeavesGrid(requests);
         add(requestsGrid);
     }
 
