@@ -14,6 +14,7 @@ import static com.vaadin.flow.component.icon.VaadinIcon.NEWSPAPER;
 import static com.vaadin.flow.component.icon.VaadinIcon.OFFICE;
 import static com.vaadin.flow.component.icon.VaadinIcon.POINTER;
 import static com.vaadin.flow.component.icon.VaadinIcon.PRESENTATION;
+import static com.vaadin.flow.component.icon.VaadinIcon.QUESTION_CIRCLE_O;
 import static com.vaadin.flow.component.icon.VaadinIcon.SIGN_OUT;
 import static com.vaadin.flow.component.icon.VaadinIcon.TOOLBOX;
 import static com.vaadin.flow.component.icon.VaadinIcon.USER;
@@ -34,6 +35,7 @@ import com.humanresources.assistant.ui.fileuploader.FileUploader;
 import com.humanresources.assistant.ui.mainpage.MainPage;
 import com.humanresources.assistant.ui.requests.LeavesManagement;
 import com.humanresources.assistant.ui.userprofile.ProfileSettings;
+import com.humanresources.assistant.ui.userprofile.UserRequests;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -175,6 +177,7 @@ public class MainLayout extends AppLayout implements RouterLayout, AfterNavigati
     }
 
     private void addUserMenus() {
+        addToDrawer(createMenuLink(UserRequests.class, UserRequests.VIEW_NAME, QUESTION_CIRCLE_O));
         addToDrawer(createMenuLink(FileUploader.class, FileUploader.VIEW_NAME, CLOUD_UPLOAD));
         addToDrawer(createMenuLink(ProfileSettings.class, ProfileSettings.VIEW_NAME, MALE));
 

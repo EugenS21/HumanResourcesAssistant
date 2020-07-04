@@ -8,10 +8,11 @@ import lombok.SneakyThrows;
 public enum DepartmentEnum {
 
     QA(1, "QA"),
-    DEVELOPER(2, "Developer"),
+    DEVELOPMENT(2, "Development"),
     SUPPORT(3, "Support"),
     DEV_OPS(4, "Dev Ops"),
-    ARCHITECTURE(5, "Architecture");
+    ARCHITECTURE(5, "Architecture"),
+    HR(5, "HR");
 
     private final Integer id;
 

@@ -15,7 +15,7 @@ public class MainPage extends VerticalLayout {
         welcome = new H1("Welcome to our site");
         content = new Span(
             "This site will guide you with your human resources relations between your employees and HR department."
-                + "Check out our four main modules:");
+                + "Check out our main modules:");
 
         tileGrid = new TileGrid();
         tileGrid.getStyle().set("overflow", "hidden");

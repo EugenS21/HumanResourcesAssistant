@@ -17,6 +17,8 @@ import com.humanresources.assistant.backend.security.jwt.JwtUtils;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class AuthController {
+
+    private final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -57,7 +61,6 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(authenticationDetails);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-
         final JwtResponse jwtResponse = new JwtResponse(jwt);
         return ResponseEntity.ok(jwtResponse);
     }

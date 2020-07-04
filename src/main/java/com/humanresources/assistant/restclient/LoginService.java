@@ -1,10 +1,12 @@
 package com.humanresources.assistant.restclient;
 
+import static com.humanresources.assistant.restclient.service.BaseUrl.BASE_URL;
+import static com.humanresources.assistant.restclient.service.CustomWebClient.webClient;
+
 import com.humanresources.assistant.backend.payload.request.LoginRequest;
-import com.humanresources.assistant.backend.tools.other.BeanUpdate;
 import com.humanresources.assistant.restclient.model.Login;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -15,14 +17,7 @@ public class LoginService {
 
     public static final String SIGN_IN = "signin";
 
-    @Autowired
-    private WebClient webClient;
-
-    @Autowired
-    private BeanUpdate<WebClient> beanUpdater;
-
-    @Value ("${app.baseUrl}")
-    private String baseUrl;
+    private final Logger log = LoggerFactory.getLogger(LoginService.class);
 
     public String login(LoginRequest loginRequest) {
         final Login token = webClient.post()
@@ -33,12 +28,10 @@ public class LoginService {
             .bodyToMono(Login.class)
             .block();
 
-        final WebClient newWebClient = WebClient.builder()
-            .baseUrl(baseUrl)
+        webClient = WebClient.builder()
+            .baseUrl(BASE_URL)
             .defaultHeader("Authorization", "Bearer " + token.getToken())
             .build();
-
-        beanUpdater.updateBeanWithSpecificValue("initialize", newWebClient);
 
         return token.getToken();
     }

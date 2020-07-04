@@ -20,7 +20,22 @@ public class LeaveDto {
     private Long id;
 
     @JsonProperty ("name")
+    private String name;
+
+    @JsonProperty ("surName")
+    private String surName;
+
+    @JsonProperty ("leaveType")
     private LeaveTypeEnum leaveType;
+
+    @JsonProperty ("startDate")
+    private LocalDate startDate;
+
+    @JsonProperty ("endDate")
+    private LocalDate endDate;
+
+    @JsonProperty ("description")
+    private String description;
 
     @JsonProperty ("creationDate")
     private LocalDate creationDate;

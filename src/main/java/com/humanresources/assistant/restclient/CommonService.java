@@ -1,5 +1,6 @@
 package com.humanresources.assistant.restclient;
 
+import static com.humanresources.assistant.restclient.service.CustomWebClient.webClient;
 import static org.springframework.web.reactive.function.BodyInserters.fromMultipartData;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 import static org.springframework.web.reactive.function.client.ExchangeStrategies.builder;
@@ -13,28 +14,28 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public abstract class CommonService<T> {
 
     private final Logger logger = LoggerFactory.getLogger(CommonService.class);
 
-    @Autowired
-    public WebClient restClient;
+//    @Autowired
+//    public WebClient webClient
 
     public abstract String getURI();
+
+    public String getById() {return null;}
 
     public abstract Class<T> getResponseClass();
 
     public List<T> getObjects() {
-        return restClient.get()
+        return webClient.get()
             .uri(getURI())
             .retrieve()
             .bodyToFlux(getResponseClass())
@@ -42,9 +43,27 @@ public abstract class CommonService<T> {
             .block();
     }
 
+    public List<T> getObjectsById() {
+        return webClient.get()
+            .uri(getById())
+            .retrieve()
+            .bodyToFlux(getResponseClass())
+            .collectList()
+            .block();
+    }
+
     public T postObject(T body) {
-        return restClient.post()
+        return webClient.post()
             .uri(getURI())
+            .body(fromValue(body))
+            .retrieve()
+            .bodyToMono(getResponseClass())
+            .block();
+    }
+
+    public <U extends Number> T putObject(U id, T body) {
+        return webClient.put()
+            .uri(getURI() + "/{id}", id)
             .body(fromValue(body))
             .retrieve()
             .bodyToMono(getResponseClass())
@@ -59,7 +78,7 @@ public abstract class CommonService<T> {
         for (String key : getBodyByReflection(body).keySet()) {
             bodyBuilder.part(key, bodyByReflection.get(key));
         }
-        return restClient.post()
+        return webClient.post()
             .uri(getURI())
             .contentType(MediaType.MULTIPART_FORM_DATA)
             .body(fromMultipartData(bodyBuilder.build()))
@@ -69,7 +88,7 @@ public abstract class CommonService<T> {
     }
 
     public <U extends Number> List<byte[]> getObjectById(U id) {
-        return restClient
+        return webClient
             .mutate()
             .exchangeStrategies(builder().codecs(codec -> codec.defaultCodecs().maxInMemorySize(52428800)).build())
             .build()
@@ -81,17 +100,8 @@ public abstract class CommonService<T> {
             .block();
     }
 
-    public <U extends Number> T putObject(U id, T body) {
-        return restClient.put()
-            .uri(getURI() + "/{id}", id)
-            .body(fromValue(body))
-            .retrieve()
-            .bodyToMono(getResponseClass())
-            .block();
-    }
-
     public void deleteObject(String id) {
-        restClient.delete()
+        webClient.delete()
             .uri(getURI() + "/{id}", id)
             .exchange()
             .block();

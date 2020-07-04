@@ -37,6 +37,10 @@ public class EmployeesService {
         return employeeConverters.convertEmployeeEntityListToDto.apply(newArrayList(employeeRepository.findAll()));
     }
 
+    public EmployeeDto getEmployeeByUserId(Long id) {
+        return employeeConverters.convertEmployeeEntityToDto.apply(employeeRepository.findEmployeeEntityByUserId(id));
+    }
+
     @Transactional
     public void saveUser(EmployeeDto employee) {
         EmployeeEntity employeeToSave = employeeConverters.convertEmployeeDtoToEntity.apply(employee);

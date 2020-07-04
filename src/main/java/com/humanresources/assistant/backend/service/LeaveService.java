@@ -31,14 +31,18 @@ public class LeaveService {
     }
 
     @SneakyThrows
-    public LeaveDto updateLeave(Integer id, LeaveDto leaveDto) {
+    public LeaveDto updateLeave(Long id, LeaveDto leaveDto) {
         final LeaveEntity foundLeaveEntity = leaveRepository.findById(id).orElseThrow(LeaveNotFound::new);
-        foundLeaveEntity.setLeaveType(leaveDto.getLeaveType());
-        leaveRepository.save(foundLeaveEntity);
-        return leaveConverters.convertLeaveEntityToDto.apply(foundLeaveEntity);
+        leaveRepository.delete(foundLeaveEntity);
+        leaveRepository.save(leaveConverters.convertLeaveDtoToEntity.apply(leaveDto));
+        return leaveDto;
     }
 
-    public void deleteLeave(Integer id) {
+    public List<LeaveDto> getAllLeavesByUserId(Long id) {
+        return leaveConverters.convertLeaveEntityListToDto.apply(leaveRepository.findAllByUserId(id));
+    }
+
+    public void deleteLeave(Long id) {
         leaveRepository.deleteById(id);
     }
 }

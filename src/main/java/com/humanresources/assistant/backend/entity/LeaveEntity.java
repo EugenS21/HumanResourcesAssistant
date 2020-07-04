@@ -55,6 +55,17 @@ public class LeaveEntity {
     private LocalDate creationDate;
 
     @Column
+    @NotNull
+    private LocalDate startDate;
+
+    @Column
+    @NotNull
+    private LocalDate endDate;
+
+    @Column
+    private String description;
+
+    @Column
     @CreatedBy
     private String createdBy;
 
@@ -68,6 +79,12 @@ public class LeaveEntity {
 
     @Column
     private Boolean isApproved;
+
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
 
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn (name = "user_id", referencedColumnName = "id", nullable = false)
